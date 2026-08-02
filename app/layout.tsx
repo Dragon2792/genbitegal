@@ -30,8 +30,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" suppressHydrationWarning>
-      <body suppressHydrationWarning>
+    <html lang="id" className="overflow-x-hidden" suppressHydrationWarning>
+      <body className="overflow-x-hidden" suppressHydrationWarning>
         <NextTopLoader color="#0056b3" showSpinner={false} />
         {children}
       </body>
