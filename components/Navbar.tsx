@@ -89,13 +89,13 @@ export default function Navbar() {
         >
 
           {/* ---- LOGO ---- */}
-          <Link href="/" className="flex-shrink flex items-center no-underline min-w-0">
+          <Link href="/" className="flex-shrink flex items-center no-underline min-w-0 max-w-[70vw] md:max-w-none">
             <Image
               src="/theme/images/logo_genbi.png"
               alt="GenBI Tegal"
-              width={300}
-              height={100}
-              className="h-[36px] md:h-[50px] w-auto object-contain"
+              width={400}
+              height={120}
+              className="h-auto max-h-[36px] md:max-h-[50px] w-auto max-w-full object-contain object-left"
               priority
             />
           </Link>
