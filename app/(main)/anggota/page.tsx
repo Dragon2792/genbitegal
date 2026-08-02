@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import Image from "next/image";
 import AnggotaFilter from "@/components/AnggotaFilter";
 import { Search } from "lucide-react";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export const dynamic = "force-dynamic";
 
@@ -83,82 +84,84 @@ export default async function AnggotaPage(props: {
       <section style={{ padding: "60px 24px 100px", background: "#f8fafc", minHeight: "50vh" }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "20px" }}>
-            {filtered.map((member) => (
-              <div
-                key={member.id}
-                className="card-hover"
-                style={{
-                  background: "white",
-                  borderRadius: "16px",
-                  padding: "28px 20px",
-                  textAlign: "center",
-                  boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
-                  border: "1px solid #e2e8f0",
-                }}
-              >
-                {/* Avatar */}
-                {member.photo ? (
-                  <div
-                    style={{
-                      width: "72px",
-                      height: "72px",
-                      position: "relative",
-                      borderRadius: "50%",
-                      margin: "0 auto 16px",
-                      boxShadow: "0 4px 16px rgba(17,65,139,0.25)",
-                      overflow: "hidden"
-                    }}
-                  >
-                    <Image
-                      src={`/assets/images/${member.photo}`}
-                      alt={member.name}
-                      fill
-                      style={{ objectFit: "cover" }}
-                    />
+            {filtered.map((member, i) => (
+              <ScrollReveal key={member.id} direction="up" delay={i * 0.05}>
+                <div
+                  className="card-hover"
+                  style={{
+                    background: "white",
+                    borderRadius: "16px",
+                    padding: "28px 20px",
+                    textAlign: "center",
+                    boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
+                    border: "1px solid #e2e8f0",
+                    height: "100%",
+                  }}
+                >
+                  {/* Avatar */}
+                  {member.photo ? (
+                    <div
+                      style={{
+                        width: "72px",
+                        height: "72px",
+                        position: "relative",
+                        borderRadius: "50%",
+                        margin: "0 auto 16px",
+                        boxShadow: "0 4px 16px rgba(17,65,139,0.25)",
+                        overflow: "hidden"
+                      }}
+                    >
+                      <Image
+                        src={`/assets/images/${member.photo}`}
+                        alt={member.name}
+                        fill
+                        style={{ objectFit: "cover" }}
+                      />
+                    </div>
+                  ) : (
+                    <div
+                      style={{
+                        width: "72px",
+                        height: "72px",
+                        position: "relative",
+                        borderRadius: "50%",
+                        margin: "0 auto 16px",
+                        background: "linear-gradient(135deg, #f0f4ff, #e8f0fe)",
+                        overflow: "hidden"
+                      }}
+                    >
+                      <Image
+                        src={member.jenkel === "Laki-laki" ? "/theme/images/student-1.png" : "/theme/images/student-2.png"}
+                        alt={member.name}
+                        fill
+                        style={{ objectFit: "cover", padding: "10px" }}
+                      />
+                    </div>
+                  )}
+  
+                  <h3 style={{ fontSize: "15px", fontWeight: "700", color: "#1e293b", marginBottom: "4px" }}>
+                    {member.name}
+                  </h3>
+                  <p style={{ fontSize: "12px", color: "#64748b", marginBottom: "12px" }}>
+                    NIS: {member.nis}
+                  </p>
+  
+                  <div style={{ display: "flex", flexDirection: "column", gap: "6px", alignItems: "center" }}>
+                    <span
+                      style={{
+                        background: "rgba(17,65,139,0.08)",
+                        color: "#11418B",
+                        padding: "3px 10px",
+                        borderRadius: "10px",
+                        fontSize: "11px",
+                        fontWeight: "600",
+                      }}
+                    >
+                      {member.komisariat}
+                    </span>
                   </div>
-                ) : (
-                  <div
-                    style={{
-                      width: "72px",
-                      height: "72px",
-                      position: "relative",
-                      borderRadius: "50%",
-                      margin: "0 auto 16px",
-                      background: "linear-gradient(135deg, #f0f4ff, #e8f0fe)",
-                      overflow: "hidden"
-                    }}
-                  >
-                    <Image
-                      src={member.jenkel === "Laki-laki" ? "/theme/images/student-1.png" : "/theme/images/student-2.png"}
-                      alt={member.name}
-                      fill
-                      style={{ objectFit: "cover", padding: "10px" }}
-                    />
-                  </div>
-                )}
-
-                <h3 style={{ fontSize: "15px", fontWeight: "700", color: "#1e293b", marginBottom: "4px" }}>
-                  {member.name}
-                </h3>
-                <p style={{ fontSize: "12px", color: "#64748b", marginBottom: "12px" }}>
-                  NIS: {member.nis}
-                </p>
-
-                <div style={{ display: "flex", flexDirection: "column", gap: "6px", alignItems: "center" }}>
-                  <span
-                    style={{
-                      background: "rgba(17,65,139,0.08)",
-                      color: "#11418B",
-                      padding: "3px 10px",
-                      borderRadius: "10px",
-                      fontSize: "11px",
-                      fontWeight: "600",
-                    }}
-                  >
-                    {member.komisariat}
-                  </span>
                 </div>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
 

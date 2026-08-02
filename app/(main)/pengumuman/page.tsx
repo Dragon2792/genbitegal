@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { Megaphone, Info, Target, Star, FileText, Calendar, Pen, ChevronDown } from "lucide-react";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export const metadata: Metadata = {
   title: "Pengumuman",
@@ -69,105 +70,106 @@ export default async function PengumumanPage() {
 
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             {pengumuman.map((item, i) => (
-              <details
-                key={item.pengumuman_id}
-                className="pengumuman-details"
-                style={{
-                  background: "white",
-                  borderRadius: "14px",
-                  overflow: "hidden",
-                  boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
-                  border: `1px solid #e2e8f0`,
-                }}
-              >
-                <summary
-                  style={{ 
-                    padding: "24px", 
-                    cursor: "pointer", 
-                    listStyle: "none",
-                    outline: "none",
-                    display: "flex",
-                  }}
-                >
-                  <div style={{ display: "flex", gap: "16px", alignItems: "flex-start", width: "100%" }}>
-                    {/* Icon */}
-                    <div
-                      style={{
-                        width: "48px",
-                        height: "48px",
-                        background: `rgba(4, 28, 63, 0.08)`,
-                        borderRadius: "12px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: "22px",
-                        flexShrink: 0,
-                      }}
-                    >
-                      {[<Megaphone size={24} key="1"/>, <Info size={24} key="2"/>, <Target size={24} key="3"/>, <Star size={24} key="4"/>, <FileText size={24} key="5"/>][i % 5]}
-                    </div>
-
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px", flexWrap: "wrap" }}>
-                        <span
-                          style={{
-                            background: `rgba(4, 28, 63, 0.1)`,
-                            color: "#041C3F",
-                            padding: "3px 10px",
-                            borderRadius: "10px",
-                            fontSize: "11px",
-                            fontWeight: "700",
-                          }}
-                        >
-                          Pengumuman
-                        </span>
-                        <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "12px", color: "#94a3b8" }}>
-                          <Calendar size={14} /> {item.pengumuman_tanggal ? format(new Date(item.pengumuman_tanggal), "dd MMM yyyy", { locale: id }) : ""}
-                        </span>
-                        <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "12px", color: "#94a3b8" }}>
-                          <Pen size={14} /> {item.pengumuman_author || "Admin"}
-                        </span>
-                      </div>
-                      <h3 style={{ fontSize: "16px", fontWeight: "700", color: "#1e293b", lineHeight: "1.4", margin: 0 }}>
-                        {item.pengumuman_judul}
-                      </h3>
-                    </div>
-
-                    {/* Expand icon (CSS will rotate it) */}
-                    <div
-                      className="expand-icon"
-                      style={{
-                        width: "28px",
-                        height: "28px",
-                        background: "#f1f5f9",
-                        borderRadius: "50%",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: "12px",
-                        flexShrink: 0,
-                        transition: "transform 0.3s ease",
-                      }}
-                    >
-                      <ChevronDown size={14} />
-                    </div>
-                  </div>
-                </summary>
-
-                {/* Expandable content */}
-                <div
+              <ScrollReveal key={item.pengumuman_id} direction="up" delay={i * 0.1}>
+                <details
+                  className="pengumuman-details"
                   style={{
-                    padding: "0 24px 24px",
-                    borderTop: "1px solid #f1f5f9",
+                    background: "white",
+                    borderRadius: "14px",
+                    overflow: "hidden",
+                    boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
+                    border: `1px solid #e2e8f0`,
                   }}
                 >
-                  <div style={{ height: "1px", marginBottom: "16px" }} />
-                  <div 
-                    style={{ color: "#475569", fontSize: "15px", lineHeight: "1.8" }}
-                    dangerouslySetInnerHTML={{ __html: item.pengumuman_deskripsi || "" }}
-                  />
-                </div>
-              </details>
+                  <summary
+                    style={{ 
+                      padding: "24px", 
+                      cursor: "pointer", 
+                      listStyle: "none",
+                      outline: "none",
+                      display: "flex",
+                    }}
+                  >
+                    <div style={{ display: "flex", gap: "16px", alignItems: "flex-start", width: "100%" }}>
+                      {/* Icon */}
+                      <div
+                        style={{
+                          width: "48px",
+                          height: "48px",
+                          background: `rgba(4, 28, 63, 0.08)`,
+                          borderRadius: "12px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: "22px",
+                          flexShrink: 0,
+                        }}
+                      >
+                        {[<Megaphone size={24} key="1"/>, <Info size={24} key="2"/>, <Target size={24} key="3"/>, <Star size={24} key="4"/>, <FileText size={24} key="5"/>][i % 5]}
+                      </div>
+  
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px", flexWrap: "wrap" }}>
+                          <span
+                            style={{
+                              background: `rgba(4, 28, 63, 0.1)`,
+                              color: "#041C3F",
+                              padding: "3px 10px",
+                              borderRadius: "10px",
+                              fontSize: "11px",
+                              fontWeight: "700",
+                            }}
+                          >
+                            Pengumuman
+                          </span>
+                          <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "12px", color: "#94a3b8" }}>
+                            <Calendar size={14} /> {item.pengumuman_tanggal ? format(new Date(item.pengumuman_tanggal), "dd MMM yyyy", { locale: id }) : ""}
+                          </span>
+                          <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "12px", color: "#94a3b8" }}>
+                            <Pen size={14} /> {item.pengumuman_author || "Admin"}
+                          </span>
+                        </div>
+                        <h3 style={{ fontSize: "16px", fontWeight: "700", color: "#1e293b", lineHeight: "1.4", margin: 0 }}>
+                          {item.pengumuman_judul}
+                        </h3>
+                      </div>
+  
+                      {/* Expand icon (CSS will rotate it) */}
+                      <div
+                        className="expand-icon"
+                        style={{
+                          width: "28px",
+                          height: "28px",
+                          background: "#f1f5f9",
+                          borderRadius: "50%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: "12px",
+                          flexShrink: 0,
+                          transition: "transform 0.3s ease",
+                        }}
+                      >
+                        <ChevronDown size={14} />
+                      </div>
+                    </div>
+                  </summary>
+  
+                  {/* Expandable content */}
+                  <div
+                    style={{
+                      padding: "0 24px 24px",
+                      borderTop: "1px solid #f1f5f9",
+                    }}
+                  >
+                    <div style={{ height: "1px", marginBottom: "16px" }} />
+                    <div 
+                      style={{ color: "#475569", fontSize: "15px", lineHeight: "1.8" }}
+                      dangerouslySetInnerHTML={{ __html: item.pengumuman_deskripsi || "" }}
+                    />
+                  </div>
+                </details>
+              </ScrollReveal>
             ))}
 
             {pengumuman.length === 0 && (

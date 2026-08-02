@@ -5,6 +5,7 @@ import { format, isAfter, startOfDay } from "date-fns";
 import { id } from "date-fns/locale";
 import Image from "next/image";
 import { Calendar, Briefcase, Lightbulb, Mic, CalendarDays, MapPin, Clock } from "lucide-react";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export const metadata: Metadata = {
   title: "Agenda",
@@ -91,103 +92,104 @@ export default async function AgendaPage() {
             {upcoming.map((agenda, index) => {
               const agendaDate = agenda.agenda_mulai ? new Date(agenda.agenda_mulai) : new Date();
               return (
-              <div
-                key={agenda.agenda_id}
-                className="card-hover"
-                style={{
-                  background: "white",
-                  borderRadius: "16px",
-                  padding: "28px",
-                  display: "flex",
-                  gap: "24px",
-                  boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
-                  border: "1px solid #e2e8f0",
-                  alignItems: "flex-start",
-                }}
-              >
-                {/* Date */}
+              <ScrollReveal key={agenda.agenda_id} direction="up" delay={index * 0.1}>
                 <div
+                  className="card-hover"
                   style={{
-                    background: "linear-gradient(135deg, #041C3F, #11418B)",
-                    borderRadius: "14px",
-                    padding: "16px",
-                    textAlign: "center",
-                    flexShrink: 0,
-                    minWidth: "80px",
-                  }}
-                >
-                  <div style={{ fontSize: "28px", fontWeight: "900", color: "#E8A400", lineHeight: 1 }}>
-                    {format(agendaDate, "dd")}
-                  </div>
-                  <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.85)", fontWeight: "600", textTransform: "uppercase" }}>
-                    {format(agendaDate, "MMM", { locale: id })}
-                  </div>
-                  <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)" }}>
-                    {format(agendaDate, "yyyy")}
-                  </div>
-                </div>
-
-                {/* Icon */}
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    background: `rgba(232,164,0,0.15)`,
-                    borderRadius: "12px",
+                    background: "white",
+                    borderRadius: "16px",
+                    padding: "28px",
                     display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
+                    gap: "24px",
+                    boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
+                    border: "1px solid #e2e8f0",
+                    alignItems: "flex-start",
                   }}
                 >
-                  {[
-                    <Calendar size={28} color="#d97706" key="1" />,
-                    <Briefcase size={28} color="#d97706" key="2" />,
-                    <Lightbulb size={28} color="#d97706" key="3" />,
-                    <Mic size={28} color="#d97706" key="4" />
-                  ][index % 4]}
-                </div>
-
-                {/* Info */}
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: "flex", gap: "10px", alignItems: "center", marginBottom: "8px", flexWrap: "wrap" }}>
-                    <span
-                      style={{
-                        background: `rgba(232,164,0,0.15)`,
-                        color: "#d97706",
-                        padding: "3px 10px",
-                        borderRadius: "12px",
-                        fontSize: "11px",
-                        fontWeight: "700",
-                      }}
-                    >
-                      Kegiatan
-                    </span>
-                    <span
-                      style={{
-                        background: "#dcfce7",
-                        color: "#16a34a",
-                        padding: "3px 10px",
-                        borderRadius: "12px",
-                        fontSize: "11px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      ✓ Upcoming
-                    </span>
+                  {/* Date */}
+                  <div
+                    style={{
+                      background: "linear-gradient(135deg, #041C3F, #11418B)",
+                      borderRadius: "14px",
+                      padding: "16px",
+                      textAlign: "center",
+                      flexShrink: 0,
+                      minWidth: "80px",
+                    }}
+                  >
+                    <div style={{ fontSize: "28px", fontWeight: "900", color: "#E8A400", lineHeight: 1 }}>
+                      {format(agendaDate, "dd")}
+                    </div>
+                    <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.85)", fontWeight: "600", textTransform: "uppercase" }}>
+                      {format(agendaDate, "MMM", { locale: id })}
+                    </div>
+                    <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)" }}>
+                      {format(agendaDate, "yyyy")}
+                    </div>
                   </div>
-                  <h3 style={{ fontSize: "17px", fontWeight: "700", color: "#1e293b", marginBottom: "6px" }}>
-                    {agenda.agenda_nama}
-                  </h3>
-                  <p style={{ color: "#64748b", fontSize: "13px", lineHeight: "1.6", marginBottom: "12px" }}>
-                    {agenda.agenda_deskripsi || agenda.agenda_keterangan}
-                  </p>
-                  <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-                    <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "13px", color: "#64748b" }}><MapPin size={14} /> {agenda.agenda_tempat || "TBA"}</span>
-                    <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "13px", color: "#64748b" }}><Clock size={14} /> {agenda.agenda_waktu || "TBA"}</span>
+  
+                  {/* Icon */}
+                  <div
+                    style={{
+                      width: "56px",
+                      height: "56px",
+                      background: `rgba(232,164,0,0.15)`,
+                      borderRadius: "12px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    {[
+                      <Calendar size={28} color="#d97706" key="1" />,
+                      <Briefcase size={28} color="#d97706" key="2" />,
+                      <Lightbulb size={28} color="#d97706" key="3" />,
+                      <Mic size={28} color="#d97706" key="4" />
+                    ][index % 4]}
+                  </div>
+  
+                  {/* Info */}
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: "flex", gap: "10px", alignItems: "center", marginBottom: "8px", flexWrap: "wrap" }}>
+                      <span
+                        style={{
+                          background: `rgba(232,164,0,0.15)`,
+                          color: "#d97706",
+                          padding: "3px 10px",
+                          borderRadius: "12px",
+                          fontSize: "11px",
+                          fontWeight: "700",
+                        }}
+                      >
+                        Kegiatan
+                      </span>
+                      <span
+                        style={{
+                          background: "#dcfce7",
+                          color: "#16a34a",
+                          padding: "3px 10px",
+                          borderRadius: "12px",
+                          fontSize: "11px",
+                          fontWeight: "600",
+                        }}
+                      >
+                        ✓ Upcoming
+                      </span>
+                    </div>
+                    <h3 style={{ fontSize: "17px", fontWeight: "700", color: "#1e293b", marginBottom: "6px" }}>
+                      {agenda.agenda_nama}
+                    </h3>
+                    <p style={{ color: "#64748b", fontSize: "13px", lineHeight: "1.6", marginBottom: "12px" }}>
+                      {agenda.agenda_deskripsi || agenda.agenda_keterangan}
+                    </p>
+                    <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+                      <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "13px", color: "#64748b" }}><MapPin size={14} /> {agenda.agenda_tempat || "TBA"}</span>
+                      <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "13px", color: "#64748b" }}><Clock size={14} /> {agenda.agenda_waktu || "TBA"}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </ScrollReveal>
             )})}
             
             {upcoming.length === 0 && (
@@ -207,38 +209,39 @@ export default async function AgendaPage() {
             <h2 style={{ fontSize: "1.5rem", fontWeight: "700", color: "#475569" }}>Agenda Selesai</h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "16px" }}>
-            {done.map((agenda) => {
+            {done.map((agenda, index) => {
               const agendaDate = agenda.agenda_mulai ? new Date(agenda.agenda_mulai) : new Date();
               return (
-              <div
-                key={agenda.agenda_id}
-                style={{
-                  background: "#f8fafc",
-                  borderRadius: "12px",
-                  padding: "20px",
-                  display: "flex",
-                  gap: "16px",
-                  border: "1px solid #e2e8f0",
-                  opacity: 0.75,
-                }}
-              >
+              <ScrollReveal key={agenda.agenda_id} direction="up" delay={index * 0.1}>
                 <div
                   style={{
-                    background: "#e2e8f0",
-                    borderRadius: "10px",
-                    padding: "10px 14px",
-                    textAlign: "center",
-                    flexShrink: 0,
+                    background: "#f8fafc",
+                    borderRadius: "12px",
+                    padding: "20px",
+                    display: "flex",
+                    gap: "16px",
+                    border: "1px solid #e2e8f0",
+                    opacity: 0.75,
                   }}
                 >
-                  <div style={{ fontSize: "18px", fontWeight: "800", color: "#64748b", lineHeight: 1 }}>{format(agendaDate, "dd")}</div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8", fontWeight: "600", textTransform: "uppercase" }}>{format(agendaDate, "MMM", { locale: id })}</div>
+                  <div
+                    style={{
+                      background: "#e2e8f0",
+                      borderRadius: "10px",
+                      padding: "10px 14px",
+                      textAlign: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <div style={{ fontSize: "18px", fontWeight: "800", color: "#64748b", lineHeight: 1 }}>{format(agendaDate, "dd")}</div>
+                    <div style={{ fontSize: "11px", color: "#94a3b8", fontWeight: "600", textTransform: "uppercase" }}>{format(agendaDate, "MMM", { locale: id })}</div>
+                  </div>
+                  <div>
+                    <h4 style={{ fontSize: "14px", fontWeight: "700", color: "#475569", marginBottom: "4px" }}>{agenda.agenda_nama}</h4>
+                    <p style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "12px", color: "#94a3b8" }}><MapPin size={12} /> {agenda.agenda_tempat || "TBA"}</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 style={{ fontSize: "14px", fontWeight: "700", color: "#475569", marginBottom: "4px" }}>{agenda.agenda_nama}</h4>
-                  <p style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "12px", color: "#94a3b8" }}><MapPin size={12} /> {agenda.agenda_tempat || "TBA"}</p>
-                </div>
-              </div>
+              </ScrollReveal>
             )})}
           </div>
         </div>

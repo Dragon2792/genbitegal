@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { FolderHeart, ChevronLeft, ChevronRight, X, Camera, Calendar } from "lucide-react";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export type AlbumType = {
   id: number;
@@ -62,86 +63,88 @@ export default function GaleriClient({ albumsData }: { albumsData: AlbumType[] }
           const photoCount = album.images ? album.images.length : 0;
           
           return (
-            <div
-              key={album.id}
-              onClick={() => openLightbox(album)}
-              className="card-album"
-              style={{
-                background: "white",
-                borderRadius: "16px",
-                overflow: "hidden",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.07)",
-                border: "1px solid #e2e8f0",
-                cursor: photoCount > 0 ? "pointer" : "default",
-                transition: "all 0.3s ease",
-              }}
-            >
-              {album.cover ? (
-                <div style={{ position: "relative", height: "220px", overflow: "hidden" }}>
-                  <Image
-                    src={`/assets/images/${album.cover}`}
-                    alt={album.title || "Album Cover"}
-                    fill
-                    style={{ objectFit: "cover", transition: "transform 0.4s ease" }}
-                    className="album-cover-img"
-                  />
+            <ScrollReveal key={album.id} direction="up" delay={i * 0.1}>
+              <div
+                onClick={() => openLightbox(album)}
+                className="card-album"
+                style={{
+                  background: "white",
+                  borderRadius: "16px",
+                  overflow: "hidden",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.07)",
+                  border: "1px solid #e2e8f0",
+                  cursor: photoCount > 0 ? "pointer" : "default",
+                  transition: "all 0.3s ease",
+                  height: "100%",
+                }}
+              >
+                {album.cover ? (
+                  <div style={{ position: "relative", height: "220px", overflow: "hidden" }}>
+                    <Image
+                      src={`/assets/images/${album.cover}`}
+                      alt={album.title || "Album Cover"}
+                      fill
+                      style={{ objectFit: "cover", transition: "transform 0.4s ease" }}
+                      className="album-cover-img"
+                    />
+                    <div
+                      style={{
+                        position: "absolute",
+                        bottom: "12px",
+                        right: "12px",
+                        background: "rgba(0,0,0,0.75)",
+                        backdropFilter: "blur(4px)",
+                        color: "white",
+                        padding: "6px 12px",
+                        borderRadius: "12px",
+                        fontSize: "12px",
+                        fontWeight: "700",
+                        zIndex: 10,
+                        boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+                      }}
+                    >
+                      <span style={{ display: "flex", alignItems: "center", gap: "4px" }}><Camera size={14} /> {photoCount} foto</span>
+                    </div>
+                  </div>
+                ) : (
                   <div
                     style={{
-                      position: "absolute",
-                      bottom: "12px",
-                      right: "12px",
-                      background: "rgba(0,0,0,0.75)",
-                      backdropFilter: "blur(4px)",
-                      color: "white",
-                      padding: "6px 12px",
-                      borderRadius: "12px",
-                      fontSize: "12px",
-                      fontWeight: "700",
-                      zIndex: 10,
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+                      height: "220px",
+                      background: `linear-gradient(135deg, ${["#041C3F", "#11418B", "#0a2a5e", "#1a3a6e", "#041C3F", "#0d3570"][i % 6]}, ${["#11418B", "#1a5cb8", "#11418B", "#11418B", "#1a5cb8", "#11418B"][i % 6]})`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      position: "relative",
                     }}
                   >
-                    <span style={{ display: "flex", alignItems: "center", gap: "4px" }}><Camera size={14} /> {photoCount} foto</span>
+                    <FolderHeart size={60} color="rgba(255,255,255,0.7)" />
+                    <div
+                      style={{
+                        position: "absolute",
+                        bottom: "12px",
+                        right: "12px",
+                        background: "rgba(0,0,0,0.5)",
+                        color: "white",
+                        padding: "4px 10px",
+                        borderRadius: "12px",
+                        fontSize: "12px",
+                        fontWeight: "600",
+                      }}
+                    >
+                      <span style={{ display: "flex", alignItems: "center", gap: "4px" }}><Camera size={14} /> {photoCount} foto</span>
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <div
-                  style={{
-                    height: "220px",
-                    background: `linear-gradient(135deg, ${["#041C3F", "#11418B", "#0a2a5e", "#1a3a6e", "#041C3F", "#0d3570"][i % 6]}, ${["#11418B", "#1a5cb8", "#11418B", "#11418B", "#1a5cb8", "#11418B"][i % 6]})`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    position: "relative",
-                  }}
-                >
-                  <FolderHeart size={60} color="rgba(255,255,255,0.7)" />
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: "12px",
-                      right: "12px",
-                      background: "rgba(0,0,0,0.5)",
-                      color: "white",
-                      padding: "4px 10px",
-                      borderRadius: "12px",
-                      fontSize: "12px",
-                      fontWeight: "600",
-                    }}
-                  >
-                    <span style={{ display: "flex", alignItems: "center", gap: "4px" }}><Camera size={14} /> {photoCount} foto</span>
+                )}
+                <div style={{ padding: "20px" }}>
+                  <h3 style={{ fontSize: "16px", fontWeight: "800", color: "#1e293b", marginBottom: "8px", lineHeight: "1.4" }}>
+                    {album.title}
+                  </h3>
+                  <div style={{ display: "flex", gap: "12px", fontSize: "13px", color: "#64748b", fontWeight: "500" }}>
+                    <span style={{ display: "flex", alignItems: "center", gap: "4px" }}><Calendar size={14} /> {album.date}</span>
                   </div>
-                </div>
-              )}
-              <div style={{ padding: "20px" }}>
-                <h3 style={{ fontSize: "16px", fontWeight: "800", color: "#1e293b", marginBottom: "8px", lineHeight: "1.4" }}>
-                  {album.title}
-                </h3>
-                <div style={{ display: "flex", gap: "12px", fontSize: "13px", color: "#64748b", fontWeight: "500" }}>
-                  <span style={{ display: "flex", alignItems: "center", gap: "4px" }}><Calendar size={14} /> {album.date}</span>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
           );
         })}
       </div>

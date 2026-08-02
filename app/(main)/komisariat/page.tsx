@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { User, Camera, Globe } from "lucide-react";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export const metadata: Metadata = {
   title: "Komisariat - GenBI Tegal",
@@ -108,129 +109,130 @@ export default function KomisariatPage() {
       <section style={{ padding: "80px 24px", background: "#f8fafc" }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "40px" }}>
           {komisariatData.map((k, index) => (
-            <div
-              key={k.short}
-              className="komisariat-card"
-              style={{
-                background: "white",
-                borderRadius: "24px",
-                overflow: "hidden",
-                boxShadow: "0 10px 40px rgba(4, 28, 63, 0.05)",
-                display: "grid",
-                gridTemplateColumns: index % 2 === 0 ? "350px 1fr" : "1fr 350px",
-                border: "1px solid #e2e8f0",
-              }}
-            >
-              {/* Left/Right Visual Area */}
+            <ScrollReveal key={k.short} direction={index % 2 === 0 ? "right" : "left"}>
               <div
+                className="komisariat-card"
                 style={{
-                  background: "linear-gradient(135deg, #041C3F, #11418B)",
-                  padding: "40px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  textAlign: "center",
-                  order: index % 2 === 0 ? 1 : 2,
-                  position: "relative",
+                  background: "white",
+                  borderRadius: "24px",
                   overflow: "hidden",
+                  boxShadow: "0 10px 40px rgba(4, 28, 63, 0.05)",
+                  display: "grid",
+                  gridTemplateColumns: index % 2 === 0 ? "350px 1fr" : "1fr 350px",
+                  border: "1px solid #e2e8f0",
                 }}
               >
-                <div style={{ position: "absolute", inset: 0, opacity: 0.1, backgroundImage: "url('data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Ccircle cx=\"2\" cy=\"2\" r=\"2\" fill=\"%23ffffff\"/%3E%3C/svg%3E')", backgroundSize: "20px 20px" }}></div>
-                <div style={{ position: "relative", zIndex: 1 }}>
-                  <div style={{ marginBottom: "20px" }}>
-                    <div style={{ width: "100px", height: "100px", position: "relative", borderRadius: "50%", overflow: "hidden", background: "#fff", border: "4px solid rgba(255,255,255,0.2)", margin: "0 auto" }}>
-                      <Image src={k.logo} alt={k.short} fill style={{ objectFit: "cover" }} sizes="100px" />
+                {/* Left/Right Visual Area */}
+                <div
+                  style={{
+                    background: "linear-gradient(135deg, #041C3F, #11418B)",
+                    padding: "40px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textAlign: "center",
+                    order: index % 2 === 0 ? 1 : 2,
+                    position: "relative",
+                    overflow: "hidden",
+                  }}
+                >
+                  <div style={{ position: "absolute", inset: 0, opacity: 0.1, backgroundImage: "url('data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Ccircle cx=\"2\" cy=\"2\" r=\"2\" fill=\"%23ffffff\"/%3E%3C/svg%3E')", backgroundSize: "20px 20px" }}></div>
+                  <div style={{ position: "relative", zIndex: 1 }}>
+                    <div style={{ marginBottom: "20px" }}>
+                      <div style={{ width: "100px", height: "100px", position: "relative", borderRadius: "50%", overflow: "hidden", background: "#fff", border: "4px solid rgba(255,255,255,0.2)", margin: "0 auto" }}>
+                        <Image src={k.logo} alt={k.short} fill style={{ objectFit: "cover" }} sizes="100px" />
+                      </div>
+                    </div>
+                    <h2 style={{ color: "white", fontSize: "2rem", fontWeight: "900", marginBottom: "8px" }}>{k.short}</h2>
+                    <div style={{ background: "rgba(232,164,0,0.2)", color: "#E8A400", padding: "6px 16px", borderRadius: "20px", fontSize: "13px", fontWeight: "700", border: "1px solid rgba(232,164,0,0.4)" }}>
+                      {k.short === "KORDA" ? "Koordinator" : "Komisariat"}
                     </div>
                   </div>
-                  <h2 style={{ color: "white", fontSize: "2rem", fontWeight: "900", marginBottom: "8px" }}>{k.short}</h2>
-                  <div style={{ background: "rgba(232,164,0,0.2)", color: "#E8A400", padding: "6px 16px", borderRadius: "20px", fontSize: "13px", fontWeight: "700", border: "1px solid rgba(232,164,0,0.4)" }}>
-                    {k.short === "KORDA" ? "Koordinator" : "Komisariat"}
+                </div>
+  
+                {/* Content Area */}
+                <div
+                  style={{
+                    padding: "40px 48px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    order: index % 2 === 0 ? 2 : 1,
+                  }}
+                >
+                  <h3 style={{ fontSize: "1.6rem", fontWeight: "800", color: "#041C3F", marginBottom: "12px", lineHeight: "1.3" }}>
+                    {k.name}
+                  </h3>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+                    <span style={{ display: "flex", alignItems: "center", gap: "6px", background: "#f0f4ff", color: "#11418B", padding: "6px 14px", borderRadius: "20px", fontSize: "14px", fontWeight: "600", border: "1px solid #dbeafe" }}>
+                      <User size={16} /> {k.ketua} (Ketua Komisariat)
+                    </span>
+                  </div>
+                  <p style={{ color: "#64748b", fontSize: "15px", lineHeight: "1.8", marginBottom: "30px" }}>
+                    {k.desc}
+                  </p>
+  
+                  {/* Stats */}
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", marginBottom: "30px", padding: "24px", background: "#f8fafc", borderRadius: "16px", border: "1px solid #e2e8f0" }}>
+                    <div>
+                      <div style={{ fontSize: "24px", fontWeight: "800", color: "#11418B", marginBottom: "4px" }}>{k.stats.members}</div>
+                      <div style={{ fontSize: "12px", color: "#64748b", fontWeight: "600", textTransform: "uppercase" }}>Anggota</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: "24px", fontWeight: "800", color: "#11418B", marginBottom: "4px" }}>{k.stats.proker}</div>
+                      <div style={{ fontSize: "12px", color: "#64748b", fontWeight: "600", textTransform: "uppercase" }}>Program Kerja</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: "24px", fontWeight: "800", color: "#E8A400", marginBottom: "4px" }}>{k.stats.awards}</div>
+                      <div style={{ fontSize: "12px", color: "#64748b", fontWeight: "600", textTransform: "uppercase" }}>Penghargaan</div>
+                    </div>
+                  </div>
+  
+                  {/* Social Links */}
+                  <div style={{ display: "flex", gap: "16px" }}>
+                    <Link href={`https://instagram.com/${k.social.ig.replace('@', '')}`} target="_blank"
+                      className="btn-outline"
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        padding: "10px 20px",
+                        borderRadius: "12px",
+                        border: "1px solid #dbeafe",
+                        color: "#11418B",
+                        fontSize: "14px",
+                        fontWeight: "600",
+                        textDecoration: "none",
+                        transition: "all 0.2s",
+                        background: "white"
+                      }}
+                    >
+                      <Camera size={16} /> {k.social.ig}
+                    </Link>
+                    <Link href={`https://${k.social.web}`} target="_blank"
+                      className="btn-outline"
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        padding: "10px 20px",
+                        borderRadius: "12px",
+                        border: "1px solid #dbeafe",
+                        color: "#11418B",
+                        fontSize: "14px",
+                        fontWeight: "600",
+                        textDecoration: "none",
+                        transition: "all 0.2s",
+                        background: "white"
+                      }}
+                    >
+                      <Globe size={16} /> Website
+                    </Link>
                   </div>
                 </div>
               </div>
-
-              {/* Content Area */}
-              <div
-                style={{
-                  padding: "40px 48px",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  order: index % 2 === 0 ? 2 : 1,
-                }}
-              >
-                <h3 style={{ fontSize: "1.6rem", fontWeight: "800", color: "#041C3F", marginBottom: "12px", lineHeight: "1.3" }}>
-                  {k.name}
-                </h3>
-                <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
-                  <span style={{ display: "flex", alignItems: "center", gap: "6px", background: "#f0f4ff", color: "#11418B", padding: "6px 14px", borderRadius: "20px", fontSize: "14px", fontWeight: "600", border: "1px solid #dbeafe" }}>
-                    <User size={16} /> {k.ketua} (Ketua Komisariat)
-                  </span>
-                </div>
-                <p style={{ color: "#64748b", fontSize: "15px", lineHeight: "1.8", marginBottom: "30px" }}>
-                  {k.desc}
-                </p>
-
-                {/* Stats */}
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", marginBottom: "30px", padding: "24px", background: "#f8fafc", borderRadius: "16px", border: "1px solid #e2e8f0" }}>
-                  <div>
-                    <div style={{ fontSize: "24px", fontWeight: "800", color: "#11418B", marginBottom: "4px" }}>{k.stats.members}</div>
-                    <div style={{ fontSize: "12px", color: "#64748b", fontWeight: "600", textTransform: "uppercase" }}>Anggota</div>
-                  </div>
-                  <div>
-                    <div style={{ fontSize: "24px", fontWeight: "800", color: "#11418B", marginBottom: "4px" }}>{k.stats.proker}</div>
-                    <div style={{ fontSize: "12px", color: "#64748b", fontWeight: "600", textTransform: "uppercase" }}>Program Kerja</div>
-                  </div>
-                  <div>
-                    <div style={{ fontSize: "24px", fontWeight: "800", color: "#E8A400", marginBottom: "4px" }}>{k.stats.awards}</div>
-                    <div style={{ fontSize: "12px", color: "#64748b", fontWeight: "600", textTransform: "uppercase" }}>Penghargaan</div>
-                  </div>
-                </div>
-
-                {/* Social Links */}
-                <div style={{ display: "flex", gap: "16px" }}>
-                  <Link href={`https://instagram.com/${k.social.ig.replace('@', '')}`} target="_blank"
-                    className="btn-outline"
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "8px",
-                      padding: "10px 20px",
-                      borderRadius: "12px",
-                      border: "1px solid #dbeafe",
-                      color: "#11418B",
-                      fontSize: "14px",
-                      fontWeight: "600",
-                      textDecoration: "none",
-                      transition: "all 0.2s",
-                      background: "white"
-                    }}
-                  >
-                    <Camera size={16} /> {k.social.ig}
-                  </Link>
-                  <Link href={`https://${k.social.web}`} target="_blank"
-                    className="btn-outline"
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "8px",
-                      padding: "10px 20px",
-                      borderRadius: "12px",
-                      border: "1px solid #dbeafe",
-                      color: "#11418B",
-                      fontSize: "14px",
-                      fontWeight: "600",
-                      textDecoration: "none",
-                      transition: "all 0.2s",
-                      background: "white"
-                    }}
-                  >
-                    <Globe size={16} /> Website
-                  </Link>
-                </div>
-              </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
 
@@ -246,18 +248,20 @@ export default function KomisariatPage() {
 
       {/* CTA Section */}
       <section style={{ padding: "80px 24px", background: "white", textAlign: "center" }}>
-        <div style={{ maxWidth: "800px", margin: "0 auto", background: "linear-gradient(135deg, #041C3F, #11418B)", borderRadius: "24px", padding: "60px 40px", color: "white", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", opacity: 0.1, backgroundImage: "radial-gradient(circle at center, #ffffff 0%, transparent 70%)" }}></div>
-          <div style={{ position: "relative", zIndex: 1 }}>
-            <h2 style={{ fontSize: "2rem", fontWeight: "800", marginBottom: "16px" }}>Ingin Bergabung dengan GenBI?</h2>
-            <p style={{ color: "rgba(255,255,255,0.8)", fontSize: "16px", marginBottom: "30px", maxWidth: "600px", margin: "0 auto 30px" }}>
-              Pendaftaran GenBI dibuka setiap awal tahun melalui seleksi di masing-masing perguruan tinggi. Persiapkan dirimu untuk menjadi energi untuk negeri!
-            </p>
-            <Link href="/pengumuman" style={{ display: "inline-block", background: "#E8A400", color: "#041C3F", padding: "14px 32px", borderRadius: "12px", fontWeight: "700", textDecoration: "none", fontSize: "15px", boxShadow: "0 4px 15px rgba(232,164,0,0.3)", transition: "all 0.2s" }}>
-              Cek Info Pendaftaran
-            </Link>
+        <ScrollReveal direction="up">
+          <div style={{ maxWidth: "800px", margin: "0 auto", background: "linear-gradient(135deg, #041C3F, #11418B)", borderRadius: "24px", padding: "60px 40px", color: "white", position: "relative", overflow: "hidden" }}>
+            <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", opacity: 0.1, backgroundImage: "radial-gradient(circle at center, #ffffff 0%, transparent 70%)" }}></div>
+            <div style={{ position: "relative", zIndex: 1 }}>
+              <h2 style={{ fontSize: "2rem", fontWeight: "800", marginBottom: "16px" }}>Ingin Bergabung dengan GenBI?</h2>
+              <p style={{ color: "rgba(255,255,255,0.8)", fontSize: "16px", marginBottom: "30px", maxWidth: "600px", margin: "0 auto 30px" }}>
+                Pendaftaran GenBI dibuka setiap awal tahun melalui seleksi di masing-masing perguruan tinggi. Persiapkan dirimu untuk menjadi energi untuk negeri!
+              </p>
+              <Link href="/pengumuman" style={{ display: "inline-block", background: "#E8A400", color: "#041C3F", padding: "14px 32px", borderRadius: "12px", fontWeight: "700", textDecoration: "none", fontSize: "15px", boxShadow: "0 4px 15px rgba(232,164,0,0.3)", transition: "all 0.2s" }}>
+                Cek Info Pendaftaran
+              </Link>
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
       </section>
     </>
   );

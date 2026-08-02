@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { Trophy, Lightbulb, Users, ShieldCheck, Target, Eye } from "lucide-react";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export const metadata: Metadata = {
   title: "About",
@@ -95,57 +96,61 @@ export default function AboutPage() {
           }}
           className="two-col-grid"
         >
-          <div>
-            <span className="badge-genbi" style={{ marginBottom: "16px", display: "inline-block" }}>Selamat Datang</span>
-            <h2
+          <ScrollReveal direction="right">
+            <div>
+              <span className="badge-genbi" style={{ marginBottom: "16px", display: "inline-block" }}>Selamat Datang</span>
+              <h2
+                style={{
+                  fontSize: "clamp(1.6rem, 3vw, 2.4rem)",
+                  fontWeight: "800",
+                  color: "#041C3F",
+                  marginBottom: "20px",
+                  lineHeight: 1.2,
+                }}
+              >
+                Generasi Baru Indonesia <span className="text-gradient">Tegal</span>
+              </h2>
+              <p style={{ color: "#475569", lineHeight: "1.8", marginBottom: "16px" }}>
+                Generasi Baru Indonesia Tegal ialah sebuah komunitas yang terdiri dari mahasiswa-mahasiswa
+                terpilih Se-Eks Karesidenan Pekalongan yang berasal dari beragam latar disiplin ilmu dan
+                keahlian, yang diyakini akan menjadi energi baru yang mampu memberikan kontribusi bagi
+                bangsa dan negara.
+              </p>
+              <p style={{ color: "#475569", lineHeight: "1.8" }}>
+                GenBI Tegal berkolaborasi dengan Bank Indonesia, turut aktif menyelenggarakan kegiatan sosial
+                kemasyarakatan. Dengan program kerja yang produktif, harapannya GenBI Tegal bisa lebih
+                bermanfaat untuk masyarakat Indonesia khususnya di Eks Karesidenan Pekalongan.
+              </p>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal direction="left" delay={0.2}>
+            <div
               style={{
-                fontSize: "clamp(1.6rem, 3vw, 2.4rem)",
-                fontWeight: "800",
-                color: "#041C3F",
-                marginBottom: "20px",
-                lineHeight: 1.2,
+                background: "linear-gradient(135deg, #f0f4ff, #e8f0fe)",
+                borderRadius: "20px",
+                padding: "48px",
+                textAlign: "center",
+                border: "1px solid #dbeafe",
               }}
             >
-              Generasi Baru Indonesia <span className="text-gradient">Tegal</span>
-            </h2>
-            <p style={{ color: "#475569", lineHeight: "1.8", marginBottom: "16px" }}>
-              Generasi Baru Indonesia Tegal ialah sebuah komunitas yang terdiri dari mahasiswa-mahasiswa
-              terpilih Se-Eks Karesidenan Pekalongan yang berasal dari beragam latar disiplin ilmu dan
-              keahlian, yang diyakini akan menjadi energi baru yang mampu memberikan kontribusi bagi
-              bangsa dan negara.
-            </p>
-            <p style={{ color: "#475569", lineHeight: "1.8" }}>
-              GenBI Tegal berkolaborasi dengan Bank Indonesia, turut aktif menyelenggarakan kegiatan sosial
-              kemasyarakatan. Dengan program kerja yang produktif, harapannya GenBI Tegal bisa lebih
-              bermanfaat untuk masyarakat Indonesia khususnya di Eks Karesidenan Pekalongan.
-            </p>
-          </div>
-          <div
-            style={{
-              background: "linear-gradient(135deg, #f0f4ff, #e8f0fe)",
-              borderRadius: "20px",
-              padding: "48px",
-              textAlign: "center",
-              border: "1px solid #dbeafe",
-            }}
-          >
-            <div style={{ marginBottom: "20px", display: "flex", justifyContent: "center" }}>
-              <Image src="/assets/images/logogenbi.png" alt="GenBI Tegal Logo" width={100} height={100} style={{ objectFit: "contain" }} />
+              <div style={{ marginBottom: "20px", display: "flex", justifyContent: "center" }}>
+                <Image src="/assets/images/logogenbi.png" alt="GenBI Tegal Logo" width={100} height={100} style={{ objectFit: "contain" }} />
+              </div>
+              <h3 style={{ fontSize: "1.8rem", fontWeight: "900", color: "#041C3F", marginBottom: "8px", fontFamily: "'Lora', serif" }}>
+                GenBI Tegal
+              </h3>
+              <p style={{ color: "#64748b", fontSize: "14px" }}>Est. 2019</p>
+              <hr className="divider-gradient" style={{ margin: "20px 0" }} />
+              <div style={{ display: "flex", justifyContent: "center", gap: "30px", flexWrap: "wrap" }}>
+                {[{ val: "5", label: "Komisariat" }, { val: "150+", label: "Anggota" }].map((s) => (
+                  <div key={s.label} style={{ textAlign: "center" }}>
+                    <div style={{ fontSize: "2rem", fontWeight: "900", color: "#11418B" }}>{s.val}</div>
+                    <div style={{ fontSize: "13px", color: "#64748b" }}>{s.label}</div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <h3 style={{ fontSize: "1.8rem", fontWeight: "900", color: "#041C3F", marginBottom: "8px", fontFamily: "'Lora', serif" }}>
-              GenBI Tegal
-            </h3>
-            <p style={{ color: "#64748b", fontSize: "14px" }}>Est. 2019</p>
-            <hr className="divider-gradient" style={{ margin: "20px 0" }} />
-            <div style={{ display: "flex", justifyContent: "center", gap: "30px", flexWrap: "wrap" }}>
-              {[{ val: "5", label: "Komisariat" }, { val: "150+", label: "Anggota" }].map((s) => (
-                <div key={s.label} style={{ textAlign: "center" }}>
-                  <div style={{ fontSize: "2rem", fontWeight: "900", color: "#11418B" }}>{s.val}</div>
-                  <div style={{ fontSize: "13px", color: "#64748b" }}>{s.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
+          </ScrollReveal>
         </div>
         <style>{`@media (max-width: 768px) { .two-col-grid { grid-template-columns: 1fr !important; gap: 40px !important; } }`}</style>
       </section>
@@ -160,33 +165,37 @@ export default function AboutPage() {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px" }} className="two-col-grid">
             {/* Visi */}
-            <div style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "20px", padding: "40px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
-                <div style={{ width: "48px", height: "48px", background: "linear-gradient(135deg, #E8A400, #f59e0b)", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <Eye size={24} color="white" />
+            <ScrollReveal direction="right">
+              <div style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "20px", padding: "40px", height: "100%" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
+                  <div style={{ width: "48px", height: "48px", background: "linear-gradient(135deg, #E8A400, #f59e0b)", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Eye size={24} color="white" />
+                  </div>
+                  <h3 style={{ color: "#E8A400", fontWeight: "800", fontSize: "1.4rem" }}>Visi</h3>
                 </div>
-                <h3 style={{ color: "#E8A400", fontWeight: "800", fontSize: "1.4rem" }}>Visi</h3>
+                <blockquote style={{ color: "rgba(255,255,255,0.88)", lineHeight: "1.8", fontSize: "15px", borderLeft: "3px solid #E8A400", paddingLeft: "16px", margin: 0, fontStyle: "italic" }}>
+                  Menjadikan GenBI Tegal sebagai garda terdepan generasi muda Indonesia yang unggul dalam
+                  prestasi, pelopor inovasi dan kuat dalam kolaborasi untuk berkontribusi nyata membangun
+                  peradaban bangsa.
+                </blockquote>
               </div>
-              <blockquote style={{ color: "rgba(255,255,255,0.88)", lineHeight: "1.8", fontSize: "15px", borderLeft: "3px solid #E8A400", paddingLeft: "16px", margin: 0, fontStyle: "italic" }}>
-                Menjadikan GenBI Tegal sebagai garda terdepan generasi muda Indonesia yang unggul dalam
-                prestasi, pelopor inovasi dan kuat dalam kolaborasi untuk berkontribusi nyata membangun
-                peradaban bangsa.
-              </blockquote>
-            </div>
+            </ScrollReveal>
             {/* Misi */}
-            <div style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "20px", padding: "40px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
-                <div style={{ width: "48px", height: "48px", background: "linear-gradient(135deg, #E8A400, #f59e0b)", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <Target size={24} color="white" />
+            <ScrollReveal direction="left" delay={0.2}>
+              <div style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "20px", padding: "40px", height: "100%" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
+                  <div style={{ width: "48px", height: "48px", background: "linear-gradient(135deg, #E8A400, #f59e0b)", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Target size={24} color="white" />
+                  </div>
+                  <h3 style={{ color: "#E8A400", fontWeight: "800", fontSize: "1.4rem" }}>Misi</h3>
                 </div>
-                <h3 style={{ color: "#E8A400", fontWeight: "800", fontSize: "1.4rem" }}>Misi</h3>
+                <ol style={{ color: "rgba(255,255,255,0.85)", lineHeight: "1.8", paddingLeft: "20px" }}>
+                  {misi.map((m, i) => (
+                    <li key={i} style={{ marginBottom: "14px", fontSize: "14px" }}>{m}</li>
+                  ))}
+                </ol>
               </div>
-              <ol style={{ color: "rgba(255,255,255,0.85)", lineHeight: "1.8", paddingLeft: "20px" }}>
-                {misi.map((m, i) => (
-                  <li key={i} style={{ marginBottom: "14px", fontSize: "14px" }}>{m}</li>
-                ))}
-              </ol>
-            </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -200,12 +209,14 @@ export default function AboutPage() {
             </h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "24px" }}>
-            {values.map((v) => (
-              <div key={v.title} className="card-hover" style={{ background: "white", borderRadius: "16px", padding: "32px 24px", textAlign: "center", boxShadow: "0 4px 20px rgba(0,0,0,0.06)", border: "1px solid #e2e8f0" }}>
-                <div style={{ fontSize: "48px", marginBottom: "16px" }}>{v.icon}</div>
-                <h3 style={{ color: "#041C3F", fontWeight: "800", fontSize: "1.1rem", marginBottom: "10px" }}>{v.title}</h3>
-                <p style={{ color: "#64748b", fontSize: "14px", lineHeight: "1.6" }}>{v.desc}</p>
-              </div>
+            {values.map((v, i) => (
+              <ScrollReveal key={v.title} direction="up" delay={i * 0.1}>
+                <div className="card-hover" style={{ background: "white", borderRadius: "16px", padding: "32px 24px", textAlign: "center", boxShadow: "0 4px 20px rgba(0,0,0,0.06)", border: "1px solid #e2e8f0", height: "100%" }}>
+                  <div style={{ fontSize: "48px", marginBottom: "16px", display: "flex", justifyContent: "center" }}>{v.icon}</div>
+                  <h3 style={{ color: "#041C3F", fontWeight: "800", fontSize: "1.1rem", marginBottom: "10px" }}>{v.title}</h3>
+                  <p style={{ color: "#64748b", fontSize: "14px", lineHeight: "1.6" }}>{v.desc}</p>
+                </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
@@ -220,16 +231,18 @@ export default function AboutPage() {
             </h2>
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", justifyContent: "center" }}>
-            {komisariat.map((k) => (
-              <div key={k.short} className="card-hover" style={{ background: "linear-gradient(135deg, #f0f4ff, #e8f0fe)", border: "1px solid #dbeafe", borderRadius: "14px", padding: "24px 28px", textAlign: "center", minWidth: "180px", flex: "1", maxWidth: "220px" }}>
-                <div style={{ marginBottom: "16px", display: "flex", justifyContent: "center" }}>
-                  <div style={{ width: "100px", height: "100px", position: "relative" }}>
-                    <Image src={k.logo} alt={k.short} fill style={{ objectFit: "contain" }} sizes="100px" />
+            {komisariat.map((k, i) => (
+              <ScrollReveal key={k.short} direction="up" delay={i * 0.1}>
+                <div className="card-hover" style={{ background: "linear-gradient(135deg, #f0f4ff, #e8f0fe)", border: "1px solid #dbeafe", borderRadius: "14px", padding: "24px 28px", textAlign: "center", minWidth: "180px", flex: "1", maxWidth: "220px", height: "100%" }}>
+                  <div style={{ marginBottom: "16px", display: "flex", justifyContent: "center" }}>
+                    <div style={{ width: "100px", height: "100px", position: "relative" }}>
+                      <Image src={k.logo} alt={k.short} fill style={{ objectFit: "contain" }} sizes="100px" />
+                    </div>
                   </div>
+                  <div style={{ fontWeight: "800", color: "#11418B", fontSize: "15px", marginBottom: "6px" }}>{k.short}</div>
+                  <div style={{ color: "#64748b", fontSize: "12px", lineHeight: "1.4" }}>{k.name}</div>
                 </div>
-                <div style={{ fontWeight: "800", color: "#11418B", fontSize: "15px", marginBottom: "6px" }}>{k.short}</div>
-                <div style={{ color: "#64748b", fontSize: "12px", lineHeight: "1.4" }}>{k.name}</div>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
