@@ -78,14 +78,15 @@ export default function Navbar() {
   return (
     <>
       {/* ===== NAVBAR ===== */}
-      <nav
-        className={`fixed top-0 left-0 right-0 z-[1000] transition-all duration-300 ${
-          scrolled
-            ? "bg-white/95 backdrop-blur-md shadow-[0_2px_20px_rgba(0,0,0,0.08)] border-b border-slate-100"
-            : "bg-white border-b border-slate-100/50"
-        }`}
-      >
-        <div ref={navRef} className="w-full px-8 xl:px-12 h-[80px] flex items-center justify-between gap-6">
+      <nav className="fixed top-0 left-0 right-0 z-[1000] p-4 md:p-0 transition-all duration-300 pointer-events-none">
+        <div 
+          ref={navRef} 
+          className={`pointer-events-auto w-full px-5 md:px-8 xl:px-12 h-[70px] md:h-[80px] flex items-center justify-between gap-6 transition-all duration-300 rounded-2xl md:rounded-none ${
+            scrolled
+              ? "bg-white/95 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.08)] border border-slate-200 md:border-slate-100 md:border-t-0 md:border-x-0"
+              : "bg-white shadow-[0_10px_40px_rgba(0,0,0,0.08)] md:shadow-none border border-slate-200 md:border-slate-100/50 md:border-b md:border-t-0 md:border-x-0"
+          }`}
+        >
 
           {/* ---- LOGO ---- */}
           <Link href="/" className="flex-shrink-0 flex items-center no-underline">
@@ -94,7 +95,8 @@ export default function Navbar() {
               alt="GenBI Tegal"
               width={150}
               height={75}
-              style={{ width: "auto", height: "60px", objectFit: "contain" }}
+              style={{ width: "auto", height: "50px", objectFit: "contain" }}
+              className="md:h-[60px]"
               priority
             />
           </Link>
@@ -256,13 +258,13 @@ export default function Navbar() {
           <button
               suppressHydrationWarning
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-[#11418b] transition-all duration-[250ms] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#11418b]/40 active:scale-95"
+            className="md:hidden p-[10px] rounded-[12px] bg-[#11418b] text-white hover:bg-[#0d3470] transition-all duration-[250ms] focus:outline-none shadow-[0_4px_12px_rgba(17,65,139,0.25)] active:scale-95"
             aria-label="Toggle Menu"
           >
-            <div className="relative w-[24px] h-[18px]">
-              <span className={`absolute left-0 w-full h-[3px] bg-current rounded-full transition-all duration-[300ms] ease-out origin-center ${isOpen ? "top-1/2 -translate-y-1/2 rotate-45" : "top-0"}`} />
-              <span className={`absolute left-0 top-1/2 -translate-y-1/2 w-full h-[3px] bg-current rounded-full transition-all duration-[200ms] ease-out ${isOpen ? "opacity-0 scale-x-0" : "opacity-100"}`} />
-              <span className={`absolute left-0 w-full h-[3px] bg-current rounded-full transition-all duration-[300ms] ease-out origin-center ${isOpen ? "top-1/2 -translate-y-1/2 -rotate-45" : "bottom-0"}`} />
+            <div className="relative w-[20px] h-[16px]">
+              <span className={`absolute left-0 w-full h-[2.5px] bg-white rounded-full transition-all duration-[300ms] ease-out origin-center ${isOpen ? "top-1/2 -translate-y-1/2 rotate-45" : "top-0"}`} />
+              <span className={`absolute left-0 top-1/2 -translate-y-1/2 w-full h-[2.5px] bg-white rounded-full transition-all duration-[200ms] ease-out ${isOpen ? "opacity-0 scale-x-0" : "opacity-100"}`} />
+              <span className={`absolute left-0 w-full h-[2.5px] bg-white rounded-full transition-all duration-[300ms] ease-out origin-center ${isOpen ? "top-1/2 -translate-y-1/2 -rotate-45" : "bottom-0"}`} />
             </div>
           </button>
         </div>
@@ -271,15 +273,15 @@ export default function Navbar() {
       {/* ===== MOBILE DRAWER ===== */}
       {/* Backdrop */}
       <div
-        className={`md:hidden fixed inset-0 top-[80px] z-[998] transition-all duration-300 ${
-          isOpen ? "bg-black/30 backdrop-blur-sm pointer-events-auto" : "pointer-events-none opacity-0"
+        className={`md:hidden fixed inset-0 top-[102px] z-[998] transition-all duration-300 ${
+          isOpen ? "bg-black/40 backdrop-blur-sm pointer-events-auto" : "pointer-events-none opacity-0"
         }`}
         onClick={() => setIsOpen(false)}
       />
 
       {/* Drawer Panel */}
       <div
-        className={`md:hidden fixed top-[80px] right-0 bottom-0 w-[85vw] max-w-[340px] z-[999] bg-white shadow-[-4px_0_40px_rgba(0,0,0,0.12)] transition-transform duration-300 ease-in-out overflow-y-auto ${
+        className={`md:hidden fixed top-[102px] right-0 bottom-0 w-[85vw] max-w-[340px] z-[999] bg-white shadow-[-8px_0_40px_rgba(0,0,0,0.15)] rounded-tl-3xl transition-transform duration-300 ease-in-out overflow-y-auto ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
