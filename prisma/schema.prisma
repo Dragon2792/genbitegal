@@ -1,0 +1,186 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.0.x", "debian-openssl-1.1.x", "debian-openssl-3.0.x", "rhel-openssl-1.0.x", "rhel-openssl-1.1.x", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model tbl_agenda {
+  agenda_id         Int       @id @default(autoincrement())
+  agenda_nama       String?   @db.VarChar(200)
+  agenda_tanggal    DateTime? @default(now()) @db.Timestamp(0)
+  agenda_deskripsi  String?   @db.Text
+  agenda_mulai      DateTime? @db.Date
+  agenda_selesai    DateTime? @db.Date
+  agenda_tempat     String?   @db.VarChar(90)
+  agenda_waktu      String?   @db.VarChar(30)
+  agenda_keterangan String?   @db.VarChar(200)
+  agenda_author     String?   @db.VarChar(60)
+}
+
+model tbl_album {
+  album_id          Int       @id @default(autoincrement())
+  album_nama        String?   @db.VarChar(50)
+  album_tanggal     DateTime? @default(now()) @db.Timestamp(0)
+  album_pengguna_id Int?
+  album_author      String?   @db.VarChar(60)
+  album_count       Int?      @default(0)
+  album_cover       String?   @db.VarChar(40)
+
+  @@index([album_pengguna_id], map: "album_pengguna_id")
+}
+
+model tbl_files {
+  file_id        Int       @id @default(autoincrement())
+  file_judul     String?   @db.VarChar(120)
+  file_deskripsi String?   @db.Text
+  file_tanggal   DateTime? @default(now()) @db.Timestamp(0)
+  file_oleh      String?   @db.VarChar(60)
+  file_download  Int?      @default(0)
+  file_data      String?   @db.VarChar(120)
+}
+
+model tbl_galeri {
+  galeri_id          Int       @id @default(autoincrement())
+  galeri_judul       String?   @db.VarChar(60)
+  galeri_tanggal     DateTime? @default(now()) @db.Timestamp(0)
+  galeri_gambar      String?   @db.VarChar(40)
+  galeri_album_id    Int?
+  galeri_pengguna_id Int?
+  galeri_author      String?   @db.VarChar(60)
+
+  @@index([galeri_album_id], map: "galeri_album_id")
+  @@index([galeri_pengguna_id], map: "galeri_pengguna_id")
+}
+
+model tbl_guru {
+  guru_id        Int       @id @default(autoincrement())
+  guru_nip       String?   @db.VarChar(30)
+  guru_nama      String?   @db.VarChar(70)
+  guru_jenkel    String?   @db.VarChar(2)
+  guru_tmp_lahir String?   @db.VarChar(80)
+  guru_tgl_lahir String?   @db.VarChar(80)
+  guru_mapel     String?   @db.VarChar(120)
+  guru_photo     String?   @db.VarChar(40)
+  guru_tgl_input DateTime? @default(now()) @db.Timestamp(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tbl_inbox {
+  inbox_id      Int       @id @default(autoincrement())
+  inbox_nama    String?   @db.VarChar(40)
+  inbox_email   String?   @db.VarChar(60)
+  inbox_kontak  String?   @db.VarChar(20)
+  inbox_pesan   String?   @db.Text
+  inbox_tanggal DateTime? @default(now()) @db.Timestamp(0)
+  inbox_status  Int?      @default(1)
+}
+
+model tbl_kategori {
+  kategori_id      Int       @id @default(autoincrement())
+  kategori_nama    String?   @db.VarChar(30)
+  kategori_tanggal DateTime? @default(now()) @db.Timestamp(0)
+}
+
+model tbl_kelas {
+  kelas_id   Int     @id @default(autoincrement())
+  kelas_nama String? @db.VarChar(40)
+}
+
+model tbl_komentar {
+  komentar_id         Int       @id @default(autoincrement())
+  komentar_nama       String?   @db.VarChar(30)
+  komentar_email      String?   @db.VarChar(50)
+  komentar_isi        String?   @db.VarChar(120)
+  komentar_tanggal    DateTime? @default(now()) @db.Timestamp(0)
+  komentar_status     String?   @db.VarChar(2)
+  komentar_tulisan_id Int?
+  komentar_parent     Int?      @default(0)
+
+  @@index([komentar_tulisan_id], map: "komentar_tulisan_id")
+}
+
+model tbl_log_aktivitas {
+  log_id          Int       @id @default(autoincrement())
+  log_nama        String?   @db.Text
+  log_tanggal     DateTime? @default(now()) @db.Timestamp(0)
+  log_ip          String?   @db.VarChar(20)
+  log_pengguna_id Int?
+  log_icon        Bytes?    @db.Blob
+  log_jenis_icon  String?   @db.VarChar(50)
+
+  @@index([log_pengguna_id], map: "log_pengguna_id")
+}
+
+model tbl_pengguna {
+  pengguna_id          Int       @id @default(autoincrement())
+  pengguna_nama        String?   @db.VarChar(50)
+  pengguna_moto        String?   @db.VarChar(100)
+  pengguna_jenkel      String?   @db.VarChar(2)
+  pengguna_username    String?   @db.VarChar(30)
+  pengguna_password    String?   @db.VarChar(35)
+  pengguna_tentang     String?   @db.Text
+  pengguna_email       String?   @db.VarChar(50)
+  pengguna_nohp        String?   @db.VarChar(20)
+  pengguna_facebook    String?   @db.VarChar(35)
+  pengguna_twitter     String?   @db.VarChar(35)
+  pengguna_linkdin     String?   @db.VarChar(35)
+  pengguna_google_plus String?   @db.VarChar(35)
+  pengguna_status      Int?      @default(1)
+  pengguna_level       String?   @db.VarChar(3)
+  pengguna_register    DateTime? @default(now()) @db.Timestamp(0)
+  pengguna_photo       String?   @db.VarChar(40)
+}
+
+model tbl_pengumuman {
+  pengumuman_id        Int       @id @default(autoincrement())
+  pengumuman_judul     String?   @db.VarChar(150)
+  pengumuman_deskripsi String?   @db.Text
+  pengumuman_tanggal   DateTime? @default(now()) @db.Timestamp(0)
+  pengumuman_author    String?   @db.VarChar(60)
+}
+
+model tbl_pengunjung {
+  pengunjung_id        Int       @id @default(autoincrement())
+  pengunjung_tanggal   DateTime? @default(now()) @db.Timestamp(0)
+  pengunjung_ip        String?   @db.VarChar(40)
+  pengunjung_perangkat String?   @db.VarChar(100)
+}
+
+model tbl_siswa {
+  siswa_id       Int     @id @default(autoincrement())
+  siswa_nis      String? @db.VarChar(20)
+  siswa_nama     String? @db.VarChar(70)
+  siswa_jenkel   String? @db.VarChar(2)
+  siswa_kelas_id Int?
+  siswa_photo    String? @db.VarChar(40)
+}
+
+model tbl_testimoni {
+  testimoni_id      Int       @id @default(autoincrement())
+  testimoni_nama    String?   @db.VarChar(30)
+  testimoni_isi     String?   @db.VarChar(120)
+  testimoni_email   String?   @db.VarChar(35)
+  testimoni_tanggal DateTime? @default(now()) @db.Timestamp(0)
+}
+
+model tbl_tulisan {
+  tulisan_id            Int       @id @default(autoincrement())
+  tulisan_judul         String?   @db.VarChar(100)
+  tulisan_isi           String?   @db.Text
+  tulisan_tanggal       DateTime? @default(now()) @db.Timestamp(0)
+  tulisan_kategori_id   Int?
+  tulisan_kategori_nama String?   @db.VarChar(30)
+  tulisan_views         Int?      @default(0)
+  tulisan_gambar        String?   @db.VarChar(40)
+  tulisan_pengguna_id   Int?
+  tulisan_author        String?   @db.VarChar(40)
+  tulisan_img_slider    Int       @default(0)
+  tulisan_slug          String?   @db.VarChar(200)
+
+  @@index([tulisan_kategori_id], map: "tulisan_kategori_id")
+  @@index([tulisan_pengguna_id], map: "tulisan_pengguna_id")
+}

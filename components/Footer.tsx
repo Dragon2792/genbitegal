@@ -1,0 +1,302 @@
+"use client";
+import Link from "next/link";
+import Image from "next/image";
+import { MapPin, Mail, Phone } from "lucide-react";
+
+
+const footerLinks = [
+  {
+    title: "Menu Utama",
+    links: [
+      { href: "/", label: "Home" },
+      { href: "/about", label: "About" },
+      { href: "/artikel", label: "Blog" },
+      { href: "/galeri", label: "Gallery" },
+      { href: "/contact", label: "Contact" },
+    ],
+  },
+  {
+    title: "Link Terkait",
+    links: [
+      { href: "https://www.bi.go.id/", label: "Bank Indonesia" },
+      { href: "https://www.uingusdur.ac.id/", label: "UIN KH. Abdurrahman Wahid" },
+      { href: "https://upstegal.ac.id/", label: "Universitas Pancasakti Tegal" },
+      { href: "https://unikal.ac.id/", label: "Universitas Pekalongan" },
+      { href: "https://ibntegal.ac.id/", label: "IAI Bakti Negara Tegal" },
+    ],
+  },
+];
+
+const socialLinks = [
+  {
+    href: "https://www.facebook.com/genbitegal.official/",
+    icon: <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>,
+    label: "Facebook",
+    color: "#1877f2",
+  },
+  {
+    href: "https://www.instagram.com/genbi_tegal/",
+    icon: <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>,
+    label: "Instagram",
+    color: "#e1306c",
+  },
+  {
+    href: "https://twitter.com/genbitegal",
+    icon: <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>,
+    label: "Twitter",
+    color: "#1da1f2",
+  },
+  {
+    href: "https://www.youtube.com/channel/UCKXvZT2yMsCWCyDJxWxeF7A",
+    icon: <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 7.1C2.5 7.1 2.3 5.3 3.1 4.5 4.1 3.5 5.3 3.5 5.8 3.4 10.3 3 12 3 12 3s1.7 0 6.2.4c.6.1 1.7.1 2.7 1.1.8.8 1 2.6 1 2.6s.2 2.1.2 4.2v2.4c0 2.1-.2 4.2-.2 4.2s-.2 1.8-1 2.6c-1 1-2.3 1-2.9 1.1-3.6.4-6.3.4-6.3.4s-1.7 0-6.2-.4c-.6-.1-1.7-.1-2.7-1.1-.8-.8-1-2.6-1-2.6S2 15 2 12.9V10.5c0-2.1.2-4.2.2-4.2z"></path><polygon points="9.8 15 15.8 12 9.8 9 9.8 15"></polygon></svg>,
+    label: "YouTube",
+    color: "#ff0000",
+  },
+];
+
+export default function Footer() {
+  const year = new Date().getFullYear();
+
+  return (
+    <footer
+      style={{
+        background: "linear-gradient(135deg, #020f22 0%, #041C3F 50%, #0a2a5e 100%)",
+        color: "white",
+        paddingTop: "60px",
+        paddingBottom: "0",
+        marginTop: "80px",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "1280px",
+          margin: "0 auto",
+          padding: "0 24px",
+        }}
+      >
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+            gap: "40px",
+            paddingBottom: "48px",
+          }}
+        >
+          {/* Brand */}
+          <div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                marginBottom: "16px",
+              }}
+            >
+              <Image 
+                src="/theme/images/icon_genbi.png" 
+                alt="GenBI Tegal Logo" 
+                width={48}
+                height={48}
+                style={{ objectFit: "contain" }} 
+              />
+              <div>
+                <div
+                  style={{
+                    fontWeight: "800",
+                    fontSize: "20px",
+                    fontFamily: "'Lora', serif",
+                    color: "white",
+                  }}
+                >
+                  GenBI Tegal
+                </div>
+                <div
+                  style={{
+                    color: "#E8A400",
+                    fontSize: "10px",
+                    letterSpacing: "1px",
+                    fontWeight: "500",
+                  }}
+                >
+                  ENERGI UNTUK NEGERI
+                </div>
+              </div>
+            </div>
+            <p
+              style={{
+                color: "rgba(255,255,255,0.65)",
+                fontSize: "14px",
+                lineHeight: "1.7",
+                marginBottom: "20px",
+              }}
+            >
+              Generasi Baru Indonesia Tegal — komunitas penerima beasiswa Bank
+              Indonesia yang berkomitmen menjadi agen perubahan bagi bangsa dan
+              negara.
+            </p>
+
+            {/* Contact Info */}
+            <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.6)", lineHeight: "2" }}>
+              <div style={{ display: "flex", gap: "8px", alignItems: "flex-start" }}><MapPin size={16} style={{ flexShrink: 0, marginTop: "4px" }} /> <span>Jl. Dr. Soetomo No.55, Kota Tegal, Jawa Tengah</span></div>
+              <div style={{ display: "flex", gap: "8px", alignItems: "center" }}><Mail size={16} /> <span>genbitegal@gmail.com</span></div>
+              <div style={{ display: "flex", gap: "8px", alignItems: "center" }}><Phone size={16} /> <span>0895422831777</span></div>
+            </div>
+          </div>
+
+          {/* Nav Columns */}
+          {footerLinks.map((col) => (
+            <div key={col.title}>
+              <h3
+                style={{
+                  color: "white",
+                  fontWeight: "700",
+                  fontSize: "16px",
+                  marginBottom: "16px",
+                  paddingBottom: "10px",
+                  borderBottom: "2px solid #E8A400",
+                  display: "inline-block",
+                }}
+              >
+                {col.title}
+              </h3>
+              <ul style={{ listStyle: "none", padding: 0 }}>
+                {col.links.map((link) => (
+                  <li key={link.label} style={{ marginBottom: "10px" }}>
+                    <Link
+                      href={link.href}
+                      target={link.href.startsWith("http") ? "_blank" : undefined}
+                      rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      style={{
+                        color: "rgba(255,255,255,0.65)",
+                        textDecoration: "none",
+                        fontSize: "14px",
+                        transition: "color 0.2s ease",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                      }}
+                      onMouseEnter={(e) =>
+                        ((e.target as HTMLElement).style.color = "#E8A400")
+                      }
+                      onMouseLeave={(e) =>
+                        ((e.target as HTMLElement).style.color = "rgba(255,255,255,0.65)")
+                      }
+                    >
+                      <span style={{ color: "#E8A400", fontSize: "10px" }}>▶</span>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
+          {/* Social */}
+          <div>
+            <h3
+              style={{
+                color: "white",
+                fontWeight: "700",
+                fontSize: "16px",
+                marginBottom: "16px",
+                paddingBottom: "10px",
+                borderBottom: "2px solid #E8A400",
+                display: "inline-block",
+              }}
+            >
+              Ikuti Kami
+            </h3>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "12px",
+                marginBottom: "20px",
+              }}
+            >
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  style={{
+                    width: "42px",
+                    height: "42px",
+                    background: "rgba(255,255,255,0.08)",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    borderRadius: "10px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "white",
+                    textDecoration: "none",
+                    fontSize: "12px",
+                    fontWeight: "700",
+                    transition: "all 0.3s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = social.color;
+                    el.style.border = `1px solid ${social.color}`;
+                    el.style.transform = "translateY(-3px)";
+                    el.style.boxShadow = `0 8px 20px ${social.color}40`;
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = "rgba(255,255,255,0.08)";
+                    el.style.border = "1px solid rgba(255,255,255,0.12)";
+                    el.style.transform = "translateY(0)";
+                    el.style.boxShadow = "none";
+                  }}
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
+            <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.5)", lineHeight: "1.6" }}>
+              Ikuti media sosial kami untuk update terbaru kegiatan GenBI Tegal.
+            </p>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div
+          style={{
+            borderTop: "1px solid rgba(255,255,255,0.08)",
+            padding: "20px 0",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "12px",
+          }}
+        >
+          <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "13px" }}>
+            {year} © GenBI Tegal. Hak cipta dilindungi.
+          </p>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              color: "rgba(255,255,255,0.45)",
+              fontSize: "13px",
+            }}
+          >
+            <span>Dikembangkan oleh</span>
+            <a
+              href="https://genbitegal.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "#E8A400", textDecoration: "none", fontWeight: "600" }}
+            >
+              Kominfo GenBI Tegal
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}

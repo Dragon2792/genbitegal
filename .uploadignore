@@ -1,0 +1,21 @@
+# Folder yang diupload ke server
+node_modules/
+.env
+.env.local
+*.log
+
+# Dev files (tidak perlu di server)
+.gitignore
+README.md
+scripts/
+download.js
+tsconfig.tsbuildinfo
+eslint.config.mjs
+postcss.config.mjs
+tsconfig.json
+next-env.d.ts
+
+# Source code (sudah dikompilasi di .next/)
+app/
+components/
+lib/

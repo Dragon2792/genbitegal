@@ -1,0 +1,78 @@
+import { addPengguna } from "../actions";
+import Link from "next/link";
+
+export default function TambahPenggunaPage() {
+  return (
+    <div className="bg-white p-6 rounded-lg shadow-md max-w-2xl mx-auto">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">Tambah Pengguna</h1>
+        <Link href="/admin/pengguna" className="text-gray-600 hover:text-gray-900">
+          Kembali
+        </Link>
+      </div>
+
+      <form action={addPengguna} className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+          <input
+              suppressHydrationWarning type="text" name="nama" required className="w-full px-4 py-2 border rounded-md" />
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin</label>
+          <select
+              suppressHydrationWarning name="jenkel" required className="w-full px-4 py-2 border rounded-md">
+            <option value="L">Laki-laki</option>
+            <option value="P">Perempuan</option>
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
+          <input
+              suppressHydrationWarning type="text" name="username" required className="w-full px-4 py-2 border rounded-md" />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+          <input
+              suppressHydrationWarning type="password" name="password" required className="w-full px-4 py-2 border rounded-md" />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+          <input
+              suppressHydrationWarning type="email" name="email" required className="w-full px-4 py-2 border rounded-md" />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">No HP</label>
+          <input
+              suppressHydrationWarning type="text" name="nohp" required className="w-full px-4 py-2 border rounded-md" />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Level Akses</label>
+          <select
+              suppressHydrationWarning name="level" required className="w-full px-4 py-2 border rounded-md">
+            <option value="1">Administrator</option>
+            <option value="2">Author</option>
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Foto Avatar</label>
+          <input
+              suppressHydrationWarning type="file" name="filefoto" accept="image/*" className="w-full px-4 py-2 border rounded-md bg-gray-50" />
+        </div>
+
+        <div className="flex justify-end pt-4">
+          <button
+                    suppressHydrationWarning type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium">
+            Simpan Pengguna
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}

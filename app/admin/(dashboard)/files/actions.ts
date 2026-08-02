@@ -1,0 +1,54 @@
+"use server";
+
+import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { writeFile, unlink } from "fs/promises";
+import path from "path";
+
+export async function addFile(formData: FormData) {
+  const judul = formData.get("judul") as string;
+  const deskripsi = formData.get("deskripsi") as string;
+  const oleh = formData.get("oleh") as string;
+  const fileData = formData.get("file_data") as File;
+  
+  let fileName = "";
+
+  if (fileData && fileData.size > 0) {
+    const bytes = await fileData.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    fileName = Date.now() + "-" + fileData.name.replace(/\s+/g, '-');
+    const uploadPath = path.join(process.cwd(), "public", "assets", "files", fileName);
+    await writeFile(uploadPath, buffer);
+  }
+
+  await prisma.tbl_files.create({
+    data: {
+      file_judul: judul,
+      file_deskripsi: deskripsi,
+      file_oleh: oleh,
+      file_data: fileName,
+      file_tanggal: new Date(),
+    }
+  });
+
+  revalidatePath("/admin/files");
+  redirect("/admin/files");
+}
+
+export async function deleteFile(id: number) {
+  const file = await prisma.tbl_files.findUnique({ where: { file_id: id } });
+  if (file?.file_data) {
+    try {
+      await unlink(path.join(process.cwd(), "public", "assets", "files", file.file_data));
+    } catch (e) {
+      console.log("File not found or cannot be deleted:", e);
+    }
+  }
+
+  await prisma.tbl_files.delete({
+    where: { file_id: id },
+  });
+  
+  revalidatePath("/admin/files");
+}
