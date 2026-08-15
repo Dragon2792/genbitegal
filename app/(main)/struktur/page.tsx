@@ -33,7 +33,8 @@ const kementrianData = [
     mentri: { name: "Irgi Akhmad Farrery", image: "/assets/images/dummy-avatar.jpg" },
     staf: [
       { role: "S.A Website", name: "Nur Muhammad Arya N", image: "/assets/images/dummy-avatar.jpg" },
-      { role: "S.A Media Sosial & Podcast", name: "1. Wulan Lailatur R.\n2. Slamet Arofah", image: "/assets/images/dummy-avatar.jpg" },
+      { role: "S.A Media Sosial & Podcast", name: "Wulan Lailatur R.", image: "/assets/images/dummy-avatar.jpg" },
+      { role: "S.A Media Sosial & Podcast", name: "Slamet Arofah", image: "/assets/images/dummy-avatar.jpg" },
     ]
   },
   {
@@ -42,7 +43,8 @@ const kementrianData = [
     mentri: { name: "Riska Putri Yuniar", image: "/assets/images/dummy-avatar.jpg" },
     staf: [
       { role: "S.A Kebendaharan", name: "Dewi Nurul Alfianah", image: "/assets/images/dummy-avatar.jpg" },
-      { role: "S.A Kesekretariatan", name: "1. Amelia Nur Sajidah\n2. Ainun Ana Nabilah", image: "/assets/images/dummy-avatar.jpg" },
+      { role: "S.A Kesekretariatan", name: "Amelia Nur Sajidah", image: "/assets/images/dummy-avatar.jpg" },
+      { role: "S.A Kesekretariatan", name: "Ainun Ana Nabilah", image: "/assets/images/dummy-avatar.jpg" },
     ]
   },
   {
@@ -50,7 +52,8 @@ const kementrianData = [
     icon: GraduationCap,
     mentri: { name: "Prahesta Pramudya Jaya Wardhana", image: "/assets/images/dummy-avatar.jpg" },
     staf: [
-      { role: "S.A Seni dan Olahraga", name: "1. Riska Dwi Arini\n2. Bayu Nabilatul A.", image: "/assets/images/dummy-avatar.jpg" },
+      { role: "S.A Seni dan Olahraga", name: "Riska Dwi Arini", image: "/assets/images/dummy-avatar.jpg" },
+      { role: "S.A Seni dan Olahraga", name: "Bayu Nabilatul A.", image: "/assets/images/dummy-avatar.jpg" },
       { role: "S.A Kepenulisan", name: "Aulia Binta Emira", image: "/assets/images/dummy-avatar.jpg" },
     ]
   }
@@ -132,8 +135,16 @@ export default function StrukturPage() {
             <div className="hidden md:block w-0.5 h-12 bg-slate-300 my-0"></div>
 
             <ScrollReveal direction="up" delay={0.2}>
-              <div className="w-full max-w-[320px] mx-auto z-10 relative mt-8 md:mt-0">
-                <OrgCard title="Dewan Pengawas" name={"1. Riema Ainun Nissa\n2. M. Rifqi Al Khadziq\n3. Navis Mughni V."} image="/assets/images/dummy-avatar.jpg" icon={ShieldCheck} colorClass="bg-white border-slate-300 shadow-md" />
+              <div className="flex flex-col md:flex-row justify-center gap-6 z-10 relative mt-8 md:mt-0 w-full max-w-[900px] mx-auto px-4">
+                <div className="w-full md:w-[280px]">
+                  <OrgCard title="Dewan Pengawas" name="Riema Ainun Nissa" image="/assets/images/dummy-avatar.jpg" icon={ShieldCheck} colorClass="bg-white border-slate-300 shadow-md" />
+                </div>
+                <div className="w-full md:w-[280px]">
+                  <OrgCard title="Dewan Pengawas" name="M. Rifqi Al Khadziq" image="/assets/images/dummy-avatar.jpg" icon={ShieldCheck} colorClass="bg-white border-slate-300 shadow-md" />
+                </div>
+                <div className="w-full md:w-[280px]">
+                  <OrgCard title="Dewan Pengawas" name="Navis Mughni V." image="/assets/images/dummy-avatar.jpg" icon={ShieldCheck} colorClass="bg-white border-slate-300 shadow-md" />
+                </div>
               </div>
             </ScrollReveal>
           </div>
