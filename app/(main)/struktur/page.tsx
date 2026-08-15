@@ -13,12 +13,12 @@ export const metadata: Metadata = {
 const OrgCard = ({ title, name, icon: Icon, image, colorClass = "bg-[#f0f4ff] border-[#dbeafe] text-[#11418b]" }: any) => (
   <div className={`p-6 rounded-2xl border-2 flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300 card-hover ${colorClass}`}>
     {image ? (
-      <div className="w-20 h-20 rounded-full border-4 border-white shadow-md mb-4 overflow-hidden relative">
+      <div className="w-28 h-28 rounded-full border-4 border-white shadow-md mb-4 overflow-hidden relative">
         <Image src={image} alt={name} fill style={{ objectFit: "cover" }} />
       </div>
     ) : (
-      <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center mb-4 shadow-sm">
-        <Icon size={28} className="text-[#11418b]" />
+      <div className="w-24 h-24 rounded-2xl bg-white flex items-center justify-center mb-4 shadow-sm">
+        <Icon size={40} className="text-[#11418b]" />
       </div>
     )}
     <h3 className="font-bold text-[14px] md:text-[15px] mb-2 uppercase tracking-widest text-[#041C3F]">{title}</h3>
@@ -165,12 +165,12 @@ export default function StrukturPage() {
                 <div className="flex flex-col h-full bg-white rounded-3xl p-6 shadow-[0_4px_24px_rgba(0,0,0,0.04)] border border-slate-100">
                   <div className="flex items-center gap-4 mb-6 pb-6 border-b border-slate-100">
                     {kementrian.mentri.image ? (
-                      <div className="w-14 h-14 rounded-full border-2 border-slate-200 overflow-hidden relative flex-shrink-0 shadow-sm">
+                      <div className="w-20 h-20 rounded-full border-2 border-slate-200 overflow-hidden relative flex-shrink-0 shadow-sm">
                         <Image src={kementrian.mentri.image} alt={kementrian.mentri.name} fill style={{ objectFit: "cover" }} />
                       </div>
                     ) : (
-                      <div className="w-14 h-14 rounded-2xl bg-[#f0f4ff] flex items-center justify-center flex-shrink-0">
-                        <kementrian.icon size={24} className="text-[#11418b]" />
+                      <div className="w-20 h-20 rounded-2xl bg-[#f0f4ff] flex items-center justify-center flex-shrink-0">
+                        <kementrian.icon size={32} className="text-[#11418b]" />
                       </div>
                     )}
                     <div>
@@ -183,12 +183,12 @@ export default function StrukturPage() {
                     {kementrian.staf.map((staf, sIdx) => (
                       <div key={sIdx} className="bg-slate-50 rounded-xl p-3.5 flex items-center gap-3 border border-slate-100 hover:border-[#11418b]/30 transition-colors">
                         {staf.image ? (
-                          <div className="w-10 h-10 rounded-full bg-slate-200 overflow-hidden relative flex-shrink-0 border border-slate-300">
+                          <div className="w-14 h-14 rounded-full bg-slate-200 overflow-hidden relative flex-shrink-0 border border-slate-300">
                             <Image src={staf.image} alt={staf.name} fill style={{ objectFit: "cover" }} />
                           </div>
                         ) : (
-                          <div className="w-10 h-10 rounded-full bg-[#11418b]/10 flex items-center justify-center flex-shrink-0 text-[#11418b]">
-                            <User size={16} />
+                          <div className="w-14 h-14 rounded-full bg-[#11418b]/10 flex items-center justify-center flex-shrink-0 text-[#11418b]">
+                            <User size={24} />
                           </div>
                         )}
                         <div className="flex flex-col">
