@@ -60,10 +60,10 @@ const kementrianData = [
 ];
 
 const komisariatData = [
-  { role: "Komisariat UPS", name: "[Nama Ketua]", image: "/assets/images/dummy-avatar.jpg" },
-  { role: "Komisariat UIN", name: "[Nama Ketua]", image: "/assets/images/dummy-avatar.jpg" },
-  { role: "Komisariat UNIKAL", name: "[Nama Ketua]", image: "/assets/images/dummy-avatar.jpg" },
-  { role: "Komisariat UIBN", name: "[Nama Ketua]", image: "/assets/images/dummy-avatar.jpg" },
+  { role: "Komisariat UPS", name: "Erna Sundari", image: "/assets/images/dummy-avatar.jpg" },
+  { role: "Komisariat UIN", name: "Fadila Arifatu Khasanah", image: "/assets/images/dummy-avatar.jpg" },
+  { role: "Komisariat UNIKAL", name: "Retno Dwitasari", image: "/assets/images/dummy-avatar.jpg" },
+  { role: "Komisariat UIBN", name: "Rizky Dwi Baybakti", image: "/assets/images/dummy-avatar.jpg" },
 ];
 
 export default function StrukturPage() {
