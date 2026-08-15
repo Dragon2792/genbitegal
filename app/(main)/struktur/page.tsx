@@ -22,39 +22,36 @@ const OrgCard = ({ title, name, icon: Icon, image, colorClass = "bg-[#f0f4ff] bo
       </div>
     )}
     <h3 className="font-bold text-[14px] md:text-[15px] mb-2 uppercase tracking-widest text-[#041C3F]">{title}</h3>
-    <p className="text-slate-600 font-medium text-[15px]">{name}</p>
+    <p className="text-slate-600 font-medium text-[15px] whitespace-pre-line leading-relaxed">{name}</p>
   </div>
 );
 
 const kementrianData = [
   {
-    title: "Kementrian Komunikasi",
+    title: "Mentri Komunikasi",
     icon: Megaphone,
-    mentri: { name: "[Nama Mentri Komunikasi]", image: "/assets/images/dummy-avatar.jpg" },
+    mentri: { name: "Irgi Akhmad Farrery", image: "/assets/images/dummy-avatar.jpg" },
     staf: [
-      { role: "Staf Ahli Sosmed", name: "[Nama Staf]", image: "/assets/images/dummy-avatar.jpg" },
-      { role: "Staf Ahli Podcast", name: "[Nama Staf]", image: "/assets/images/dummy-avatar.jpg" },
-      { role: "Staf Ahli Website", name: "[Nama Staf]", image: "/assets/images/dummy-avatar.jpg" },
+      { role: "S.A Website", name: "Nur Muhammad Arya N", image: "/assets/images/dummy-avatar.jpg" },
+      { role: "S.A Media Sosial & Podcast", name: "1. Wulan Lailatur R.\n2. Slamet Arofah", image: "/assets/images/dummy-avatar.jpg" },
     ]
   },
   {
-    title: "Kementrian Keuangan",
+    title: "Mentri Keuangan",
     icon: Wallet,
-    mentri: { name: "[Nama Mentri Keuangan]", image: "/assets/images/dummy-avatar.jpg" },
+    mentri: { name: "Riska Putri Yuniar", image: "/assets/images/dummy-avatar.jpg" },
     staf: [
-      { role: "Staf Ahli Kesekertariatan", name: "[Nama Staf]", image: "/assets/images/dummy-avatar.jpg" },
-      { role: "Staf Ahli Kesekertariatan", name: "[Nama Staf]", image: "/assets/images/dummy-avatar.jpg" },
-      { role: "Staf Ahli Kebendaharaan", name: "[Nama Staf]", image: "/assets/images/dummy-avatar.jpg" },
+      { role: "S.A Kebendaharan", name: "Dewi Nurul Alfianah", image: "/assets/images/dummy-avatar.jpg" },
+      { role: "S.A Kesekretariatan", name: "1. Amelia Nur Sajidah\n2. Ainun Ana Nabilah", image: "/assets/images/dummy-avatar.jpg" },
     ]
   },
   {
-    title: "Kementrian SDM",
+    title: "Mentri SDM",
     icon: GraduationCap,
-    mentri: { name: "[Nama Mentri SDM]", image: "/assets/images/dummy-avatar.jpg" },
+    mentri: { name: "Prahesta Pramudya Jaya Wardhana", image: "/assets/images/dummy-avatar.jpg" },
     staf: [
-      { role: "Staf Ahli Kesenian", name: "[Nama Staf]", image: "/assets/images/dummy-avatar.jpg" },
-      { role: "Staf Ahli Kepenulisan", name: "[Nama Staf]", image: "/assets/images/dummy-avatar.jpg" },
-      { role: "Staf Ahli Olahraga", name: "[Nama Staf]", image: "/assets/images/dummy-avatar.jpg" },
+      { role: "S.A Seni dan Olahraga", name: "1. Riska Dwi Arini\n2. Bayu Nabilatul A.", image: "/assets/images/dummy-avatar.jpg" },
+      { role: "S.A Kepenulisan", name: "Aulia Binta Emira", image: "/assets/images/dummy-avatar.jpg" },
     ]
   }
 ];
@@ -127,7 +124,7 @@ export default function StrukturPage() {
           <div className="flex flex-col items-center mb-16 relative">
             <ScrollReveal direction="up">
               <div className="w-full max-w-[320px] mx-auto z-10 relative">
-                <OrgCard title="Presiden GenBI Tegal" name="[Nama Presiden]" image="/assets/images/dummy-avatar.jpg" icon={User} colorClass="bg-white border-[#E8A400] shadow-[0_8px_30px_rgba(232,164,0,0.15)]" />
+                <OrgCard title="Presiden GenBI Tegal" name="Kristono" image="/assets/images/dummy-avatar.jpg" icon={User} colorClass="bg-white border-[#E8A400] shadow-[0_8px_30px_rgba(232,164,0,0.15)]" />
               </div>
             </ScrollReveal>
             
@@ -136,7 +133,7 @@ export default function StrukturPage() {
 
             <ScrollReveal direction="up" delay={0.2}>
               <div className="w-full max-w-[320px] mx-auto z-10 relative mt-8 md:mt-0">
-                <OrgCard title="Dewan Pengawas" name="[Nama Pengawas]" image="/assets/images/dummy-avatar.jpg" icon={ShieldCheck} colorClass="bg-white border-slate-300 shadow-md" />
+                <OrgCard title="Dewan Pengawas" name={"1. Riema Ainun Nissa\n2. M. Rifqi Al Khadziq\n3. Navis Mughni V."} image="/assets/images/dummy-avatar.jpg" icon={ShieldCheck} colorClass="bg-white border-slate-300 shadow-md" />
               </div>
             </ScrollReveal>
           </div>
@@ -185,7 +182,7 @@ export default function StrukturPage() {
                         )}
                         <div className="flex flex-col">
                           <span className="text-[12px] font-bold text-[#11418b] uppercase tracking-wider mb-0.5">{staf.role}</span>
-                          <span className="text-slate-700 font-medium text-sm">{staf.name}</span>
+                          <span className="text-slate-700 font-medium text-sm whitespace-pre-line leading-relaxed">{staf.name}</span>
                         </div>
                       </div>
                     ))}
