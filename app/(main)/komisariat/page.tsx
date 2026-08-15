@@ -38,13 +38,13 @@ const komisariatData = [
     social: { ig: "@genbi_uingusdur", web: "uingusdur.ac.id" },
   },
   {
-    name: "IAI Bakti Negara Tegal",
-    short: "IBN",
+    name: "Universitas Islam Bakti Negara Tegal",
+    short: "UIBN",
     logo: "/assets/images/logo-ibn.png",
     ketua: "Yanuar Eko Bahari",
-    desc: "GenBI IBN menitikberatkan pada pengembangan ekonomi kreatif mahasiswa dan pendampingan sertifikasi halal bagi pelaku usaha mikro di Kabupaten Tegal.",
+    desc: "GenBI UIBN menitikberatkan pada pengembangan ekonomi kreatif mahasiswa dan pendampingan sertifikasi halal bagi pelaku usaha mikro di Kabupaten Tegal.",
     stats: { members: "30+", proker: "10", awards: "2" },
-    social: { ig: "@genbi_ibn", web: "ibntegal.ac.id" },
+    social: { ig: "@genbi_uibn", web: "uibntegal.ac.id" },
   },
 
 ];

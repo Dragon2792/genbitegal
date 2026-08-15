@@ -11,9 +11,18 @@ export const metadata: Metadata = {
 };
 
 const misi = [
-  "Mengembangkan potensi anggota GenBI Tegal melalui program pelatihan, kompetisi, dan pengembangan kapasitas diri untuk mencetak generasi muda unggul di bidang akademik dan non-akademik.",
-  "Menciptakan inovasi untuk mendorong anggota GenBI Tegal dalam mengembangkan ide kreatif melalui program kerja yang memberikan manfaat bagi mahasiswa, masyarakat, dan generasi muda Indonesia.",
-  "Membangun kolaborasi dalam mengimplementasikan program pengabdian masyarakat dan menjadi agen perubahan yang memberikan dampak positif nyata bagi pembangunan bangsa.",
+  {
+    title: "Bertumbuh",
+    desc: "Membangun ekosistem pengembangan anggota yang berkelanjutan melalui penguatan kapasitas, kepemimpinan, sportivitas, kreativitas, serta budaya keilmuan guna mencetak insan GenBI yang unggul dan berintegritas."
+  },
+  {
+    title: "Bersinergi",
+    desc: "Mewujudkan organisasi yang inklusif dan kolaboratif dengan memperluas sinergi guna menghadirkan program yang ramah bagi seluruh lapisan masyarakat."
+  },
+  {
+    title: "Berdampak",
+    desc: "Mengoptimalkan peran GenBI Tegal sebagai episentrum literasi kebanksentralan melalui edukasi keuangan yang inklusif, pengembangan publikasi ilmiah, serta pengabdian masyarakat yang inovatif, berkelanjutan, dan memberikan manfaat nyata."
+  }
 ];
 
 const values = [
@@ -24,10 +33,10 @@ const values = [
 ];
 
 const komisariat = [
-  { name: "Universitas Pancasakti Tegal", short: "UPS", logo: "/assets/images/logo-ups.png" },
-  { name: "Universitas Pekalongan", short: "UNIKAL", logo: "/assets/images/logo-unikal.png" },
+  { name: "Universitas Pancasakti Tegal", short: "UPS", logo: "/assets/images/8b9758201bcbd888894c0c9a6c21fdb3.png" },
+  { name: "Universitas Pekalongan", short: "UNIKAL", logo: "/assets/images/1a8ddb5eefe3a5e39d1eb3f36694adbe.jpg" },
   { name: "UIN KH. Abdurrahman Wahid Pekalongan", short: "UIN GUSDUR", logo: "/assets/images/logo-uingusdur.jpg" },
-  { name: "IAI Bakti Negara Tegal", short: "IBN", logo: "/assets/images/logo-ibn.png" },
+  { name: "Universitas Islam Bakti Negara Tegal", short: "UIBN", logo: "/assets/images/logo-ibn.png" },
 ];
 
 export default function AboutPage() {
@@ -174,9 +183,7 @@ export default function AboutPage() {
                   <h3 style={{ color: "#E8A400", fontWeight: "800", fontSize: "1.4rem" }}>Visi</h3>
                 </div>
                 <blockquote style={{ color: "rgba(255,255,255,0.88)", lineHeight: "1.8", fontSize: "15px", borderLeft: "3px solid #E8A400", paddingLeft: "16px", margin: 0, fontStyle: "italic" }}>
-                  Menjadikan GenBI Tegal sebagai garda terdepan generasi muda Indonesia yang unggul dalam
-                  prestasi, pelopor inovasi dan kuat dalam kolaborasi untuk berkontribusi nyata membangun
-                  peradaban bangsa.
+                  "Mewujudkan GenBI Tegal sebagai Episentrum yang <strong>Bertumbuh, Bersinergi,</strong> dan <strong>Berdampak</strong> melalui penguatan <strong>inklusifitas dan literasi kebanksentralan</strong>"
                 </blockquote>
               </div>
             </ScrollReveal>
@@ -189,9 +196,12 @@ export default function AboutPage() {
                   </div>
                   <h3 style={{ color: "#E8A400", fontWeight: "800", fontSize: "1.4rem" }}>Misi</h3>
                 </div>
-                <ol style={{ color: "rgba(255,255,255,0.85)", lineHeight: "1.8", paddingLeft: "20px" }}>
+                <ol style={{ color: "rgba(255,255,255,0.85)", lineHeight: "1.8", paddingLeft: "20px", margin: 0 }}>
                   {misi.map((m, i) => (
-                    <li key={i} style={{ marginBottom: "14px", fontSize: "14px" }}>{m}</li>
+                    <li key={i} style={{ marginBottom: "16px", fontSize: "14px" }}>
+                      <strong style={{ color: "#E8A400", display: "inline-block", marginBottom: "4px" }}>{m.title}</strong><br/>
+                      {m.desc}
+                    </li>
                   ))}
                 </ol>
               </div>

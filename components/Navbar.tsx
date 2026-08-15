@@ -11,8 +11,10 @@ const navLinks = [
     label: "Tentang Kami",
     dropdown: [
       { href: "/about", label: "About", desc: "Visi & misi organisasi" },
+      { href: "/struktur", label: "Struktur Pengurus", desc: "Struktur kepengurusan GenBI Tegal" },
       { href: "/komisariat", label: "Komisariat", desc: "Daftar komisariat aktif" },
       { href: "/anggota", label: "Anggota", desc: "Direktori anggota GenBI" },
+      { href: "https://data.genbitegal.com/", label: "Data Mahasiswa", desc: "Portal data mahasiswa GenBI", external: true },
     ],
   },
   {
@@ -26,7 +28,6 @@ const navLinks = [
   { href: "/contact", label: "Contact" },
   { href: "/agenda", label: "Agenda" },
   { href: "/pengumuman", label: "Pengumuman" },
-  { href: "https://data.genbitegal.com/", label: "Data Mahasiswa", external: true },
 ];
 
 export default function Navbar() {
@@ -149,6 +150,8 @@ export default function Navbar() {
                             <Link
                               key={drop.href}
                               href={drop.href}
+                              target={drop.external ? "_blank" : undefined}
+                              rel={drop.external ? "noopener noreferrer" : undefined}
                               className={`group/item flex items-start gap-4 px-4 py-[14px] rounded-[10px] no-underline transition-all duration-[250ms] ease-out ${
                                 isDropItemActive
                                   ? "bg-[#11418b] text-white"
@@ -347,6 +350,8 @@ export default function Navbar() {
                           <Link
                             key={drop.href}
                             href={drop.href}
+                            target={drop.external ? "_blank" : undefined}
+                            rel={drop.external ? "noopener noreferrer" : undefined}
                             onClick={() => setIsOpen(false)}
                             className={`flex flex-col px-3 py-3 rounded-lg no-underline transition-all ${
                               isDropActive
