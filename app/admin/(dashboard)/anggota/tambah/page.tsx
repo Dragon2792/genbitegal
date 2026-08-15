@@ -85,12 +85,13 @@ export default async function TambahAnggotaPage() {
           </div>
 
           <div>
-            <label htmlFor="photo" className="block text-sm font-semibold text-gray-700 mb-1.5">Pas Foto (Opsional)</label>
+            <label htmlFor="photo" className="block text-sm font-semibold text-gray-700 mb-1.5">Pas Foto (Wajib)</label>
             <input
               suppressHydrationWarning 
               type="file" 
               name="photo" 
               id="photo"
+              required
               accept="image/gif,image/jpeg,image/png,image/bmp"
               className="w-full rounded-lg border-gray-300 shadow-sm sm:text-sm p-2.5 border bg-white file:mr-4 file:py-1.5 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
             />
