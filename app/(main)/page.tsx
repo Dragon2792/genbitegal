@@ -69,14 +69,14 @@ export default async function HomePage() {
             { top: "10%", left: "5%", size: 350, color: "rgba(26,92,184,0.25)" },
             { top: "60%", right: "5%", size: 400, color: "rgba(232,164,0,0.1)" },
             { top: "30%", right: "30%", size: 200, color: "rgba(255,255,255,0.04)" },
-          ].map((blob, i) => (
+          ].map((blob: { top: string; left?: string; right?: string; size: number; color: string }, i) => (
             <div
               key={i}
               style={{
                 position: "absolute",
                 top: blob.top,
-                left: (blob as any).left,
-                right: (blob as any).right,
+                left: blob.left,
+                right: blob.right,
                 width: blob.size,
                 height: blob.size,
                 background: `radial-gradient(circle, ${blob.color} 0%, transparent 70%)`,
@@ -284,7 +284,7 @@ export default async function HomePage() {
       {/* ===== STATS SECTION ===== */}
       <ScrollReveal direction="up" delay={0.2}>
         <StatsCounter>
-          {stats.map((stat, i) => (
+          {stats.map((stat) => (
             <StatItem key={stat.label} icon={stat.icon} value={stat.value} label={stat.label} />
           ))}
         </StatsCounter>

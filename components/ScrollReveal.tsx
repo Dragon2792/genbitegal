@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { ReactNode } from "react";
 
 export default function ScrollReveal({ 
@@ -12,7 +12,7 @@ export default function ScrollReveal({
   delay?: number, 
   direction?: "up" | "down" | "left" | "right" 
 }) {
-  const variants = {
+  const variants: Variants = {
     hidden: { 
       opacity: 0, 
       y: direction === "up" ? 50 : direction === "down" ? -50 : 0,
