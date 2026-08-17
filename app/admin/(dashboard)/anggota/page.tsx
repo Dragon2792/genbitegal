@@ -1,3 +1,4 @@
+import { getStorageUrl } from "@/lib/storageUrl";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { deleteAnggota } from "./actions";
@@ -105,7 +106,7 @@ export default async function AnggotaPage({
                   <div className="w-12 h-12 bg-gray-100 rounded-full overflow-hidden border border-gray-200">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={`/assets/images/${anggota.siswa_photo || 'blank.png'}`}
+                      src={getStorageUrl(anggota.siswa_photo || 'blank.png') || ''}
                       alt={anggota.siswa_nama || "Foto"}
                       className="w-full h-full object-cover"
                     />

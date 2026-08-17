@@ -1,3 +1,4 @@
+import { getStorageUrl } from "@/lib/storageUrl";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { deleteAlbum } from "./actions";
@@ -102,7 +103,7 @@ export default async function AlbumPage({
                 <td className="px-6 py-4">
                   <div className="w-24 h-16 bg-gray-100 rounded-md overflow-hidden border border-gray-200">
                     <img
-                      src={`/assets/images/${album.album_cover || 'blank.png'}`}
+                      src={getStorageUrl(album.album_cover || 'blank.png') || ''}
                       alt={album.album_nama || "Cover Album"}
                       className="w-full h-full object-cover"
                     />

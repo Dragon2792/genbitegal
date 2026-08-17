@@ -4,8 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import crypto from "crypto";
-import { writeFile } from "fs/promises";
-import path from "path";
+import { supabase } from "@/lib/supabase";
 
 export async function addPengguna(formData: FormData) {
   const nama = formData.get("nama") as string;
@@ -20,11 +19,21 @@ export async function addPengguna(formData: FormData) {
   let photoName = "";
 
   if (filefoto && filefoto.size > 0) {
-    const bytes = await filefoto.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    photoName = Date.now() + "-" + filefoto.name.replace(/\s+/g, '-');
-    const uploadPath = path.join(process.cwd(), "public", "assets", "images", photoName);
-    await writeFile(uploadPath, buffer);
+    // Generate short unique name that fits VarChar(40) in DB
+    const ext = filefoto.name.split('.').pop()?.toLowerCase() || 'jpg';
+    photoName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    
+    // Upload to Supabase Storage
+    const { error } = await supabase.storage
+      .from("genbi-assets")
+      .upload(`images/${photoName}`, filefoto, {
+        cacheControl: '3600',
+        upsert: false
+      });
+      
+    if (error) {
+      console.error("Failed to upload image:", error);
+    }
   }
 
   // Hash password using MD5 to maintain compatibility with old CI3 system
@@ -73,12 +82,23 @@ export async function editPengguna(id: number, formData: FormData) {
   }
 
   if (filefoto && filefoto.size > 0) {
-    const bytes = await filefoto.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const photoName = Date.now() + "-" + filefoto.name.replace(/\s+/g, '-');
-    const uploadPath = path.join(process.cwd(), "public", "assets", "images", photoName);
-    await writeFile(uploadPath, buffer);
-    dataToUpdate.pengguna_photo = photoName;
+    // Generate short unique name that fits VarChar(40) in DB
+    const ext = filefoto.name.split('.').pop()?.toLowerCase() || 'jpg';
+    const photoName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    
+    // Upload to Supabase Storage
+    const { error } = await supabase.storage
+      .from("genbi-assets")
+      .upload(`images/${photoName}`, filefoto, {
+        cacheControl: '3600',
+        upsert: false
+      });
+      
+    if (error) {
+      console.error("Failed to upload image:", error);
+    } else {
+      dataToUpdate.pengguna_photo = photoName;
+    }
   }
 
   await prisma.tbl_pengguna.update({

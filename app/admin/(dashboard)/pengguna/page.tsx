@@ -1,3 +1,4 @@
+import { getStorageUrl } from "@/lib/storageUrl";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { deletePengguna } from "./actions";
@@ -37,7 +38,7 @@ export default async function PenggunaPage() {
                 <td className="px-6 py-4 whitespace-nowrap">
                   {user.pengguna_photo ? (
                     <div className="h-10 w-10 relative rounded-full overflow-hidden">
-                      <img src={`/assets/images/${user.pengguna_photo}`} alt={user.pengguna_nama || "User"} className="w-full h-full object-cover" />
+                      <img src={getStorageUrl(user.pengguna_photo) || ''} alt={user.pengguna_nama || "User"} className="w-full h-full object-cover" />
                     </div>
                   ) : (
                     <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">

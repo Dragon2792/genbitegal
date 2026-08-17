@@ -1,3 +1,4 @@
+import { getStorageUrl } from "@/lib/storageUrl";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
@@ -143,7 +144,7 @@ export default function AboutPage() {
               }}
             >
               <div style={{ marginBottom: "20px", display: "flex", justifyContent: "center" }}>
-                <Image src="/assets/images/logogenbi.png" alt="GenBI Tegal Logo" width={100} height={100} style={{ objectFit: "contain" }} />
+                <Image src={getStorageUrl('logogenbi.png') || ''} alt="GenBI Tegal Logo" width={100} height={100} style={{ objectFit: "contain" }} />
               </div>
               <h3 style={{ fontSize: "1.8rem", fontWeight: "900", color: "#041C3F", marginBottom: "8px", fontFamily: "'Lora', serif" }}>
                 GenBI Tegal

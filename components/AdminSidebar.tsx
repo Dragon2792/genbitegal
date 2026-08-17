@@ -1,3 +1,4 @@
+import { getStorageUrl } from "@/lib/storageUrl";
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -108,7 +109,7 @@ export default function AdminSidebar({ session }: { session: any }) {
       <div style={{ padding: "24px", borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
         <Link href="/" style={{ textDecoration: "none" }}>
           <h1 style={{ fontSize: "18px", fontWeight: "900", color: "white", margin: 0, display: "flex", alignItems: "center", gap: "12px" }}>
-            <Image src="/assets/images/47068785c61b3f0ada39c664e1e18b11.png" alt="GenBI Logo" width={36} height={36} style={{ objectFit: "contain" }} />
+            <Image src={getStorageUrl('47068785c61b3f0ada39c664e1e18b11.png') || ''} alt="GenBI Logo" width={36} height={36} style={{ objectFit: "contain" }} />
             <div>
               GenBI <span style={{ color: "#E8A400" }}>Admin</span>
             </div>

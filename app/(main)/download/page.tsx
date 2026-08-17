@@ -1,3 +1,4 @@
+import { getStorageUrl } from "@/lib/storageUrl";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
@@ -164,7 +165,7 @@ export default async function DownloadPage(props: {
                     
                     <div className="actions">
                       <a
-                        href={`/assets/files/${file.file_data}`}
+                        href={getStorageUrl(file.file_data, 'files') || ''}
                         target="_blank"
                         rel="noreferrer"
                         className="btn-preview"
@@ -173,7 +174,7 @@ export default async function DownloadPage(props: {
                         <Eye size={18} />
                       </a>
                       <a
-                        href={`/assets/files/${file.file_data}`}
+                        href={getStorageUrl(file.file_data, 'files') || ''}
                         download={file.file_data || "download"}
                         className="btn-download"
                       >

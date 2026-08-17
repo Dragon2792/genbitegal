@@ -1,3 +1,4 @@
+import { getStorageUrl } from "@/lib/storageUrl";
 import Link from "next/link";
 import StatsCounter from "@/components/StatsCounter";
 import StatItem from "@/components/StatItem";
@@ -205,7 +206,7 @@ export default async function HomePage() {
                   </h3>
                 </div>
                 <Image
-                  src="/assets/images/logogenbi.png"
+                  src={getStorageUrl('logogenbi.png') || ''}
                   alt="GenBI Logo"
                   width={36}
                   height={36}
@@ -499,7 +500,7 @@ export default async function HomePage() {
                   {news.tulisan_gambar ? (
                     <div style={{ position: "relative", height: "180px" }}>
                       <Image
-                        src={`/assets/images/${news.tulisan_gambar}`}
+                        src={getStorageUrl(news.tulisan_gambar) || ''}
                         alt={news.tulisan_judul || ""}
                         fill
                         style={{ objectFit: "cover" }}

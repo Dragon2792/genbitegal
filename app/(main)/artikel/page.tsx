@@ -1,3 +1,4 @@
+import { getStorageUrl } from "@/lib/storageUrl";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
@@ -189,7 +190,7 @@ export default async function ArtikelPage(props: {
                   {art.tulisan_gambar ? (
                     <div style={{ position: "relative", height: "200px" }}>
                       <Image
-                        src={`/assets/images/${art.tulisan_gambar}`}
+                        src={getStorageUrl(art.tulisan_gambar) || ''}
                         alt={art.tulisan_judul || ""}
                         width={500}
                         height={300}

@@ -1,3 +1,4 @@
+import { getStorageUrl } from "@/lib/storageUrl";
 import { editAnggota } from "../../actions";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
@@ -108,7 +109,7 @@ export default async function EditAnggotaPage({ params }: { params: Promise<{ id
             {anggota.siswa_photo && anggota.siswa_photo !== 'default.jpg' && anggota.siswa_photo !== 'blank.png' && (
               <div className="mb-3">
                 <Image
-                  src={`/assets/images/${anggota.siswa_photo}`}
+                  src={getStorageUrl(anggota.siswa_photo) || ''}
                   alt="Foto saat ini"
                   width={80}
                   height={80}

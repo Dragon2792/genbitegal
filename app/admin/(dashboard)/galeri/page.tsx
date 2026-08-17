@@ -1,3 +1,4 @@
+import { getStorageUrl } from "@/lib/storageUrl";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { deleteGaleri } from "./actions";
@@ -37,7 +38,7 @@ export default async function GaleriPage() {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <div className="w-16 h-16 bg-gray-200 rounded overflow-hidden">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={`/assets/images/${galeri.galeri_gambar}`} alt={galeri.galeri_judul || "Foto"} className="w-full h-full object-cover" />
+                    <img src={getStorageUrl(galeri.galeri_gambar) || ''} alt={galeri.galeri_judul || "Foto"} className="w-full h-full object-cover" />
                   </div>
                 </td>
                 <td className="px-6 py-4 text-sm font-medium text-gray-900">{galeri.galeri_judul}</td>

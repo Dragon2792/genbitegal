@@ -1,3 +1,4 @@
+import { getStorageUrl } from "@/lib/storageUrl";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import Image from "next/image";
@@ -112,7 +113,7 @@ export default async function AnggotaPage(props: {
                       }}
                     >
                       <Image
-                        src={`/assets/images/${member.photo}`}
+                        src={getStorageUrl(member.photo) || ''}
                         alt={member.name}
                         fill
                         style={{ objectFit: "cover" }}

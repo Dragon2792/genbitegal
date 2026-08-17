@@ -1,3 +1,4 @@
+import { getStorageUrl } from "@/lib/storageUrl";
 "use client";
 
 import React, { useState } from "react";
@@ -81,7 +82,7 @@ export default function GaleriClient({ albumsData }: { albumsData: AlbumType[] }
                 {album.cover ? (
                   <div style={{ position: "relative", height: "220px", overflow: "hidden" }}>
                     <Image
-                      src={`/assets/images/${album.cover}`}
+                      src={getStorageUrl(album.cover) || ''}
                       alt={album.title || "Album Cover"}
                       fill
                       style={{ objectFit: "cover", transition: "transform 0.4s ease" }}
@@ -243,7 +244,7 @@ export default function GaleriClient({ albumsData }: { albumsData: AlbumType[] }
           >
             <div style={{ position: "relative", width: "100%", height: "100%" }}>
               <Image
-                src={`/assets/images/${selectedAlbum.images[currentImageIndex]}`}
+                src={getStorageUrl(selectedAlbum.images[currentImageIndex]) || ''}
                 alt={`Foto ${currentImageIndex + 1}`}
                 fill
                 style={{ objectFit: "contain" }}

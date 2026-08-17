@@ -1,3 +1,4 @@
+import { getStorageUrl } from "@/lib/storageUrl";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { deleteArtikel } from "./actions";
@@ -104,7 +105,7 @@ export default async function ArtikelPage({
                 <td className="px-6 py-4">
                   {artikel.tulisan_gambar ? (
                     <img
-                      src={`/assets/images/${artikel.tulisan_gambar}`}
+                      src={getStorageUrl(artikel.tulisan_gambar) || ''}
                       alt={artikel.tulisan_judul || ""}
                       className="w-16 h-12 object-cover rounded-lg border border-gray-100"
                     />

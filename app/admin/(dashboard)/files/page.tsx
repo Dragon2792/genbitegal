@@ -1,3 +1,4 @@
+import { getStorageUrl } from "@/lib/storageUrl";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { deleteFile } from "./actions";
@@ -36,7 +37,7 @@ export default async function FilesPage() {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{idx + 1}</td>
                 <td className="px-6 py-4 text-sm font-medium text-gray-900">{file.file_judul}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600">
-                  <a href={`/assets/files/${file.file_data}`} target="_blank" rel="noreferrer">Download</a>
+                  <a href={getStorageUrl(file.file_data, 'files') || ''} target="_blank" rel="noreferrer">Download</a>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {file.file_tanggal ? new Date(file.file_tanggal).toLocaleDateString("id-ID") : "-"}

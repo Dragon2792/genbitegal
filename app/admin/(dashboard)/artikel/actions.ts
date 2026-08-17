@@ -4,8 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { writeFile } from "fs/promises";
-import path from "path";
+import { supabase } from "@/lib/supabase";
 
 export async function addArtikel(formData: FormData) {
   const judul = formData.get("judul") as string;
@@ -23,13 +22,21 @@ export async function addArtikel(formData: FormData) {
 
   let photoName = "";
   if (gambar && gambar.size > 0) {
-    const bytes = await gambar.arrayBuffer();
-    const buffer = Buffer.from(bytes);
     // Generate short unique name that fits VarChar(40) in DB
     const ext = gambar.name.split('.').pop()?.toLowerCase() || 'jpg';
     photoName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    const uploadPath = path.join(process.cwd(), "public", "assets", "images", photoName);
-    await writeFile(uploadPath, buffer);
+    
+    // Upload to Supabase Storage
+    const { error } = await supabase.storage
+      .from("genbi-assets")
+      .upload(`images/${photoName}`, gambar, {
+        cacheControl: '3600',
+        upsert: false
+      });
+      
+    if (error) {
+      console.error("Failed to upload image:", error);
+    }
   }
 
   // Create slug from judul
@@ -74,14 +81,23 @@ export async function editArtikel(id: number, formData: FormData) {
   };
 
   if (gambar && gambar.size > 0) {
-    const bytes = await gambar.arrayBuffer();
-    const buffer = Buffer.from(bytes);
     // Generate short unique name that fits VarChar(40) in DB
     const ext = gambar.name.split('.').pop()?.toLowerCase() || 'jpg';
     const photoName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    const uploadPath = path.join(process.cwd(), "public", "assets", "images", photoName);
-    await writeFile(uploadPath, buffer);
-    dataToUpdate.tulisan_gambar = photoName;
+    
+    // Upload to Supabase Storage
+    const { error } = await supabase.storage
+      .from("genbi-assets")
+      .upload(`images/${photoName}`, gambar, {
+        cacheControl: '3600',
+        upsert: false
+      });
+      
+    if (error) {
+      console.error("Failed to upload image:", error);
+    } else {
+      dataToUpdate.tulisan_gambar = photoName;
+    }
   }
 
   await prisma.tbl_tulisan.update({
@@ -93,14 +109,14 @@ export async function editArtikel(id: number, formData: FormData) {
   redirect("/admin/artikel");
 }
 
-import { unlink } from "fs/promises";
-
 export async function deleteArtikel(id: number) {
   const artikel = await prisma.tbl_tulisan.findUnique({ where: { tulisan_id: id } });
   
   if (artikel?.tulisan_gambar) {
     try {
-      await unlink(path.join(process.cwd(), "public", "assets", "images", artikel.tulisan_gambar));
+      await supabase.storage
+        .from("genbi-assets")
+        .remove([`images/${artikel.tulisan_gambar}`]);
     } catch (e) {
       console.log("File not found or cannot be deleted:", e);
     }

@@ -1,3 +1,4 @@
+import { getStorageUrl } from "@/lib/storageUrl";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
@@ -157,7 +158,7 @@ export default async function ArtikelDetailPage({ params }: Props) {
                 }}
               >
                 <Image
-                  src={`/assets/images/${article.tulisan_gambar}`}
+                  src={getStorageUrl(article.tulisan_gambar) || ''}
                   alt={article.tulisan_judul || ""}
                   fill
                   style={{ objectFit: "cover", objectPosition: "center" }}
@@ -300,7 +301,7 @@ export default async function ArtikelDetailPage({ params }: Props) {
                         }}
                       >
                          <Image
-                            src={`/assets/images/${rel.tulisan_gambar}`}
+                            src={getStorageUrl(rel.tulisan_gambar) || ''}
                             alt={rel.tulisan_judul || ""}
                             fill
                             style={{ objectFit: "cover" }}

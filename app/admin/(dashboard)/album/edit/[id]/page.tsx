@@ -1,3 +1,4 @@
+import { getStorageUrl } from "@/lib/storageUrl";
 import { editAlbum } from "../../actions";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
@@ -57,7 +58,7 @@ export default async function EditAlbumPage({ params }: { params: Promise<{ id: 
             {album.album_cover && album.album_cover !== 'default.jpg' && album.album_cover !== 'blank.png' && (
               <div className="mb-3">
                 <Image
-                  src={`/assets/images/${album.album_cover}`}
+                  src={getStorageUrl(album.album_cover) || ''}
                   alt="Cover saat ini"
                   width={160}
                   height={100}

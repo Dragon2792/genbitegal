@@ -86,7 +86,7 @@ export async function deleteAnggota(id: number) {
   
   if (anggota?.siswa_photo && anggota.siswa_photo !== 'default.jpg' && anggota.siswa_photo !== 'blank.png') {
     try {
-      await unlink(path.join(process.cwd(), "public", "assets", "images", anggota.siswa_photo));
+      await supabase.storage.from("genbi-assets").remove([`images/${"public", "assets", "images", anggota.siswa_photo}`]);
     } catch (e) {
       console.log("File not found or cannot be deleted:", e);
     }

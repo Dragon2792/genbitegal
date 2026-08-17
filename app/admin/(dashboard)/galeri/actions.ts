@@ -10,7 +10,7 @@ export async function deleteGaleri(id: number) {
   const galeri = await prisma.tbl_galeri.findUnique({ where: { galeri_id: id } });
   if (galeri?.galeri_gambar) {
     try {
-      await unlink(path.join(process.cwd(), "public", "assets", "images", galeri.galeri_gambar));
+      await supabase.storage.from("genbi-assets").remove([`images/${"public", "assets", "images", galeri.galeri_gambar}`]);
     } catch (e) {
       console.log("File not found or cannot be deleted:", e);
     }
