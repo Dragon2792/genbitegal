@@ -7,7 +7,7 @@ export function getStorageUrl(filename: string | null | undefined, type: 'images
   }
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-  const bucket = "genbi-assets"; // Nama bucket di Supabase
+  const bucket = "genbi-asset"; // Nama bucket di Supabase
   
   // Mengembalikan public URL
   return `${supabaseUrl}/storage/v1/object/public/${bucket}/${type}/${filename}`;

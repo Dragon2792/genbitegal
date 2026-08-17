@@ -25,7 +25,7 @@ export async function addPengguna(formData: FormData) {
     
     // Upload to Supabase Storage
     const { error } = await supabase.storage
-      .from("genbi-assets")
+      .from("genbi-asset")
       .upload(`images/${photoName}`, filefoto, {
         cacheControl: '3600',
         upsert: false
@@ -88,7 +88,7 @@ export async function editPengguna(id: number, formData: FormData) {
     
     // Upload to Supabase Storage
     const { error } = await supabase.storage
-      .from("genbi-assets")
+      .from("genbi-asset")
       .upload(`images/${photoName}`, filefoto, {
         cacheControl: '3600',
         upsert: false

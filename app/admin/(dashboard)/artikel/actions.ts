@@ -28,7 +28,7 @@ export async function addArtikel(formData: FormData) {
     
     // Upload to Supabase Storage
     const { error } = await supabase.storage
-      .from("genbi-assets")
+      .from("genbi-asset")
       .upload(`images/${photoName}`, gambar, {
         cacheControl: '3600',
         upsert: false
@@ -87,7 +87,7 @@ export async function editArtikel(id: number, formData: FormData) {
     
     // Upload to Supabase Storage
     const { error } = await supabase.storage
-      .from("genbi-assets")
+      .from("genbi-asset")
       .upload(`images/${photoName}`, gambar, {
         cacheControl: '3600',
         upsert: false
@@ -115,7 +115,7 @@ export async function deleteArtikel(id: number) {
   if (artikel?.tulisan_gambar) {
     try {
       await supabase.storage
-        .from("genbi-assets")
+        .from("genbi-asset")
         .remove([`images/${artikel.tulisan_gambar}`]);
     } catch (e) {
       console.log("File not found or cannot be deleted:", e);

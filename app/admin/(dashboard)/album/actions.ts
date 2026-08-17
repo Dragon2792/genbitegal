@@ -74,7 +74,7 @@ export async function deleteAlbum(id: number) {
   
   if (album?.album_cover && album.album_cover !== 'default.jpg' && album.album_cover !== 'blank.png') {
     try {
-      await supabase.storage.from("genbi-assets").remove([`images/${"public", "assets", "images", album.album_cover}`]);
+      await supabase.storage.from("genbi-asset").remove([`images/${"public", "assets", "images", album.album_cover}`]);
     } catch (e) {
       console.log("File not found or cannot be deleted:", e);
     }

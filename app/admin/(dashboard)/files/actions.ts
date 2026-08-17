@@ -40,7 +40,7 @@ export async function deleteFile(id: number) {
   const file = await prisma.tbl_files.findUnique({ where: { file_id: id } });
   if (file?.file_data) {
     try {
-      await supabase.storage.from("genbi-assets").remove([`images/${"public", "assets", "files", file.file_data}`]);
+      await supabase.storage.from("genbi-asset").remove([`images/${"public", "assets", "files", file.file_data}`]);
     } catch (e) {
       console.log("File not found or cannot be deleted:", e);
     }
