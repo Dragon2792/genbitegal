@@ -3,8 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { writeFile, unlink } from "fs/promises";
-import path from "path";
+import { supabase } from "@/lib/supabase";
 
 export async function addAnggota(formData: FormData) {
   const nis = formData.get("nis") as string;
@@ -16,13 +15,17 @@ export async function addAnggota(formData: FormData) {
   let photo = "default.jpg";
 
   if (photoFile && photoFile.size > 0) {
-    const bytes = await photoFile.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    // Short unique name that always fits VarChar(40)
     const ext = photoFile.name.split('.').pop()?.toLowerCase() || 'jpg';
     photo = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    const uploadPath = path.join(process.cwd(), "public", "assets", "images", photo);
-    await writeFile(uploadPath, buffer);
+    
+    const { error } = await supabase.storage
+      .from("genbi-asset")
+      .upload(`images/${photo}`, photoFile, { cacheControl: '3600', upsert: false });
+      
+    if (error) {
+      console.error("Failed to upload photo:", error);
+      photo = "default.jpg";
+    }
   }
 
   await prisma.tbl_siswa.create({
@@ -55,20 +58,16 @@ export async function editAnggota(id: number, formData: FormData) {
   };
 
   if (photoFile && photoFile.size > 0) {
-    const bytes = await photoFile.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    // Short unique name that always fits VarChar(40)
     const ext = photoFile.name.split('.').pop()?.toLowerCase() || 'jpg';
     const photo = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    const uploadPath = path.join(process.cwd(), "public", "assets", "images", photo);
-    await writeFile(uploadPath, buffer);
-    dataToUpdate.siswa_photo = photo;
-
-    // Opsional: Hapus foto lama jika diperlukan
-    // const oldData = await prisma.tbl_siswa.findUnique({ where: { siswa_id: id }});
-    // if (oldData?.siswa_photo && oldData.siswa_photo !== 'default.jpg') {
-    //   await unlink(path.join(process.cwd(), "public", "assets", "images", oldData.siswa_photo)).catch(() => {});
-    // }
+    
+    const { error } = await supabase.storage
+      .from("genbi-asset")
+      .upload(`images/${photo}`, photoFile, { cacheControl: '3600', upsert: false });
+      
+    if (!error) {
+      dataToUpdate.siswa_photo = photo;
+    }
   }
 
   await prisma.tbl_siswa.update({
@@ -86,7 +85,7 @@ export async function deleteAnggota(id: number) {
   
   if (anggota?.siswa_photo && anggota.siswa_photo !== 'default.jpg' && anggota.siswa_photo !== 'blank.png') {
     try {
-      await supabase.storage.from("genbi-asset").remove([`images/${"public", "assets", "images", anggota.siswa_photo}`]);
+      await supabase.storage.from("genbi-asset").remove([`images/${anggota.siswa_photo}`]);
     } catch (e) {
       console.log("File not found or cannot be deleted:", e);
     }

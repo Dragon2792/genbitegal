@@ -3,8 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { writeFile, unlink } from "fs/promises";
-import path from "path";
+import { supabase } from "@/lib/supabase";
 
 export async function addAlbum(formData: FormData) {
   const nama = formData.get("nama") as string;
@@ -13,14 +12,19 @@ export async function addAlbum(formData: FormData) {
   let cover = "default.jpg";
 
   if (coverFile && coverFile.size > 0) {
-    const bytes = await coverFile.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    cover = Date.now() + "-" + coverFile.name.replace(/\s+/g, '-');
-    const uploadPath = path.join(process.cwd(), "public", "assets", "images", cover);
-    await writeFile(uploadPath, buffer);
+    const ext = coverFile.name.split('.').pop()?.toLowerCase() || 'jpg';
+    cover = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    
+    const { error } = await supabase.storage
+      .from("genbi-asset")
+      .upload(`images/${cover}`, coverFile, { cacheControl: '3600', upsert: false });
+      
+    if (error) {
+      console.error("Failed to upload cover:", error);
+      cover = "default.jpg";
+    }
   }
 
-  // Assuming session info is handled elsewhere or hardcoded author for now
   const author = "Admin"; 
 
   await prisma.tbl_album.create({
@@ -46,17 +50,21 @@ export async function editAlbum(id: number, formData: FormData) {
   };
 
   if (coverFile && coverFile.size > 0) {
-    const bytes = await coverFile.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const cover = Date.now() + "-" + coverFile.name.replace(/\s+/g, '-');
-    const uploadPath = path.join(process.cwd(), "public", "assets", "images", cover);
-    await writeFile(uploadPath, buffer);
-    dataToUpdate.album_cover = cover;
-
-    // Remove old cover if necessary
-    const oldAlbum = await prisma.tbl_album.findUnique({ where: { album_id: id }});
-    if (oldAlbum?.album_cover && oldAlbum.album_cover !== 'default.jpg' && oldAlbum.album_cover !== 'blank.png') {
-      await unlink(path.join(process.cwd(), "public", "assets", "images", oldAlbum.album_cover)).catch(() => {});
+    const ext = coverFile.name.split('.').pop()?.toLowerCase() || 'jpg';
+    const cover = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    
+    const { error } = await supabase.storage
+      .from("genbi-asset")
+      .upload(`images/${cover}`, coverFile, { cacheControl: '3600', upsert: false });
+      
+    if (!error) {
+      dataToUpdate.album_cover = cover;
+      
+      // Hapus cover lama dari Supabase
+      const oldAlbum = await prisma.tbl_album.findUnique({ where: { album_id: id }});
+      if (oldAlbum?.album_cover && oldAlbum.album_cover !== 'default.jpg' && oldAlbum.album_cover !== 'blank.png') {
+        await supabase.storage.from("genbi-asset").remove([`images/${oldAlbum.album_cover}`]).catch(() => {});
+      }
     }
   }
 
@@ -74,20 +82,16 @@ export async function deleteAlbum(id: number) {
   
   if (album?.album_cover && album.album_cover !== 'default.jpg' && album.album_cover !== 'blank.png') {
     try {
-      await supabase.storage.from("genbi-asset").remove([`images/${"public", "assets", "images", album.album_cover}`]);
+      await supabase.storage.from("genbi-asset").remove([`images/${album.album_cover}`]);
     } catch (e) {
       console.log("File not found or cannot be deleted:", e);
     }
   }
-
-  // Also might want to delete all photos in this album, or set them to null.
-  // For now, let's just delete the album itself to match CodeIgniter behavior 
-  // (which usually cascaded or just deleted the album).
   
   await prisma.tbl_album.delete({
     where: { album_id: id },
   });
   
   revalidatePath("/admin/album");
-  revalidatePath("/admin/galeri"); // update gallery just in case
+  revalidatePath("/admin/galeri");
 }

@@ -3,14 +3,13 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { writeFile, unlink } from "fs/promises";
-import path from "path";
+import { supabase } from "@/lib/supabase";
 
 export async function deleteGaleri(id: number) {
   const galeri = await prisma.tbl_galeri.findUnique({ where: { galeri_id: id } });
   if (galeri?.galeri_gambar) {
     try {
-      await supabase.storage.from("genbi-asset").remove([`images/${"public", "assets", "images", galeri.galeri_gambar}`]);
+      await supabase.storage.from("genbi-asset").remove([`images/${galeri.galeri_gambar}`]);
     } catch (e) {
       console.log("File not found or cannot be deleted:", e);
     }
@@ -40,11 +39,17 @@ export async function addGaleri(formData: FormData) {
   let gambar = "default.jpg";
 
   if (fileGambar && fileGambar.size > 0) {
-    const bytes = await fileGambar.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    gambar = Date.now() + "-" + fileGambar.name.replace(/\s+/g, '-');
-    const uploadPath = path.join(process.cwd(), "public", "assets", "images", gambar);
-    await writeFile(uploadPath, buffer);
+    const ext = fileGambar.name.split('.').pop()?.toLowerCase() || 'jpg';
+    gambar = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    
+    const { error } = await supabase.storage
+      .from("genbi-asset")
+      .upload(`images/${gambar}`, fileGambar, { cacheControl: '3600', upsert: false });
+      
+    if (error) {
+      console.error("Failed to upload image:", error);
+      gambar = "default.jpg";
+    }
   }
 
   await prisma.tbl_galeri.create({
@@ -57,7 +62,6 @@ export async function addGaleri(formData: FormData) {
     }
   });
 
-  // Increment album count
   if (album_id > 0) {
     await prisma.tbl_album.updateMany({
       where: { album_id: album_id },
