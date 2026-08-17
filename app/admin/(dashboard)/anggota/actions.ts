@@ -15,12 +15,15 @@ export async function addAnggota(formData: FormData) {
   let photo = "default.jpg";
 
   if (photoFile && photoFile.size > 0) {
+    const bytes = await photoFile.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
     const ext = photoFile.name.split('.').pop()?.toLowerCase() || 'jpg';
     photo = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
     
     const { error } = await supabase.storage
       .from("genbi-asset")
-      .upload(`images/${photo}`, photoFile, { cacheControl: '3600', upsert: false });
+      .upload(`images/${photo}`, buffer, { cacheControl: '3600', upsert: false, contentType: photoFile.type });
       
     if (error) {
       console.error("Failed to upload photo:", error);
@@ -58,12 +61,15 @@ export async function editAnggota(id: number, formData: FormData) {
   };
 
   if (photoFile && photoFile.size > 0) {
+    const bytes = await photoFile.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
     const ext = photoFile.name.split('.').pop()?.toLowerCase() || 'jpg';
     const photo = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
     
     const { error } = await supabase.storage
       .from("genbi-asset")
-      .upload(`images/${photo}`, photoFile, { cacheControl: '3600', upsert: false });
+      .upload(`images/${photo}`, buffer, { cacheControl: '3600', upsert: false, contentType: photoFile.type });
       
     if (!error) {
       dataToUpdate.siswa_photo = photo;

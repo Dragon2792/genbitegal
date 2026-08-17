@@ -12,12 +12,15 @@ export async function addAlbum(formData: FormData) {
   let cover = "default.jpg";
 
   if (coverFile && coverFile.size > 0) {
+    const bytes = await coverFile.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
     const ext = coverFile.name.split('.').pop()?.toLowerCase() || 'jpg';
     cover = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
     
     const { error } = await supabase.storage
       .from("genbi-asset")
-      .upload(`images/${cover}`, coverFile, { cacheControl: '3600', upsert: false });
+      .upload(`images/${cover}`, buffer, { cacheControl: '3600', upsert: false, contentType: coverFile.type });
       
     if (error) {
       console.error("Failed to upload cover:", error);
@@ -50,12 +53,15 @@ export async function editAlbum(id: number, formData: FormData) {
   };
 
   if (coverFile && coverFile.size > 0) {
+    const bytes = await coverFile.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
     const ext = coverFile.name.split('.').pop()?.toLowerCase() || 'jpg';
     const cover = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
     
     const { error } = await supabase.storage
       .from("genbi-asset")
-      .upload(`images/${cover}`, coverFile, { cacheControl: '3600', upsert: false });
+      .upload(`images/${cover}`, buffer, { cacheControl: '3600', upsert: false, contentType: coverFile.type });
       
     if (!error) {
       dataToUpdate.album_cover = cover;

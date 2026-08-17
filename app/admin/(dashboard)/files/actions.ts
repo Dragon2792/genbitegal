@@ -14,12 +14,15 @@ export async function addFile(formData: FormData) {
   let fileName = "";
 
   if (fileData && fileData.size > 0) {
+    const bytes = await fileData.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
     const ext = fileData.name.split('.').pop()?.toLowerCase() || 'pdf';
     fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
     
     const { error } = await supabase.storage
       .from("genbi-asset")
-      .upload(`files/${fileName}`, fileData, { cacheControl: '3600', upsert: false });
+      .upload(`files/${fileName}`, buffer, { cacheControl: '3600', upsert: false, contentType: fileData.type });
       
     if (error) {
       console.error("Failed to upload file:", error);

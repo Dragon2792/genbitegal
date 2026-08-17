@@ -39,12 +39,15 @@ export async function addGaleri(formData: FormData) {
   let gambar = "default.jpg";
 
   if (fileGambar && fileGambar.size > 0) {
+    const bytes = await fileGambar.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
     const ext = fileGambar.name.split('.').pop()?.toLowerCase() || 'jpg';
     gambar = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
     
     const { error } = await supabase.storage
       .from("genbi-asset")
-      .upload(`images/${gambar}`, fileGambar, { cacheControl: '3600', upsert: false });
+      .upload(`images/${gambar}`, buffer, { cacheControl: '3600', upsert: false, contentType: fileGambar.type });
       
     if (error) {
       console.error("Failed to upload image:", error);

@@ -22,16 +22,20 @@ export async function addArtikel(formData: FormData) {
 
   let photoName = "";
   if (gambar && gambar.size > 0) {
-    // Generate short unique name that fits VarChar(40) in DB
+    // Convert Next.js File to ArrayBuffer to prevent hanging in Supabase
+    const bytes = await gambar.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
     const ext = gambar.name.split('.').pop()?.toLowerCase() || 'jpg';
     photoName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
     
     // Upload to Supabase Storage
     const { error } = await supabase.storage
       .from("genbi-asset")
-      .upload(`images/${photoName}`, gambar, {
+      .upload(`images/${photoName}`, buffer, {
         cacheControl: '3600',
-        upsert: false
+        upsert: false,
+        contentType: gambar.type
       });
       
     if (error) {
@@ -81,16 +85,19 @@ export async function editArtikel(id: number, formData: FormData) {
   };
 
   if (gambar && gambar.size > 0) {
-    // Generate short unique name that fits VarChar(40) in DB
+    const bytes = await gambar.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
     const ext = gambar.name.split('.').pop()?.toLowerCase() || 'jpg';
     const photoName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
     
     // Upload to Supabase Storage
     const { error } = await supabase.storage
       .from("genbi-asset")
-      .upload(`images/${photoName}`, gambar, {
+      .upload(`images/${photoName}`, buffer, {
         cacheControl: '3600',
-        upsert: false
+        upsert: false,
+        contentType: gambar.type
       });
       
     if (error) {
