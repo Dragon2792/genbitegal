@@ -149,7 +149,11 @@ model tbl_pengunjung {
   pengunjung_tanggal   DateTime? @default(now()) @db.Timestamp(0)
   pengunjung_ip        String?   @db.VarChar(40)
   pengunjung_perangkat String?   @db.VarChar(100)
+
+  @@index([pengunjung_ip, pengunjung_tanggal])
+  @@index([pengunjung_tanggal])
 }
+
 
 model tbl_siswa {
   siswa_id       Int     @id @default(autoincrement())
@@ -158,7 +162,10 @@ model tbl_siswa {
   siswa_jenkel   String? @db.VarChar(2)
   siswa_kelas_id Int?
   siswa_photo    String? @db.VarChar(40)
+
+  @@index([siswa_kelas_id])
 }
+
 
 model tbl_testimoni {
   testimoni_id      Int       @id @default(autoincrement())
