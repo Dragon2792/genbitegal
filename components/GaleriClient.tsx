@@ -1,5 +1,5 @@
-import { getStorageUrl } from "@/lib/storageUrl";
 "use client";
+import { getStorageUrl } from "@/lib/storageUrl";
 
 import React, { useState } from "react";
 import Image from "next/image";

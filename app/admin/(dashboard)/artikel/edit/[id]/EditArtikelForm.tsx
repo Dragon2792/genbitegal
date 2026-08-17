@@ -115,7 +115,7 @@ export default function EditArtikelForm({
               <div className="mb-2">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={previewUrl ?? getStorageUrl(artikel.tulisan_gambar) || ''}
+                  src={previewUrl || getStorageUrl(artikel.tulisan_gambar) || ''}
                   alt="Cover saat ini"
                   width={120}
                   height={80}
