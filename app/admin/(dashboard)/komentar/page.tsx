@@ -53,13 +53,10 @@ export default async function KomentarPage() {
                       {komentar.komentar_status === "1" ? "Nonaktifkan" : "Aktifkan"}
                     </button>
                   </form>
-                  <form action={async () => {
+                  <DeleteButton action={async () => {
                     "use server";
                     await deleteKomentar(komentar.komentar_id);
-                  }}>
-                    <button
-                    suppressHydrationWarning type="submit" className="text-red-600 hover:text-red-900">Hapus</button>
-                  </form>
+                  }} />
                 </td>
               </tr>
             ))}

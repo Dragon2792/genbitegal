@@ -43,13 +43,10 @@ export default async function FilesPage() {
                   {file.file_tanggal ? new Date(file.file_tanggal).toLocaleDateString("id-ID") : "-"}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex gap-3 items-center">
-                  <form action={async () => {
+                  <DeleteButton action={async () => {
                     "use server";
                     await deleteFile(file.file_id);
-                  }}>
-                    <button
-                    suppressHydrationWarning type="submit" className="text-red-600 hover:text-red-900">Hapus</button>
-                  </form>
+                  }} />
                 </td>
               </tr>
             ))}

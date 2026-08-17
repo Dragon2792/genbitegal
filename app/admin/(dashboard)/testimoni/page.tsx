@@ -38,13 +38,10 @@ export default async function TestimoniPage() {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{testimoni.testimoni_email}</td>
                 <td className="px-6 py-4 text-sm text-gray-500 max-w-xs">{testimoni.testimoni_isi}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex gap-3 items-center mt-2">
-                  <form action={async () => {
+                  <DeleteButton action={async () => {
                     "use server";
                     await deleteTestimoni(testimoni.testimoni_id);
-                  }}>
-                    <button
-                    suppressHydrationWarning type="submit" className="text-red-600 hover:text-red-900">Hapus</button>
-                  </form>
+                  }} />
                 </td>
               </tr>
             ))}

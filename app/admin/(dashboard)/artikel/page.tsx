@@ -2,7 +2,8 @@ import { getStorageUrl } from "@/lib/storageUrl";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { deleteArtikel } from "./actions";
-import { Eye, Edit2, Trash2, PlusCircle } from "lucide-react";
+import { Eye, Edit2, PlusCircle } from "lucide-react";
+import DeleteButton from "@/components/DeleteButton";
 
 export default async function ArtikelPage({
   searchParams,
@@ -146,18 +147,10 @@ export default async function ArtikelPage({
                     >
                       <Edit2 size={14} /> Edit
                     </Link>
-                    <form action={async () => {
+                    <DeleteButton action={async () => {
                       "use server";
                       await deleteArtikel(artikel.tulisan_id);
-                    }}>
-                      <button
-                    suppressHydrationWarning
-                        type="submit"
-                        className="flex items-center gap-1 text-red-500 hover:text-red-700 text-sm font-medium"
-                      >
-                        <Trash2 size={14} /> Hapus
-                      </button>
-                    </form>
+                    }} />
                   </div>
                 </td>
               </tr>

@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { deleteInbox } from "./actions";
 import { Trash2 } from "lucide-react";
 import Link from "next/link";
+import DeleteButton from "@/components/DeleteButton";
+
 
 export default async function InboxPage({
   searchParams,
@@ -105,19 +107,12 @@ export default async function InboxPage({
                   <p className="line-clamp-2">{msg.inbox_pesan}</p>
                 </td>
                 <td className="px-6 py-4">
-                  <form action={async () => {
+                  <DeleteButton action={async () => {
                     "use server";
                     await deleteInbox(msg.inbox_id);
-                  }}>
-                    <button
-                    suppressHydrationWarning
-                      type="submit"
-                      className="flex items-center gap-1 text-red-500 hover:text-red-700 text-sm font-medium transition-colors"
-                    >
-                      <Trash2 size={14} /> Hapus
-                    </button>
-                  </form>
+                  }} />
                 </td>
+
               </tr>
             ))}
             {inboxList.length === 0 && (

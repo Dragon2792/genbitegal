@@ -2,7 +2,9 @@ import { getStorageUrl } from "@/lib/storageUrl";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { deleteAlbum } from "./actions";
-import { Edit2, Trash2, PlusCircle, Search } from "lucide-react";
+import { Edit2, PlusCircle, Search } from "lucide-react";
+import DeleteButton from "@/components/DeleteButton";
+
 import Image from "next/image";
 
 export default async function AlbumPage({
@@ -129,19 +131,12 @@ export default async function AlbumPage({
                     >
                       <Edit2 size={14} /> Edit
                     </Link>
-                    <form action={async () => {
+                    <DeleteButton action={async () => {
                       "use server";
                       await deleteAlbum(album.album_id);
-                    }}>
-                      <button
-                    suppressHydrationWarning
-                        type="submit"
-                        className="flex items-center gap-1 text-red-500 hover:text-red-700 text-sm font-medium"
-                      >
-                        <Trash2 size={14} /> Hapus
-                      </button>
-                    </form>
+                    }} />
                   </div>
+
                 </td>
               </tr>
             ))}

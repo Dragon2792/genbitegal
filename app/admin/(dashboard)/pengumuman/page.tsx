@@ -43,13 +43,10 @@ export default async function PengumumanPage() {
                   <Link href={`/admin/pengumuman/edit/${item.pengumuman_id}`} className="text-indigo-600 hover:text-indigo-900">
                     Edit
                   </Link>
-                  <form action={async () => {
+                  <DeleteButton action={async () => {
                     "use server";
                     await deletePengumuman(item.pengumuman_id);
-                  }}>
-                    <button
-                    suppressHydrationWarning type="submit" className="text-red-600 hover:text-red-900">Hapus</button>
-                  </form>
+                  }} />
                 </td>
               </tr>
             ))}

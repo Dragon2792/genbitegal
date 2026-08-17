@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { deleteAgenda } from "./actions";
+import DeleteButton from "@/components/DeleteButton";
 
 export default async function AgendaPage() {
   const agendaList = await prisma.tbl_agenda.findMany({
@@ -45,13 +46,11 @@ export default async function AgendaPage() {
                   <Link href={`/admin/agenda/edit/${agenda.agenda_id}`} className="text-indigo-600 hover:text-indigo-900">
                     Edit
                   </Link>
-                  <form action={async () => {
+                  <DeleteButton action={async () => {
                     "use server";
                     await deleteAgenda(agenda.agenda_id);
-                  }}>
-                    <button
-                    suppressHydrationWarning type="submit" className="text-red-600 hover:text-red-900">Hapus</button>
-                  </form>
+                  }} />
+
                 </td>
               </tr>
             ))}
