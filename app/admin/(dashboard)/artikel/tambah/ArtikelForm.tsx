@@ -33,6 +33,60 @@ export default function ArtikelForm({
   const [content, setContent] = useState("");
   const [isPending, startTransition] = useTransition();
   const [isUploading, setIsUploading] = useState(false);
+  const [quillRef, setQuillRef] = useState<any>(null);
+
+  // Custom image handler: upload to Supabase, insert URL (not base64)
+  const imageHandler = () => {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+    input.click();
+
+    input.onchange = async () => {
+      const file = input.files?.[0];
+      if (!file) return;
+
+      setIsUploading(true);
+      try {
+        const compressed = await compressImage(file);
+        const ext = compressed.name.split(".").pop()?.toLowerCase() || "jpg";
+        const fileName = `content/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+
+        const { error } = await supabase.storage
+          .from("genbi-asset")
+          .upload(fileName, compressed, { cacheControl: "3600", upsert: false });
+
+        if (error) {
+          alert("Gagal mengupload gambar: " + error.message);
+          return;
+        }
+
+        const { data } = supabase.storage.from("genbi-asset").getPublicUrl(fileName);
+        const url = data.publicUrl;
+
+        // Insert image URL into Quill editor
+        const editor = quillRef?.getEditor();
+        if (editor) {
+          const range = editor.getSelection(true);
+          editor.insertEmbed(range.index, "image", url);
+          editor.setSelection(range.index + 1);
+        }
+      } catch (e) {
+        console.error(e);
+        alert("Terjadi kesalahan saat upload gambar.");
+      } finally {
+        setIsUploading(false);
+      }
+    };
+  };
+
+  const modules = {
+    ...quillModules,
+    toolbar: {
+      container: quillModules.toolbar,
+      handlers: { image: imageHandler },
+    },
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -102,12 +156,22 @@ export default function ArtikelForm({
 
       {/* Rich Text Editor */}
       <div className="mb-6">
+        {isUploading && (
+          <div className="flex items-center gap-2 mb-2 text-sm text-blue-600 bg-blue-50 rounded px-3 py-1.5">
+            <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+            </svg>
+            Mengupload gambar ke server...
+          </div>
+        )}
         <div className="border border-gray-200 rounded-lg overflow-hidden">
           <ReactQuill
+            ref={setQuillRef}
             theme="snow"
             value={content}
             onChange={setContent}
-            modules={quillModules}
+            modules={modules}
             placeholder="Tulis isi berita di sini..."
             style={{ minHeight: "320px" }}
           />
@@ -172,10 +236,10 @@ export default function ArtikelForm({
         <button
                     suppressHydrationWarning
           type="submit"
-          disabled={isPending}
+          disabled={isPending || isUploading}
           className="bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold py-2.5 px-8 rounded-lg transition-colors"
         >
-          {isPending ? "Menyimpan..." : "Simpan Artikel"}
+          {isPending ? "Menyimpan..." : isUploading ? "Mengupload..." : "Simpan Artikel"}
         </button>
       </div>
     </form>
