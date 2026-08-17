@@ -4,8 +4,9 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model tbl_agenda {
@@ -109,7 +110,7 @@ model tbl_log_aktivitas {
   log_tanggal     DateTime? @default(now()) @db.Timestamp(0)
   log_ip          String?   @db.VarChar(20)
   log_pengguna_id Int?
-  log_icon        Bytes?    @db.Blob
+  log_icon        Bytes?
   log_jenis_icon  String?   @db.VarChar(50)
 
   @@index([log_pengguna_id], map: "log_pengguna_id")
