@@ -21,6 +21,7 @@ const quillModules = {
 };
 
 import { compressImage } from "@/lib/imageCompression";
+import { supabase } from "@/lib/supabase";
 
 export default function ArtikelForm({
   categories,
@@ -31,20 +32,51 @@ export default function ArtikelForm({
 }) {
   const [content, setContent] = useState("");
   const [isPending, startTransition] = useTransition();
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    formData.set("isi", content);
+    setIsUploading(true);
     
-    // Compress image if present
-    const file = formData.get("gambar") as File;
-    if (file && file.size > 0 && file.type.startsWith('image/')) {
-      const compressedFile = await compressImage(file);
-      formData.set("gambar", compressedFile, compressedFile.name);
+    try {
+      const formData = new FormData(e.currentTarget);
+      formData.set("isi", content);
+      
+      const file = formData.get("gambar") as File;
+      if (file && file.size > 0 && file.type.startsWith('image/')) {
+        // Compress
+        const compressedFile = await compressImage(file);
+        
+        // Generate name
+        const ext = compressedFile.name.split('.').pop()?.toLowerCase() || 'jpg';
+        const photoName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+        
+        // Upload directly from client
+        const { error } = await supabase.storage
+          .from("genbi-asset")
+          .upload(`images/${photoName}`, compressedFile, {
+            cacheControl: '3600',
+            upsert: false
+          });
+          
+        if (error) {
+          console.error("Client upload error:", error);
+          alert("Gagal mengupload gambar. Silakan coba lagi.");
+          setIsUploading(false);
+          return;
+        }
+        
+        // Remove file from formData to avoid sending it to Server Action
+        formData.delete("gambar");
+        // Pass only the generated file name
+        formData.set("gambar_name", photoName);
+      }
+      
+      startTransition(() => action(formData));
+    } catch (err) {
+      console.error(err);
+      setIsUploading(false);
     }
-    
-    startTransition(() => action(formData));
   };
 
   return (

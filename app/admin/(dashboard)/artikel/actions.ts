@@ -11,36 +11,13 @@ export async function addArtikel(formData: FormData) {
   const isi = formData.get("isi") as string;
   const author = formData.get("author") as string;
   const kategori_id = parseInt(formData.get("kategori_id") as string) || 0;
-  const gambar = formData.get("gambar") as File;
+  const photoName = formData.get("gambar_name") as string || "";
   
   // Get kategori_nama
   let kategori_nama = "";
   if (kategori_id > 0) {
     const kat = await prisma.tbl_kategori.findUnique({ where: { kategori_id } });
     if (kat) kategori_nama = kat.kategori_nama || "";
-  }
-
-  let photoName = "";
-  if (gambar && gambar.size > 0) {
-    // Convert Next.js File to ArrayBuffer to prevent hanging in Supabase
-    const bytes = await gambar.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    const ext = gambar.name.split('.').pop()?.toLowerCase() || 'jpg';
-    photoName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    
-    // Upload to Supabase Storage
-    const { error } = await supabase.storage
-      .from("genbi-asset")
-      .upload(`images/${photoName}`, buffer, {
-        cacheControl: '3600',
-        upsert: false,
-        contentType: gambar.type
-      });
-      
-    if (error) {
-      console.error("Failed to upload image:", error);
-    }
   }
 
   // Create slug from judul
@@ -67,7 +44,7 @@ export async function editArtikel(id: number, formData: FormData) {
   const judul = formData.get("judul") as string;
   const isi = formData.get("isi") as string;
   const kategori_id = parseInt(formData.get("kategori_id") as string) || 0;
-  const gambar = formData.get("gambar") as File;
+  const photoName = formData.get("gambar_name") as string || "";
   const slug = judul.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
   let kategori_nama = "";
@@ -84,27 +61,8 @@ export async function editArtikel(id: number, formData: FormData) {
     tulisan_slug: slug,
   };
 
-  if (gambar && gambar.size > 0) {
-    const bytes = await gambar.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    const ext = gambar.name.split('.').pop()?.toLowerCase() || 'jpg';
-    const photoName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    
-    // Upload to Supabase Storage
-    const { error } = await supabase.storage
-      .from("genbi-asset")
-      .upload(`images/${photoName}`, buffer, {
-        cacheControl: '3600',
-        upsert: false,
-        contentType: gambar.type
-      });
-      
-    if (error) {
-      console.error("Failed to upload image:", error);
-    } else {
-      dataToUpdate.tulisan_gambar = photoName;
-    }
+  if (photoName) {
+    dataToUpdate.tulisan_gambar = photoName;
   }
 
   await prisma.tbl_tulisan.update({
