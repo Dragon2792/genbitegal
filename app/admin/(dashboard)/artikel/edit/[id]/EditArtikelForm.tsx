@@ -21,6 +21,8 @@ const quillModules = {
   ],
 };
 
+import { compressImage } from "@/lib/imageCompression";
+
 export default function EditArtikelForm({
   artikel,
   categories,
@@ -45,10 +47,18 @@ export default function EditArtikelForm({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     formData.set("isi", content);
+
+    // Compress image if present
+    const file = formData.get("gambar") as File;
+    if (file && file.size > 0 && file.type.startsWith('image/')) {
+      const compressedFile = await compressImage(file);
+      formData.set("gambar", compressedFile, compressedFile.name);
+    }
+
     startTransition(() => action(formData));
   };
 
