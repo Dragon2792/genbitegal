@@ -25,44 +25,35 @@ export default async function DashboardPage() {
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
   const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
 
-  const [
-    totalArtikel, totalAgenda, totalGaleri, totalAnggota,
-    totalPengumuman, totalInbox, totalFiles, totalTestimoni,
-    totalKomentar, totalPengguna, popularPosts, latestInbox,
-    browserStats, dailyRaw,
-  ] = await Promise.all([
-    prisma.tbl_tulisan.count(),
-    prisma.tbl_agenda.count(),
-    prisma.tbl_galeri.count(),
-    prisma.tbl_siswa.count(),
-    prisma.tbl_pengumuman.count(),
-    prisma.tbl_inbox.count(),
-    prisma.tbl_files.count(),
-    prisma.tbl_testimoni.count(),
-    prisma.tbl_komentar.count(),
-    prisma.tbl_pengguna.count(),
-    prisma.tbl_tulisan.findMany({
-      orderBy: { tulisan_views: "desc" },
-      take: 10,
-      select: { tulisan_id: true, tulisan_judul: true, tulisan_views: true, tulisan_tanggal: true },
-    }),
-    prisma.tbl_inbox.findMany({
-      orderBy: { inbox_tanggal: "desc" },
-      take: 5,
-    }),
-    // Browser/device stats - group by perangkat
-    prisma.tbl_pengunjung.groupBy({
-      by: ["pengunjung_perangkat"],
-      _count: { pengunjung_id: true },
-      orderBy: { _count: { pengunjung_id: "desc" } },
-      take: 4,
-    }),
-    // Daily visitors this month
-    prisma.tbl_pengunjung.findMany({
-      where: { pengunjung_tanggal: { gte: startOfMonth, lte: endOfMonth } },
-      select: { pengunjung_tanggal: true },
-    }),
-  ]);
+  const totalArtikel = await prisma.tbl_tulisan.count();
+  const totalAgenda = await prisma.tbl_agenda.count();
+  const totalGaleri = await prisma.tbl_galeri.count();
+  const totalAnggota = await prisma.tbl_siswa.count();
+  const totalPengumuman = await prisma.tbl_pengumuman.count();
+  const totalInbox = await prisma.tbl_inbox.count();
+  const totalFiles = await prisma.tbl_files.count();
+  const totalTestimoni = await prisma.tbl_testimoni.count();
+  const totalKomentar = await prisma.tbl_komentar.count();
+  const totalPengguna = await prisma.tbl_pengguna.count();
+  const popularPosts = await prisma.tbl_tulisan.findMany({
+    orderBy: { tulisan_views: "desc" },
+    take: 10,
+    select: { tulisan_id: true, tulisan_judul: true, tulisan_views: true, tulisan_tanggal: true },
+  });
+  const latestInbox = await prisma.tbl_inbox.findMany({
+    orderBy: { inbox_tanggal: "desc" },
+    take: 5,
+  });
+  const browserStats = await prisma.tbl_pengunjung.groupBy({
+    by: ["pengunjung_perangkat"],
+    _count: { pengunjung_id: true },
+    orderBy: { _count: { pengunjung_id: "desc" } },
+    take: 4,
+  });
+  const dailyRaw = await prisma.tbl_pengunjung.findMany({
+    where: { pengunjung_tanggal: { gte: startOfMonth, lte: endOfMonth } },
+    select: { pengunjung_tanggal: true },
+  });
 
   // Build daily visitor chart data
   const dailyMap: Record<string, number> = {};
