@@ -72,7 +72,13 @@ export default function ArtikelForm({
         formData.set("gambar_name", photoName);
       }
       
-      startTransition(() => action(formData));
+      startTransition(async () => {
+        const result = await action(formData);
+        if (result && result.error) {
+          alert("Gagal menyimpan ke database: " + result.error);
+          setIsUploading(false);
+        }
+      });
     } catch (err) {
       console.error(err);
       setIsUploading(false);
