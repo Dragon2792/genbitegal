@@ -37,9 +37,9 @@ const values = [
 
 
 export default async function AboutPage() {
-  const totalKomisariat = await prisma.tbl_komisariat.count();
+  const totalKomisariat = await (prisma as any).tbl_komisariat.count();
   const totalAnggota = await prisma.tbl_siswa.count();
-  const komisariatList = await prisma.tbl_komisariat.findMany({
+  const komisariatList = await (prisma as any).tbl_komisariat.findMany({
     orderBy: { komisariat_urutan: "asc" },
   });
 
