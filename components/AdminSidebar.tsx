@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import { 
   LayoutDashboard, Newspaper, Calendar, Camera, 
   GraduationCap, Megaphone, Inbox, LogOut, Tags, 
-  Users, FileText, MessageSquare, MessageCircle, ChevronDown, ChevronRight 
+  Users, FileText, MessageSquare, MessageCircle, ChevronDown, ChevronRight, Building
 } from "lucide-react";
 
 export default function AdminSidebar({ session }: { session: any }) {
@@ -53,6 +53,7 @@ export default function AdminSidebar({ session }: { session: any }) {
       label: "Keanggotaan",
       icon: <Users size={18} />,
       children: [
+        { label: "Komisariat", href: "/admin/komisariat", icon: <Building size={16} /> },
         { label: "Data Anggota", href: "/admin/anggota", icon: <GraduationCap size={16} /> },
         { label: "Pengguna (Admin)", href: "/admin/pengguna", icon: <Users size={16} /> },
       ]

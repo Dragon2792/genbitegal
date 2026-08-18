@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "debian-openssl-1.0.x", "debian-openssl-1.1.x", "debian-openssl-3.0.x", "rhel-openssl-1.0.x", "rhel-openssl-1.1.x", "rhel-openssl-3.0.x"]
 }
 
@@ -154,7 +154,6 @@ model tbl_pengunjung {
   @@index([pengunjung_tanggal])
 }
 
-
 model tbl_siswa {
   siswa_id       Int     @id @default(autoincrement())
   siswa_nis      String? @db.VarChar(20)
@@ -166,13 +165,28 @@ model tbl_siswa {
   @@index([siswa_kelas_id])
 }
 
-
 model tbl_testimoni {
   testimoni_id      Int       @id @default(autoincrement())
   testimoni_nama    String?   @db.VarChar(30)
   testimoni_isi     String?   @db.VarChar(120)
   testimoni_email   String?   @db.VarChar(35)
   testimoni_tanggal DateTime? @default(now()) @db.Timestamp(0)
+  testimoni_status  Int?      @default(1)
+}
+
+model tbl_komisariat {
+  komisariat_id      Int     @id @default(autoincrement())
+  komisariat_nama    String? @db.VarChar(100)
+  komisariat_short   String? @db.VarChar(30)
+  komisariat_logo    String? @db.VarChar(100)
+  komisariat_ketua   String? @db.VarChar(70)
+  komisariat_desc    String? @db.Text
+  komisariat_members String? @db.VarChar(20)
+  komisariat_proker  String? @db.VarChar(20)
+  komisariat_awards  String? @db.VarChar(20)
+  komisariat_ig      String? @db.VarChar(50)
+  komisariat_web     String? @db.VarChar(100)
+  komisariat_urutan  Int?    @default(0)
 }
 
 model tbl_tulisan {
