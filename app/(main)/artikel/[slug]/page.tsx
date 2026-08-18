@@ -221,7 +221,7 @@ export default async function ArtikelDetailPage({ params }: Props) {
                 </span>
                 <a
                   href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
-                    `${tulisan.tulisan_judul} - https://genbitegal.com/artikel/${tulisan.tulisan_slug}`
+                    `${article.tulisan_judul} - https://genbitegal.com/artikel/${article.tulisan_slug}`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
