@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/prisma";
+import { CheckCircle, XCircle } from "lucide-react";
+import DeleteButton from "@/components/DeleteButton";
 import { deleteKomentar, toggleStatus } from "./actions";
 
 export default async function KomentarPage() {

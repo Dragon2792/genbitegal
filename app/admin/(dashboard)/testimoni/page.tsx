@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { deleteTestimoni } from "./actions";
+import DeleteButton from "@/components/DeleteButton";
 
 export default async function TestimoniPage() {
   const testimoniList = await prisma.tbl_testimoni.findMany({

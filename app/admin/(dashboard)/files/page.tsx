@@ -2,6 +2,7 @@ import { getStorageUrl } from "@/lib/storageUrl";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { deleteFile } from "./actions";
+import DeleteButton from "@/components/DeleteButton";
 
 export default async function FilesPage() {
   const filesList = await prisma.tbl_files.findMany({

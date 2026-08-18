@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { deleteKategori } from "./actions";
+import DeleteButton from "@/components/DeleteButton";
 
 export default async function KategoriPage() {
   const categories = await prisma.tbl_kategori.findMany({

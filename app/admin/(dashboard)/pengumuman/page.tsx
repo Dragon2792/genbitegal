@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { deletePengumuman } from "./actions";
+import DeleteButton from "@/components/DeleteButton";
 
 export default async function PengumumanPage() {
   const pengumumanList = await prisma.tbl_pengumuman.findMany({

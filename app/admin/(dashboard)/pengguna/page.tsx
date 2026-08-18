@@ -2,6 +2,7 @@ import { getStorageUrl } from "@/lib/storageUrl";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { deletePengguna } from "./actions";
+import DeleteButton from "@/components/DeleteButton";
 import Image from "next/image";
 
 export default async function PenggunaPage() {

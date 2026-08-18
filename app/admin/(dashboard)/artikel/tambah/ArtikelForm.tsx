@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import "react-quill-new/dist/quill.snow.css";
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
+const ReactQuillAny = ReactQuill as any;
 
 const quillModules = {
   toolbar: [
@@ -127,7 +128,7 @@ export default function ArtikelForm({
       }
       
       startTransition(async () => {
-        const result = await action(formData);
+        const result = await action(formData) as any;
         if (result && result.error) {
           alert("Gagal menyimpan ke database: " + result.error);
           setIsUploading(false);
@@ -166,14 +167,14 @@ export default function ArtikelForm({
           </div>
         )}
         <div className="border border-gray-200 rounded-lg overflow-hidden">
-          <ReactQuill
+          <ReactQuillAny
             ref={setQuillRef}
             theme="snow"
             value={content}
             onChange={setContent}
             modules={modules}
-            placeholder="Tulis isi berita di sini..."
-            style={{ minHeight: "320px" }}
+            placeholder="Tulis isi artikel di sini..."
+            style={{ height: "400px" }}
           />
         </div>
       </div>

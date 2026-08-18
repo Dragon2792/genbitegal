@@ -113,12 +113,10 @@ export default async function KomisariatPage({
                     >
                       <Edit2 size={16} />
                     </Link>
-                    <form action={async () => {
+                    <DeleteButton action={async () => {
                       "use server";
                       await deleteKomisariat(item.komisariat_id);
-                    }}>
-                      <DeleteButton />
-                    </form>
+                    }} />
                   </div>
                 </td>
               </tr>

@@ -5,7 +5,10 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 
-const navLinks = [
+type DropdownItem = { href: string; label: string; desc: string; external?: boolean };
+type NavLinkType = { href?: string; label: string; dropdown?: DropdownItem[]; external?: boolean };
+
+const navLinks: NavLinkType[] = [
   { href: "/", label: "Home" },
   {
     label: "Tentang Kami",
@@ -156,7 +159,7 @@ export default function Navbar() {
                                 isDropItemActive
                                   ? "bg-[#11418b] text-white"
                                   : "text-slate-700 hover:bg-blue-50 hover:translate-x-1"
-                              } ${idx < link.dropdown.length - 1 ? "mb-0.5" : ""}`}
+                              } ${idx < link.dropdown!.length - 1 ? "mb-0.5" : ""}`}
                             >
                               {/* Icon circle */}
                               <div className={`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-[15px] font-bold transition-all duration-[250ms] ${
