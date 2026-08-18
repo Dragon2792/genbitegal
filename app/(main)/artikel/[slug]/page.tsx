@@ -219,24 +219,30 @@ export default async function ArtikelDetailPage({ params }: Props) {
                 <span style={{ color: "#64748b", fontSize: "14px", fontWeight: "600" }}>
                   Bagikan:
                 </span>
-                {["WhatsApp"].map((s) => (
-                  <button
-                    suppressHydrationWarning
-                    key={s}
-                    style={{
-                      padding: "8px 16px",
-                      borderRadius: "8px",
-                      border: "1px solid #e2e8f0",
-                      background: "white",
-                      color: "#64748b",
-                      fontSize: "13px",
-                      cursor: "pointer",
-                      transition: "all 0.2s ease",
-                    }}
-                  >
-                    {s}
-                  </button>
-                ))}
+                <a
+                  href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
+                    `${tulisan.tulisan_judul} - https://genbitegal.com/artikel/${tulisan.tulisan_slug}`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    padding: "8px 16px",
+                    borderRadius: "8px",
+                    border: "1px solid #25D366",
+                    background: "#25D366",
+                    color: "white",
+                    fontSize: "13px",
+                    fontWeight: "600",
+                    textDecoration: "none",
+                    cursor: "pointer",
+                    transition: "all 0.2s ease",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px"
+                  }}
+                >
+                  WhatsApp
+                </a>
               </div>
             </div>
 
