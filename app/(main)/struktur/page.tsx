@@ -62,7 +62,7 @@ const kementrianData = [
 
 const komisariatData = [
   { role: "Komisariat UPS", name: "Erna Sundari", image: "/assets/images/dummy-avatar.jpg" },
-  { role: "Komisariat UIN", name: "Fadila Arifatu Khasanah", image: "/assets/images/dummy-avatar.jpg" },
+  { role: "Komisariat UIN GUSDUR", name: "Fadila Arifatu Khasanah", image: "/assets/images/dummy-avatar.jpg" },
   { role: "Komisariat UNIKAL", name: "Retno Dwitasari", image: "/assets/images/dummy-avatar.jpg" },
   { role: "Komisariat UIBN", name: "Rizky Dwi Baybakti", image: "/assets/images/dummy-avatar.jpg" },
 ];

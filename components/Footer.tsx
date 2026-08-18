@@ -19,10 +19,10 @@ const footerLinks = [
     title: "Link Terkait",
     links: [
       { href: "https://www.bi.go.id/", label: "Bank Indonesia" },
-      { href: "https://www.uingusdur.ac.id/", label: "UIN KH. Abdurrahman Wahid" },
+      { href: "https://www.uingusdur.ac.id/", label: "UIN KH. Abdurrahman Wahid Pekalongan" },
       { href: "https://upstegal.ac.id/", label: "Universitas Pancasakti Tegal" },
       { href: "https://unikal.ac.id/", label: "Universitas Pekalongan" },
-      { href: "https://ibntegal.ac.id/", label: "IAI Bakti Negara Tegal" },
+      { href: "https://uibntegal.ac.id/", label: "Universitas Islam Bakti Negara Tegal" },
     ],
   },
 ];

@@ -8,8 +8,8 @@ export default function HeroSlider() {
     { src: "/theme/images/bankindonesiabg.webp", title: "Bank Indonesia Tegal" },
     { src: "/theme/images/upstegal.jpeg", title: "Komisariat Universitas Pancasakti Tegal" },
     { src: "/theme/images/unikal.jpg", title: "Komisariat Universitas Pekalongan" },
-    { src: "/theme/images/uingusdur.jpg", title: "Komisariat UIN K.H. Abdurrahman Wahid" },
-    { src: "/theme/images/ibn.jpg", title: "Komisariat IAI Bakti Negara Tegal" },
+    { src: "/theme/images/uingusdur.jpg", title: "Komisariat UIN KH. Abdurrahman Wahid Pekalongan" },
+    { src: "/theme/images/ibn.jpg", title: "Komisariat Universitas Islam Bakti Negara Tegal" },
   ];
   
   const [currentIndex, setCurrentIndex] = useState(0);
