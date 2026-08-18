@@ -398,16 +398,16 @@ export default async function ArtikelDetailPage({ params }: Props) {
           .article-content * {
             max-width: 100% !important;
             word-break: normal !important;
-            overflow-wrap: anywhere !important;
+            overflow-wrap: break-word !important;
             hyphens: none !important;
             -webkit-hyphens: none !important;
             box-sizing: border-box !important;
           }
           .article-content p {
             margin-bottom: 1.5em;
-            word-break: normal;
-            overflow-wrap: anywhere;
-            hyphens: none;
+            word-break: normal !important;
+            overflow-wrap: break-word !important;
+            hyphens: none !important;
           }
           .article-content span,
           .article-content strong,
@@ -436,7 +436,8 @@ export default async function ArtikelDetailPage({ params }: Props) {
           .article-content pre,
           .article-content code {
             white-space: pre-wrap;
-            word-break: break-word;
+            word-break: normal;
+            overflow-wrap: break-word;
             overflow-x: auto;
           }
           /* article layout image fix */
@@ -451,3 +452,4 @@ export default async function ArtikelDetailPage({ params }: Props) {
     </>
   );
 }
+
