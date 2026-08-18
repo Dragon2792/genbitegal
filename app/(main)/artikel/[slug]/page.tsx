@@ -60,10 +60,12 @@ export default async function ArtikelDetailPage({ params }: Props) {
     orderBy: { tulisan_tanggal: "desc" }
   }));
 
-  // Create paragraphs
-  const content = article.tulisan_isi || "";
+  // Create paragraphs and fix non-breaking spaces from copy-pasting MS Word
+  // &nbsp; makes the browser treat the whole paragraph as one long word, causing overflow.
+  const content = (article.tulisan_isi || "").replace(/&nbsp;/g, ' ');
 
   return (
+
     <>
       {/* Article Header */}
       <section
