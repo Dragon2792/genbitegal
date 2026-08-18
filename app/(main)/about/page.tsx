@@ -2,6 +2,7 @@ import { getStorageUrl } from "@/lib/storageUrl";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { prisma } from "@/lib/prisma";
 import { Trophy, Lightbulb, Users, ShieldCheck, Target, Eye } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 
@@ -33,14 +34,15 @@ const values = [
   { icon: <ShieldCheck size={48} color="#041C3F" />, title: "Integritas", desc: "Menjunjung tinggi kejujuran dan tanggung jawab dalam setiap tindakan." },
 ];
 
-const komisariat = [
-  { name: "Universitas Pancasakti Tegal", short: "UPS", logo: "/assets/images/8b9758201bcbd888894c0c9a6c21fdb3.png" },
-  { name: "Universitas Pekalongan", short: "UNIKAL", logo: "/assets/images/1a8ddb5eefe3a5e39d1eb3f36694adbe.jpg" },
-  { name: "UIN KH. Abdurrahman Wahid Pekalongan", short: "UIN GUSDUR", logo: "/assets/images/logo-uingusdur.jpg" },
-  { name: "Universitas Islam Bakti Negara Tegal", short: "UIBN", logo: "/assets/images/logo-ibn.jpg" },
-];
 
-export default function AboutPage() {
+
+export default async function AboutPage() {
+  const totalKomisariat = await prisma.tbl_komisariat.count();
+  const totalAnggota = await prisma.tbl_siswa.count();
+  const komisariatList = await prisma.tbl_komisariat.findMany({
+    orderBy: { komisariat_urutan: "asc" },
+  });
+
   return (
     <>
       {/* Page Header */}
@@ -152,7 +154,7 @@ export default function AboutPage() {
               <p style={{ color: "#64748b", fontSize: "14px" }}>Est. 2019</p>
               <hr className="divider-gradient" style={{ margin: "20px 0" }} />
               <div style={{ display: "flex", justifyContent: "center", gap: "30px", flexWrap: "wrap" }}>
-                {[{ val: "5", label: "Komisariat" }, { val: "150+", label: "Anggota" }].map((s) => (
+                {[{ val: totalKomisariat.toString(), label: "Komisariat" }, { val: totalAnggota > 0 ? `${totalAnggota}+` : "150+", label: "Anggota" }].map((s) => (
                   <div key={s.label} style={{ textAlign: "center" }}>
                     <div style={{ fontSize: "2rem", fontWeight: "900", color: "#11418B" }}>{s.val}</div>
                     <div style={{ fontSize: "13px", color: "#64748b" }}>{s.label}</div>
@@ -242,16 +244,16 @@ export default function AboutPage() {
             </h2>
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", justifyContent: "center" }}>
-            {komisariat.map((k, i) => (
-              <ScrollReveal key={k.short} direction="up" delay={i * 0.1}>
+            {komisariatList.map((k, i) => (
+              <ScrollReveal key={k.komisariat_id} direction="up" delay={i * 0.1}>
                 <div className="card-hover" style={{ background: "linear-gradient(135deg, #f0f4ff, #e8f0fe)", border: "1px solid #dbeafe", borderRadius: "14px", padding: "24px 28px", textAlign: "center", minWidth: "180px", flex: "1", maxWidth: "220px", height: "100%" }}>
                   <div style={{ marginBottom: "16px", display: "flex", justifyContent: "center" }}>
                     <div style={{ width: "100px", height: "100px", position: "relative" }}>
-                      <Image src={k.logo} alt={k.short} fill style={{ objectFit: "contain" }} sizes="100px" />
+                      <Image src={getStorageUrl(k.komisariat_logo || "default.jpg") || ""} alt={k.komisariat_short || ""} fill style={{ objectFit: "contain" }} sizes="100px" />
                     </div>
                   </div>
-                  <div style={{ fontWeight: "800", color: "#11418B", fontSize: "15px", marginBottom: "6px" }}>{k.short}</div>
-                  <div style={{ color: "#64748b", fontSize: "12px", lineHeight: "1.4" }}>{k.name}</div>
+                  <div style={{ fontWeight: "800", color: "#11418B", fontSize: "15px", marginBottom: "6px" }}>{k.komisariat_short}</div>
+                  <div style={{ color: "#64748b", fontSize: "12px", lineHeight: "1.4" }}>{k.komisariat_nama}</div>
                 </div>
               </ScrollReveal>
             ))}
