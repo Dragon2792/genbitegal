@@ -184,29 +184,32 @@ export default async function ArtikelDetailPage({ params }: Props) {
             )}
 
             <div
-              style={{
-                background: "white",
-                borderRadius: "16px",
-                padding: "40px",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
-                border: "1px solid #e2e8f0",
-              }}
-            >
-              <div
-                className="article-content"
                 style={{
-                  color: "#475569",
-                  lineHeight: "1.9",
-                  fontSize: "16px",
-                  fontFamily: "'Lora', serif",
-                  overflowX: "hidden",
-                  overflowWrap: "break-word",
-                  wordBreak: "normal",
-                  hyphens: "none",
-                  WebkitHyphens: "none",
+                  background: "white",
+                  borderRadius: "16px",
+                  padding: "40px",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
+                  border: "1px solid #e2e8f0",
+                  overflow: "hidden",
+                  minWidth: 0,
                 }}
-                dangerouslySetInnerHTML={{ __html: content }}
-              />
+              >
+                <div
+                  className="article-content"
+                  style={{
+                    color: "#475569",
+                    lineHeight: "1.9",
+                    fontSize: "16px",
+                    fontFamily: "'Lora', serif",
+                    overflowX: "hidden",
+                    overflowWrap: "anywhere",
+                    wordBreak: "normal",
+                    hyphens: "none",
+                    WebkitHyphens: "none" as any,
+                    maxWidth: "100%",
+                  }}
+                  dangerouslySetInnerHTML={{ __html: content }}
+                />
 
               {/* Share */}
               <hr style={{ borderColor: "#e2e8f0", margin: "32px 0" }} />
@@ -388,18 +391,28 @@ export default async function ArtikelDetailPage({ params }: Props) {
             }
           }
           /* Fix HTML content overflow from Quill editor */
+          .article-content {
+            overflow: hidden;
+            overflow-x: hidden;
+          }
           .article-content * {
             max-width: 100% !important;
             word-break: normal !important;
-            overflow-wrap: break-word !important;
+            overflow-wrap: anywhere !important;
             hyphens: none !important;
             -webkit-hyphens: none !important;
+            box-sizing: border-box !important;
           }
           .article-content p {
             margin-bottom: 1.5em;
             word-break: normal;
-            overflow-wrap: break-word;
+            overflow-wrap: anywhere;
             hyphens: none;
+          }
+          .article-content span,
+          .article-content strong,
+          .article-content em {
+            white-space: normal !important;
           }
           .article-content img {
             max-width: 100% !important;
