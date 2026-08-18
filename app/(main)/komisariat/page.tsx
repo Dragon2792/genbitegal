@@ -41,7 +41,7 @@ const komisariatData = [
   {
     name: "Universitas Islam Bakti Negara Tegal",
     short: "UIBN",
-    logo: "/assets/images/logo-ibn.png",
+    logo: "/assets/images/logo-ibn.jpg",
     ketua: "Rizky Dwi Baybakti",
     desc: "GenBI UIBN menitikberatkan pada pengembangan ekonomi kreatif mahasiswa dan pendampingan sertifikasi halal bagi pelaku usaha mikro di Kabupaten Tegal.",
     stats: { members: "30+", proker: "10", awards: "2" },

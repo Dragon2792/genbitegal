@@ -37,7 +37,7 @@ const komisariat = [
   { name: "Universitas Pancasakti Tegal", short: "UPS", logo: "/assets/images/8b9758201bcbd888894c0c9a6c21fdb3.png" },
   { name: "Universitas Pekalongan", short: "UNIKAL", logo: "/assets/images/1a8ddb5eefe3a5e39d1eb3f36694adbe.jpg" },
   { name: "UIN KH. Abdurrahman Wahid Pekalongan", short: "UIN GUSDUR", logo: "/assets/images/logo-uingusdur.jpg" },
-  { name: "Universitas Islam Bakti Negara Tegal", short: "UIBN", logo: "/assets/images/logo-ibn.png" },
+  { name: "Universitas Islam Bakti Negara Tegal", short: "UIBN", logo: "/assets/images/logo-ibn.jpg" },
 ];
 
 export default function AboutPage() {
