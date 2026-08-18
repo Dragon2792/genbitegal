@@ -219,7 +219,7 @@ export default async function ArtikelDetailPage({ params }: Props) {
                 <span style={{ color: "#64748b", fontSize: "14px", fontWeight: "600" }}>
                   Bagikan:
                 </span>
-                {["Facebook", "Twitter", "WhatsApp"].map((s) => (
+                {["WhatsApp"].map((s) => (
                   <button
                     suppressHydrationWarning
                     key={s}
