@@ -286,7 +286,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               style={{ color: "#E8A400", textDecoration: "none", fontWeight: "600" }}
             >
-              Kominfo GenBI Tegal
+              Kementrian Komunikasi
             </a>
           </div>
         </div>
