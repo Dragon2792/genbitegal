@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function addKomisariat(formData: FormData) {
   const data = {
@@ -26,6 +27,7 @@ export async function addKomisariat(formData: FormData) {
   revalidatePath("/komisariat");
   revalidatePath("/");
   revalidatePath("/about");
+  redirect("/admin/komisariat");
 }
 
 export async function editKomisariat(id: number, formData: FormData) {
@@ -52,6 +54,7 @@ export async function editKomisariat(id: number, formData: FormData) {
   revalidatePath("/komisariat");
   revalidatePath("/");
   revalidatePath("/about");
+  redirect("/admin/komisariat");
 }
 
 export async function deleteKomisariat(id: number) {
