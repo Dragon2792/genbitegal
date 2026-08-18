@@ -200,7 +200,10 @@ export default async function ArtikelDetailPage({ params }: Props) {
                   fontSize: "16px",
                   fontFamily: "'Lora', serif",
                   overflowX: "hidden",
-                  wordBreak: "break-word",
+                  overflowWrap: "break-word",
+                  wordBreak: "normal",
+                  hyphens: "none",
+                  WebkitHyphens: "none",
                 }}
                 dangerouslySetInnerHTML={{ __html: content }}
               />
@@ -387,9 +390,16 @@ export default async function ArtikelDetailPage({ params }: Props) {
           /* Fix HTML content overflow from Quill editor */
           .article-content * {
             max-width: 100% !important;
+            word-break: normal !important;
+            overflow-wrap: break-word !important;
+            hyphens: none !important;
+            -webkit-hyphens: none !important;
           }
           .article-content p {
             margin-bottom: 1.5em;
+            word-break: normal;
+            overflow-wrap: break-word;
+            hyphens: none;
           }
           .article-content img {
             max-width: 100% !important;
