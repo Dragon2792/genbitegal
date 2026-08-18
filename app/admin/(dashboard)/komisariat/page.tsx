@@ -25,13 +25,13 @@ export default async function KomisariatPage({
     : {};
 
   const [komisariatList, total] = await Promise.all([
-    prisma.tbl_komisariat.findMany({
+    (prisma as any).tbl_komisariat.findMany({
       where,
       orderBy: { komisariat_urutan: "asc" },
       skip: (page - 1) * perPage,
       take: perPage,
     }),
-    prisma.tbl_komisariat.count({ where }),
+    (prisma as any).tbl_komisariat.count({ where }),
   ]);
 
   const totalPages = Math.ceil(total / perPage);
@@ -93,7 +93,7 @@ export default async function KomisariatPage({
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {komisariatList.map((item, idx) => (
+            {komisariatList.map((item: any, idx: number) => (
               <tr key={item.komisariat_id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4 text-gray-500">
                   {(page - 1) * perPage + idx + 1}

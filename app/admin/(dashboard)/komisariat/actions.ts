@@ -19,7 +19,7 @@ export async function addKomisariat(formData: FormData) {
     komisariat_logo: formData.get("komisariat_logo") as string,
   };
 
-  await prisma.tbl_komisariat.create({
+  await (prisma as any).tbl_komisariat.create({
     data,
   });
 
@@ -45,7 +45,7 @@ export async function editKomisariat(id: number, formData: FormData) {
     komisariat_logo: formData.get("komisariat_logo") as string,
   };
 
-  await prisma.tbl_komisariat.update({
+  await (prisma as any).tbl_komisariat.update({
     where: { komisariat_id: id },
     data,
   });
@@ -58,7 +58,7 @@ export async function editKomisariat(id: number, formData: FormData) {
 }
 
 export async function deleteKomisariat(id: number) {
-  await prisma.tbl_komisariat.delete({
+  await (prisma as any).tbl_komisariat.delete({
     where: { komisariat_id: id },
   });
 

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function KomisariatPage() {
-  const komisariatList = await prisma.tbl_komisariat.findMany({
+  const komisariatList = await (prisma as any).tbl_komisariat.findMany({
     orderBy: { komisariat_urutan: "asc" },
   });
 
@@ -45,7 +45,7 @@ export default async function KomisariatPage() {
       <section style={{ padding: "100px 0", background: "#f8fafc" }}>
         <div className="container">
           <div className="space-y-16">
-            {komisariatList.map((item, index) => (
+            {komisariatList.map((item: any, index: number) => (
               <ScrollReveal key={item.komisariat_id} direction={index % 2 === 0 ? "left" : "right"}>
                 <div className="bg-white rounded-[24px] shadow-sm border border-gray-100 overflow-hidden group hover:shadow-md transition-shadow">
                   <div className="flex flex-col lg:flex-row">

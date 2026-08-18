@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 export default async function EditKomisariatPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
   const id = parseInt(resolvedParams.id);
-  const komisariat = await prisma.tbl_komisariat.findUnique({
+  const komisariat = await (prisma as any).tbl_komisariat.findUnique({
     where: { komisariat_id: id }
   });
 
