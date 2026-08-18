@@ -52,11 +52,11 @@ export default async function ArtikelDetailPage({ params }: Props) {
       tulisan_id: { not: article.tulisan_id },
       tulisan_kategori_id: article.tulisan_kategori_id 
     },
-    take: 3,
+    take: 8,
     orderBy: { tulisan_tanggal: "desc" }
   }).then(res => res.length > 0 ? res : prisma.tbl_tulisan.findMany({
     where: { tulisan_id: { not: article.tulisan_id } },
-    take: 3,
+    take: 8,
     orderBy: { tulisan_tanggal: "desc" }
   }));
 
@@ -266,7 +266,7 @@ export default async function ArtikelDetailPage({ params }: Props) {
           </div>
 
           {/* Sidebar */}
-          <aside>
+          <aside style={{ position: "sticky", top: "120px", alignSelf: "start", display: "flex", flexDirection: "column", gap: "24px" }}>
             <div
               style={{
                 background: "white",
@@ -306,8 +306,8 @@ export default async function ArtikelDetailPage({ params }: Props) {
                     {rel.tulisan_gambar ? (
                       <div
                         style={{
-                          width: "48px",
-                          height: "48px",
+                          width: "72px",
+                          height: "72px",
                           position: "relative",
                           borderRadius: "8px",
                           overflow: "hidden",
@@ -324,33 +324,33 @@ export default async function ArtikelDetailPage({ params }: Props) {
                     ) : (
                       <div
                         style={{
-                          width: "48px",
-                          height: "48px",
+                          width: "72px",
+                          height: "72px",
                           background: "linear-gradient(135deg, #041C3F, #11418B)",
                           borderRadius: "8px",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          fontSize: "22px",
+                          fontSize: "32px",
                           flexShrink: 0,
                         }}
                       >
-                        <Newspaper size={24} color="white" />
+                        <Newspaper size={32} color="white" />
                       </div>
                     )}
                     <div>
                       <p
                         style={{
                           color: "#1e293b",
-                          fontSize: "13px",
-                          fontWeight: "600",
-                          lineHeight: "1.4",
-                          marginBottom: "4px",
+                          fontSize: "15px",
+                          fontWeight: "700",
+                          lineHeight: "1.5",
+                          marginBottom: "6px",
                         }}
                       >
                         {rel.tulisan_judul}
                       </p>
-                      <p style={{ color: "#94a3b8", fontSize: "11px" }}>
+                      <p style={{ color: "#64748b", fontSize: "13px" }}>
                         {rel.tulisan_tanggal ? format(new Date(rel.tulisan_tanggal), "dd MMM yyyy", { locale: id }) : ""}
                       </p>
                     </div>
