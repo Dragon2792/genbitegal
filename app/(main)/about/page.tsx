@@ -151,7 +151,7 @@ export default async function AboutPage() {
               <h3 style={{ fontSize: "1.8rem", fontWeight: "900", color: "#041C3F", marginBottom: "8px", fontFamily: "'Lora', serif" }}>
                 GenBI Tegal
               </h3>
-              <p style={{ color: "#64748b", fontSize: "14px" }}>Est. 2019</p>
+              <p style={{ color: "#64748b", fontSize: "14px" }}>Est. 2020</p>
               <hr className="divider-gradient" style={{ margin: "20px 0" }} />
               <div style={{ display: "flex", justifyContent: "center", gap: "30px", flexWrap: "wrap" }}>
                 {[{ val: totalKomisariat.toString(), label: "Komisariat" }, { val: totalAnggota > 0 ? `${totalAnggota}+` : "150+", label: "Anggota" }].map((s) => (

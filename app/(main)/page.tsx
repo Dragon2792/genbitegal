@@ -275,7 +275,7 @@ export default async function HomePage() {
                 boxShadow: "0 8px 24px rgba(232,164,0,0.4)",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}><Sparkles size={16} /> Est. 2019</div>
+              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}><Sparkles size={16} /> Est. 2020</div>
             </div>
           </div>
         </div>
