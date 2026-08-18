@@ -244,7 +244,7 @@ export default async function AboutPage() {
             </h2>
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", justifyContent: "center" }}>
-            {komisariatList.map((k, i) => (
+            {komisariatList.map((k: any, i: number) => (
               <ScrollReveal key={k.komisariat_id} direction="up" delay={i * 0.1}>
                 <div className="card-hover" style={{ background: "linear-gradient(135deg, #f0f4ff, #e8f0fe)", border: "1px solid #dbeafe", borderRadius: "14px", padding: "24px 28px", textAlign: "center", minWidth: "180px", flex: "1", maxWidth: "220px", height: "100%" }}>
                   <div style={{ marginBottom: "16px", display: "flex", justifyContent: "center" }}>
