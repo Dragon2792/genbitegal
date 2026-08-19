@@ -49,13 +49,7 @@ export default function TambahTestimoniPage() {
         </div>
 
         <div className="flex justify-end">
-          <button
-                    suppressHydrationWarning 
-            type="submit" 
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded transition-colors"
-          >
-            Simpan Testimoni
-          </button>
+          <SubmitButton text="Simpan Testimoni" loadingText="Menyimpan..." />
         </div>
       </form>
     </div>

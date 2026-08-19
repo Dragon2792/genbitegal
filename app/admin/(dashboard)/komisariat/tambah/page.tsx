@@ -140,12 +140,7 @@ export default function TambahKomisariatPage() {
             >
               Batal
             </Link>
-            <button
-              type="submit"
-              className="px-6 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
-            >
-              Simpan Komisariat
-            </button>
+            <SubmitButton text="Simpan Komisariat" loadingText="Menyimpan..." />
           </div>
         </form>
       </div>

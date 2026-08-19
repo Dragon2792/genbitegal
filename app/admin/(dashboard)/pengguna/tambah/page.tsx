@@ -67,10 +67,7 @@ export default function TambahPenggunaPage() {
         </div>
 
         <div className="flex justify-end pt-4">
-          <button
-                    suppressHydrationWarning type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium">
-            Simpan Pengguna
-          </button>
+          <SubmitButton text="Simpan Pengguna" loadingText="Menyimpan..." />
         </div>
       </form>
     </div>

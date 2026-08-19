@@ -1,6 +1,7 @@
 import { addAnggota } from "../actions";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import SubmitButton from "@/components/SubmitButton";
 
 export default async function TambahAnggotaPage() {
   const kelasList = await prisma.tbl_kelas.findMany();
@@ -98,13 +99,7 @@ export default async function TambahAnggotaPage() {
           </div>
 
           <div className="flex justify-end pt-4 border-t border-gray-100">
-            <button
-                    suppressHydrationWarning 
-              type="submit" 
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-8 rounded-lg transition-colors"
-            >
-              Simpan Anggota
-            </button>
+            <SubmitButton text="Simpan Anggota" />
           </div>
         </form>
       </div>

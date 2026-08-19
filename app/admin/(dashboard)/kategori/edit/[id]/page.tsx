@@ -42,13 +42,7 @@ export default async function EditKategoriPage({ params }: { params: { id: strin
         </div>
 
         <div className="flex justify-end">
-          <button
-                    suppressHydrationWarning
-            type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium transition-colors"
-          >
-            Update Kategori
-          </button>
+          <SubmitButton text="Update Kategori" loadingText="Mengupdate..." />
         </div>
       </form>
     </div>

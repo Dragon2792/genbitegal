@@ -49,13 +49,7 @@ export default function TambahAlbumPage() {
           </div>
 
           <div className="flex justify-end pt-4 border-t border-gray-100">
-            <button
-                    suppressHydrationWarning 
-              type="submit" 
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-8 rounded-lg transition-colors"
-            >
-              Simpan Album
-            </button>
+            <SubmitButton text="Simpan Album" loadingText="Menyimpan..." />
           </div>
         </form>
       </div>

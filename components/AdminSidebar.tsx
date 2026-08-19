@@ -11,7 +11,7 @@ import {
   Users, FileText, MessageSquare, MessageCircle, ChevronDown, ChevronRight, Building
 } from "lucide-react";
 
-export default function AdminSidebar({ session }: { session: any }) {
+export default function AdminSidebar({ session, onNavigate }: { session: any; onNavigate?: () => void }) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -108,7 +108,7 @@ export default function AdminSidebar({ session }: { session: any }) {
     }}>
       {/* Header / Logo */}
       <div style={{ padding: "24px", borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
-        <Link href="/" style={{ textDecoration: "none" }}>
+        <Link href="/" style={{ textDecoration: "none" }} onClick={onNavigate}>
           <h1 style={{ fontSize: "18px", fontWeight: "900", color: "white", margin: 0, display: "flex", alignItems: "center", gap: "12px" }}>
             <Image src={getStorageUrl('47068785c61b3f0ada39c664e1e18b11.png') || ''} alt="GenBI Logo" width={36} height={36} style={{ objectFit: "contain" }} />
             <div>
@@ -179,6 +179,7 @@ export default function AdminSidebar({ session }: { session: any }) {
                           <Link
                             key={child.href}
                             href={child.href}
+                            onClick={onNavigate}
                             style={{
                               display: "flex",
                               alignItems: "center",
@@ -216,6 +217,7 @@ export default function AdminSidebar({ session }: { session: any }) {
               <Link
                 key={group.label}
                 href={group.href!}
+                onClick={onNavigate}
                 style={{
                   display: "flex",
                   alignItems: "center",

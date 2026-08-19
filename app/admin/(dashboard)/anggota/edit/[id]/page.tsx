@@ -4,6 +4,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import SubmitButton from "@/components/SubmitButton";
 
 export default async function EditAnggotaPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
@@ -129,13 +130,7 @@ export default async function EditAnggotaPage({ params }: { params: Promise<{ id
           </div>
 
           <div className="flex justify-end pt-4 border-t border-gray-100">
-            <button
-                    suppressHydrationWarning 
-              type="submit" 
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-8 rounded-lg transition-colors"
-            >
-              Update Anggota
-            </button>
+            <SubmitButton text="Update Anggota" loadingText="Mengupdate..." />
           </div>
         </form>
       </div>

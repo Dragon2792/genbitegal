@@ -54,13 +54,7 @@ export default async function EditPengumumanPage({ params }: { params: Promise<{
         </div>
 
         <div className="flex justify-end">
-          <button
-                    suppressHydrationWarning 
-            type="submit" 
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded transition-colors"
-          >
-            Update Pengumuman
-          </button>
+          <SubmitButton text="Update Pengumuman" loadingText="Mengupdate..." />
         </div>
       </form>
     </div>

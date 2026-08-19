@@ -124,13 +124,7 @@ export default async function EditAgendaPage({ params }: { params: Promise<{ id:
         </div>
 
         <div className="flex justify-end">
-          <button
-                    suppressHydrationWarning 
-            type="submit" 
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded transition-colors"
-          >
-            Update Agenda
-          </button>
+          <SubmitButton text="Update Agenda" loadingText="Mengupdate..." />
         </div>
       </form>
     </div>

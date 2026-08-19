@@ -1,4 +1,4 @@
-import AdminSidebar from "@/components/AdminSidebar";
+import AdminLayoutWrapper from "@/components/AdminLayoutWrapper";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
@@ -22,11 +22,8 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div style={{ display: "flex", width: "100%" }}>
-      <AdminSidebar session={sessionData} />
-      <main style={{ flex: 1, padding: "32px", overflowY: "auto", height: "100vh" }}>
-        {children}
-      </main>
-    </div>
+    <AdminLayoutWrapper session={sessionData}>
+      {children}
+    </AdminLayoutWrapper>
   );
 }

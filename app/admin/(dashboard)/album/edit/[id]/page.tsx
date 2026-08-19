@@ -78,13 +78,7 @@ export default async function EditAlbumPage({ params }: { params: Promise<{ id: 
           </div>
 
           <div className="flex justify-end pt-4 border-t border-gray-100">
-            <button
-                    suppressHydrationWarning 
-              type="submit" 
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-8 rounded-lg transition-colors"
-            >
-              Update Album
-            </button>
+            <SubmitButton text="Update Album" loadingText="Mengupdate..." />
           </div>
         </form>
       </div>

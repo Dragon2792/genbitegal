@@ -156,12 +156,7 @@ export default async function EditKomisariatPage({ params }: { params: Promise<{
             >
               Batal
             </Link>
-            <button
-              type="submit"
-              className="px-6 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
-            >
-              Simpan Perubahan
-            </button>
+            <SubmitButton text="Simpan Perubahan" loadingText="Menyimpan..." />
           </div>
         </form>
       </div>

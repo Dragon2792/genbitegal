@@ -60,13 +60,7 @@ export default function TambahFilePage() {
         </div>
 
         <div className="flex justify-end">
-          <button
-                    suppressHydrationWarning 
-            type="submit" 
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded transition-colors"
-          >
-            Simpan File
-          </button>
+          <SubmitButton text="Simpan File" loadingText="Menyimpan..." />
         </div>
       </form>
     </div>
