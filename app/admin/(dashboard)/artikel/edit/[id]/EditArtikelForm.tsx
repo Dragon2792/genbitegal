@@ -183,7 +183,22 @@ export default function EditArtikelForm({
             Mengupload gambar ke server...
           </div>
         )}
-        <div className="border border-gray-200 rounded-lg overflow-hidden">
+        <div className="border border-gray-200 rounded-lg bg-white">
+          <style dangerouslySetInnerHTML={{__html: `
+            .ql-toolbar.ql-snow {
+              position: sticky;
+              top: 0;
+              z-index: 50;
+              background-color: #f8fafc;
+              border-top-left-radius: 0.5rem;
+              border-top-right-radius: 0.5rem;
+            }
+            .ql-container.ql-snow {
+              min-height: 400px;
+              border-bottom-left-radius: 0.5rem;
+              border-bottom-right-radius: 0.5rem;
+            }
+          `}} />
           <ReactQuillAny
             ref={setQuillRef}
             theme="snow"
@@ -191,7 +206,6 @@ export default function EditArtikelForm({
             onChange={setContent}
             modules={modules}
             placeholder="Tulis isi artikel di sini..."
-            style={{ height: "400px" }}
           />
         </div>
       </div>
