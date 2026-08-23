@@ -136,7 +136,7 @@ export default async function HomePage() {
                 letterSpacing: "0.5px",
               }}
             >
-              <Building2 size={16} style={{ marginRight: "4px" }} /> Penerima Beasiswa Bank Indonesia
+              <Building2 size={16} style={{ marginRight: "4px" }} /> Penerima Beasiswa Program Pendidikan Kebanksentralan
             </span>
 
 

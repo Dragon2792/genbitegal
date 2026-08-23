@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     template: "%s | GenBI Tegal",
   },
   description:
-    "Generasi Baru Indonesia Tegal - Komunitas penerima beasiswa Bank Indonesia yang berkomitmen memberikan energi untuk negeri.",
+    "Generasi Baru Indonesia Tegal - Komunitas penerima beasiswa program pendidikan kebanksentralan yang berkomitmen memberikan energi untuk negeri.",
   keywords: ["GenBI", "Tegal", "Bank Indonesia", "Beasiswa", "Mahasiswa"],
   openGraph: {
     type: "website",

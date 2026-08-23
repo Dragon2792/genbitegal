@@ -9,7 +9,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Tentang GenBI Tegal - Generasi Baru Indonesia Tegal, komunitas penerima beasiswa Bank Indonesia.",
+    "Tentang GenBI Tegal - Generasi Baru Indonesia Tegal, komunitas penerima beasiswa program pendidikan kebanksentralan.",
 };
 
 const misi = [
@@ -90,7 +90,7 @@ export default async function AboutPage() {
             Tentang <span style={{ color: "#E8A400" }}>GenBI Tegal</span>
           </h1>
           <p style={{ color: "rgba(255,255,255,0.78)", fontSize: "1.1rem", maxWidth: "600px", lineHeight: "1.7" }}>
-            Mengenal lebih dekat komunitas penerima beasiswa Bank Indonesia yang berkomitmen menjadi energi untuk negeri.
+            Mengenal lebih dekat komunitas penerima beasiswa program pendidikan kebanksentralan yang berkomitmen menjadi energi untuk negeri.
           </p>
         </div>
       </section>
