@@ -34,9 +34,9 @@ export default function ContactPage() {
   };
 
   const contactInfo = [
-    { icon: <MapPin size={20} />, label: "Alamat", value: "Jl. Dr. Soetomo No.55, Pekauman, Kec. Tegal Bar., Kota Tegal, Jawa Tengah 52112" },
+    { icon: <MapPin size={20} />, label: "Alamat", value: "Jl. Kompol Suprapto No. 7, Kemandungan, Kecamatan Tegal Barat, Kota Tegal, Jawa Tengah 52114" },
     { icon: <Mail size={20} />, label: "Email", value: "genbitegal@gmail.com" },
-    { icon: <Phone size={20} />, label: "Telepon", value: "0895422831777" },
+    { icon: <Phone size={20} />, label: "Telepon", value: "085931411575" },
     { icon: <Clock size={20} />, label: "Jam Kerja", value: "Senin - Jumat, 08.00 - 17.00 WIB" },
   ];
 

@@ -131,9 +131,9 @@ export default function Footer() {
 
             {/* Contact Info */}
             <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.6)", lineHeight: "2" }}>
-              <div style={{ display: "flex", gap: "8px", alignItems: "flex-start" }}><MapPin size={16} style={{ flexShrink: 0, marginTop: "4px" }} /> <span>Jl. Dr. Soetomo No.55, Kota Tegal, Jawa Tengah</span></div>
+              <div style={{ display: "flex", gap: "8px", alignItems: "flex-start" }}><MapPin size={16} style={{ flexShrink: 0, marginTop: "4px" }} /> <span>Jl. Kompol Suprapto No. 7, Kemandungan, Kecamatan Tegal Barat, Kota Tegal, Jawa Tengah 52114</span></div>
               <div style={{ display: "flex", gap: "8px", alignItems: "center" }}><Mail size={16} /> <span>genbitegal@gmail.com</span></div>
-              <div style={{ display: "flex", gap: "8px", alignItems: "center" }}><Phone size={16} /> <span>0895422831777</span></div>
+              <div style={{ display: "flex", gap: "8px", alignItems: "center" }}><Phone size={16} /> <span>085931411575</span></div>
             </div>
           </div>
 
