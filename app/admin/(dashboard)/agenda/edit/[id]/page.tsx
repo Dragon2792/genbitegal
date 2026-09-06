@@ -2,6 +2,7 @@ import { editAgenda } from "../../actions";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import SubmitButton from "@/components/SubmitButton";
 
 export default async function EditAgendaPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;

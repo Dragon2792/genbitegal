@@ -1,5 +1,6 @@
 import { addAgenda } from "../actions";
 import Link from "next/link";
+import SubmitButton from "@/components/SubmitButton";
 
 export default function TambahAgendaPage() {
   return (
