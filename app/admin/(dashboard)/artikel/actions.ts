@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { supabase } from "@/lib/supabase";
+import { deleteFileLocal } from "@/lib/uploadHelper";
 
 export async function addArtikel(formData: FormData) {
   try {
@@ -89,13 +89,7 @@ export async function deleteArtikel(id: number) {
   const artikel = await prisma.tbl_tulisan.findUnique({ where: { tulisan_id: id } });
   
   if (artikel?.tulisan_gambar) {
-    try {
-      await supabase.storage
-        .from("genbi-asset")
-        .remove([`images/${artikel.tulisan_gambar}`]);
-    } catch (e) {
-      console.log("File not found or cannot be deleted:", e);
-    }
+    deleteFileLocal(artikel.tulisan_gambar, "images");
   }
 
   await prisma.tbl_tulisan.delete({

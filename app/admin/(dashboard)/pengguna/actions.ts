@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import crypto from "crypto";
-import { supabase } from "@/lib/supabase";
+import { uploadFileLocal } from "@/lib/uploadHelper";
 
 export async function addPengguna(formData: FormData) {
   const nama = formData.get("nama") as string;
@@ -19,21 +19,9 @@ export async function addPengguna(formData: FormData) {
   let photoName = "";
 
   if (filefoto && filefoto.size > 0) {
-    // Generate short unique name that fits VarChar(40) in DB
     const ext = filefoto.name.split('.').pop()?.toLowerCase() || 'jpg';
-    photoName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    
-    // Upload to Supabase Storage
-    const { error } = await supabase.storage
-      .from("genbi-asset")
-      .upload(`images/${photoName}`, filefoto, {
-        cacheControl: '3600',
-        upsert: false
-      });
-      
-    if (error) {
-      console.error("Failed to upload image:", error);
-    }
+    const uploaded = await uploadFileLocal(filefoto, "images");
+    if (uploaded) photoName = uploaded;
   }
 
   // Hash password using MD5 to maintain compatibility with old CI3 system
@@ -82,22 +70,9 @@ export async function editPengguna(id: number, formData: FormData) {
   }
 
   if (filefoto && filefoto.size > 0) {
-    // Generate short unique name that fits VarChar(40) in DB
-    const ext = filefoto.name.split('.').pop()?.toLowerCase() || 'jpg';
-    const photoName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    
-    // Upload to Supabase Storage
-    const { error } = await supabase.storage
-      .from("genbi-asset")
-      .upload(`images/${photoName}`, filefoto, {
-        cacheControl: '3600',
-        upsert: false
-      });
-      
-    if (error) {
-      console.error("Failed to upload image:", error);
-    } else {
-      dataToUpdate.pengguna_photo = photoName;
+    const uploaded = await uploadFileLocal(filefoto, "images");
+    if (uploaded) {
+      dataToUpdate.pengguna_photo = uploaded;
     }
   }
 

@@ -3,7 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { uploadFileLocal, deleteFileLocal } from "@/lib/uploadHelper";
 
 export async function addAlbum(formData: FormData) {
   const nama = formData.get("nama") as string;
@@ -12,20 +12,8 @@ export async function addAlbum(formData: FormData) {
   let cover = "default.jpg";
 
   if (coverFile && coverFile.size > 0) {
-    const bytes = await coverFile.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    const ext = coverFile.name.split('.').pop()?.toLowerCase() || 'jpg';
-    cover = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    
-    const { error } = await supabase.storage
-      .from("genbi-asset")
-      .upload(`images/${cover}`, buffer, { cacheControl: '3600', upsert: false, contentType: coverFile.type });
-      
-    if (error) {
-      console.error("Failed to upload cover:", error);
-      cover = "default.jpg";
-    }
+    const uploaded = await uploadFileLocal(coverFile, "images");
+    if (uploaded) cover = uploaded;
   }
 
   const author = "Admin"; 
@@ -53,23 +41,13 @@ export async function editAlbum(id: number, formData: FormData) {
   };
 
   if (coverFile && coverFile.size > 0) {
-    const bytes = await coverFile.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    const ext = coverFile.name.split('.').pop()?.toLowerCase() || 'jpg';
-    const cover = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    
-    const { error } = await supabase.storage
-      .from("genbi-asset")
-      .upload(`images/${cover}`, buffer, { cacheControl: '3600', upsert: false, contentType: coverFile.type });
-      
-    if (!error) {
-      dataToUpdate.album_cover = cover;
-      
-      // Hapus cover lama dari Supabase
-      const oldAlbum = await prisma.tbl_album.findUnique({ where: { album_id: id }});
-      if (oldAlbum?.album_cover && oldAlbum.album_cover !== 'default.jpg' && oldAlbum.album_cover !== 'blank.png') {
-        await supabase.storage.from("genbi-asset").remove([`images/${oldAlbum.album_cover}`]).catch(() => {});
+    const uploaded = await uploadFileLocal(coverFile, "images");
+    if (uploaded) {
+      dataToUpdate.album_cover = uploaded;
+      // Hapus cover lama dari server
+      const oldAlbum = await prisma.tbl_album.findUnique({ where: { album_id: id } });
+      if (oldAlbum?.album_cover) {
+        deleteFileLocal(oldAlbum.album_cover, "images");
       }
     }
   }
@@ -86,12 +64,8 @@ export async function editAlbum(id: number, formData: FormData) {
 export async function deleteAlbum(id: number) {
   const album = await prisma.tbl_album.findUnique({ where: { album_id: id } });
   
-  if (album?.album_cover && album.album_cover !== 'default.jpg' && album.album_cover !== 'blank.png') {
-    try {
-      await supabase.storage.from("genbi-asset").remove([`images/${album.album_cover}`]);
-    } catch (e) {
-      console.log("File not found or cannot be deleted:", e);
-    }
+  if (album?.album_cover) {
+    deleteFileLocal(album.album_cover, "images");
   }
   
   await prisma.tbl_album.delete({

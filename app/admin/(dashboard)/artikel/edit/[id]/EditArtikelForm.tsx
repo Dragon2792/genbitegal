@@ -23,7 +23,6 @@ const quillModules = {
 };
 
 import { compressImage } from "@/lib/imageCompression";
-import { supabase } from "@/lib/supabase";
 
 export default function EditArtikelForm({
   artikel,
@@ -41,7 +40,7 @@ export default function EditArtikelForm({
   const [isUploading, setIsUploading] = useState(false);
   const [quillRef, setQuillRef] = useState<any>(null);
 
-  // Custom image handler: upload to Supabase, insert URL (not base64)
+  // Custom image handler: upload ke server lokal via /api/upload, insert URL ke editor
   const imageHandler = () => {
     const input = document.createElement("input");
     input.setAttribute("type", "file");
@@ -55,20 +54,20 @@ export default function EditArtikelForm({
       setIsUploading(true);
       try {
         const compressed = await compressImage(file);
-        const ext = compressed.name.split(".").pop()?.toLowerCase() || "jpg";
-        const fileName = `content/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
 
-        const { error } = await supabase.storage
-          .from("genbi-asset")
-          .upload(fileName, compressed, { cacheControl: "3600", upsert: false });
+        const uploadData = new FormData();
+        uploadData.append("file", compressed);
+        uploadData.append("type", "images");
 
-        if (error) {
-          alert("Gagal mengupload gambar: " + error.message);
+        const res = await fetch("/api/upload", { method: "POST", body: uploadData });
+        const json = await res.json();
+
+        if (!res.ok || json.error) {
+          alert("Gagal mengupload gambar: " + (json.error || "Server error"));
           return;
         }
 
-        const { data } = supabase.storage.from("genbi-asset").getPublicUrl(fileName);
-        const url = data.publicUrl;
+        const url = json.url;
 
         // Insert image URL into Quill editor
         const editor = quillRef?.getEditor();
@@ -117,30 +116,22 @@ export default function EditArtikelForm({
       const file = formData.get("gambar") as File;
       if (file && file.size > 0 && file.type.startsWith('image/')) {
         const compressedFile = await compressImage(file);
-        
-        // Generate name
-        const ext = compressedFile.name.split('.').pop()?.toLowerCase() || 'jpg';
-        const photoName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-        
-        // Upload directly from client
-        const { error } = await supabase.storage
-          .from("genbi-asset")
-          .upload(`images/${photoName}`, compressedFile, {
-            cacheControl: '3600',
-            upsert: false
-          });
-          
-        if (error) {
-          console.error("Client upload error:", error);
+
+        const uploadData = new FormData();
+        uploadData.append("file", compressedFile);
+        uploadData.append("type", "images");
+
+        const res = await fetch("/api/upload", { method: "POST", body: uploadData });
+        const json = await res.json();
+
+        if (!res.ok || json.error) {
           alert("Gagal mengupload gambar. Silakan coba lagi.");
           setIsUploading(false);
           return;
         }
-        
-        // Remove file from formData to avoid sending it to Server Action
+
         formData.delete("gambar");
-        // Pass only the generated file name
-        formData.set("gambar_name", photoName);
+        formData.set("gambar_name", json.fileName);
       }
 
       startTransition(async () => {
