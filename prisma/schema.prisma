@@ -29,7 +29,7 @@ model tbl_album {
   album_pengguna_id Int?
   album_author      String?   @db.VarChar(60)
   album_count       Int?      @default(0)
-  album_cover       String?   @db.VarChar(40)
+  album_cover       String?   @db.Text
 
   @@index([album_pengguna_id], map: "album_pengguna_id")
 }
@@ -41,14 +41,14 @@ model tbl_files {
   file_tanggal   DateTime? @default(now()) @db.Timestamp(0)
   file_oleh      String?   @db.VarChar(60)
   file_download  Int?      @default(0)
-  file_data      String?   @db.VarChar(120)
+  file_data      String?   @db.Text
 }
 
 model tbl_galeri {
   galeri_id          Int       @id @default(autoincrement())
   galeri_judul       String?   @db.VarChar(60)
   galeri_tanggal     DateTime? @default(now()) @db.Timestamp(0)
-  galeri_gambar      String?   @db.VarChar(40)
+  galeri_gambar      String?   @db.Text
   galeri_album_id    Int?
   galeri_pengguna_id Int?
   galeri_author      String?   @db.VarChar(60)
@@ -65,7 +65,7 @@ model tbl_guru {
   guru_tmp_lahir String?   @db.VarChar(80)
   guru_tgl_lahir String?   @db.VarChar(80)
   guru_mapel     String?   @db.VarChar(120)
-  guru_photo     String?   @db.VarChar(40)
+  guru_photo     String?   @db.Text
   guru_tgl_input DateTime? @default(now()) @db.Timestamp(0)
 }
 
@@ -133,7 +133,7 @@ model tbl_pengguna {
   pengguna_status      Int?      @default(1)
   pengguna_level       String?   @db.VarChar(3)
   pengguna_register    DateTime? @default(now()) @db.Timestamp(0)
-  pengguna_photo       String?   @db.VarChar(40)
+  pengguna_photo       String?   @db.Text
 }
 
 model tbl_pengumuman {
@@ -160,7 +160,7 @@ model tbl_siswa {
   siswa_nama     String? @db.VarChar(70)
   siswa_jenkel   String? @db.VarChar(2)
   siswa_kelas_id Int?
-  siswa_photo    String? @db.VarChar(40)
+  siswa_photo    String?   @db.Text
 
   @@index([siswa_kelas_id])
 }
@@ -178,7 +178,7 @@ model tbl_komisariat {
   komisariat_id      Int     @id @default(autoincrement())
   komisariat_nama    String? @db.VarChar(100)
   komisariat_short   String? @db.VarChar(30)
-  komisariat_logo    String? @db.VarChar(100)
+  komisariat_logo    String? @db.Text
   komisariat_ketua   String? @db.VarChar(70)
   komisariat_desc    String? @db.Text
   komisariat_members String? @db.VarChar(20)
@@ -197,7 +197,7 @@ model tbl_tulisan {
   tulisan_kategori_id   Int?
   tulisan_kategori_nama String?   @db.VarChar(30)
   tulisan_views         Int?      @default(0)
-  tulisan_gambar        String?   @db.VarChar(40)
+  tulisan_gambar        String?   @db.Text
   tulisan_pengguna_id   Int?
   tulisan_author        String?   @db.VarChar(40)
   tulisan_img_slider    Int       @default(0)
