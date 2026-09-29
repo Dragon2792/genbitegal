@@ -191,7 +191,7 @@ model tbl_komisariat {
 
 model tbl_tulisan {
   tulisan_id            Int       @id @default(autoincrement())
-  tulisan_judul         String?   @db.VarChar(100)
+  tulisan_judul         String?   @db.Text
   tulisan_isi           String?   @db.Text
   tulisan_tanggal       DateTime? @default(now()) @db.Timestamp(0)
   tulisan_kategori_id   Int?
@@ -201,7 +201,7 @@ model tbl_tulisan {
   tulisan_pengguna_id   Int?
   tulisan_author        String?   @db.VarChar(40)
   tulisan_img_slider    Int       @default(0)
-  tulisan_slug          String?   @db.VarChar(200)
+  tulisan_slug          String?   @db.Text
 
   @@index([tulisan_kategori_id], map: "tulisan_kategori_id")
   @@index([tulisan_pengguna_id], map: "tulisan_pengguna_id")
