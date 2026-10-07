@@ -28,9 +28,10 @@ const navLinks: NavLinkType[] = [
       { href: "/galeri", label: "Gallery", desc: "Dokumentasi kegiatan" },
     ],
   },
-  { href: "/contact", label: "Contact" },
   { href: "/agenda", label: "Agenda" },
   { href: "/pengumuman", label: "Pengumuman" },
+  { href: "https://genbi-absen-ig.vercel.app/admin", label: "Absen", external: true },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function Navbar() {

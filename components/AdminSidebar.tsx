@@ -8,7 +8,8 @@ import { useState, useEffect } from "react";
 import { 
   LayoutDashboard, Newspaper, Calendar, Camera, 
   GraduationCap, Megaphone, Inbox, LogOut, Tags, 
-  Users, FileText, MessageSquare, MessageCircle, ChevronDown, ChevronRight, Building
+  Users, FileText, MessageSquare, MessageCircle, ChevronDown, ChevronRight, Building,
+  UserCheck, ExternalLink
 } from "lucide-react";
 
 export default function AdminSidebar({ session, onNavigate }: { session: any; onNavigate?: () => void }) {
@@ -56,6 +57,7 @@ export default function AdminSidebar({ session, onNavigate }: { session: any; on
         { label: "Komisariat", href: "/admin/komisariat", icon: <Building size={16} /> },
         { label: "Data Anggota", href: "/admin/anggota", icon: <GraduationCap size={16} /> },
         { label: "Pengguna (Admin)", href: "/admin/pengguna", icon: <Users size={16} /> },
+        { label: "Absen", href: "https://genbi-absen-ig.vercel.app/admin", icon: <UserCheck size={16} />, external: true },
       ]
     },
     {
@@ -74,7 +76,7 @@ export default function AdminSidebar({ session, onNavigate }: { session: any; on
     const newOpenGroups = { ...openGroups };
     menuGroups.forEach((group) => {
       if (group.children) {
-        const hasActiveChild = group.children.some(child => pathname.startsWith(child.href));
+        const hasActiveChild = group.children.some(child => !('external' in child && child.external) && pathname.startsWith(child.href));
         if (hasActiveChild) {
           newOpenGroups[group.label] = true;
         }
@@ -174,25 +176,57 @@ export default function AdminSidebar({ session, onNavigate }: { session: any; on
                       marginBottom: "4px" 
                     }}>
                       {group.children.map(child => {
-                        const isActive = pathname.startsWith(child.href);
+                        const isExternal = 'external' in child && child.external;
+                        const isActive = !isExternal && pathname.startsWith(child.href);
+                        const linkStyle = {
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "8px",
+                          padding: "10px 12px",
+                          borderRadius: "8px",
+                          color: isActive ? "white" : "rgba(255,255,255,0.6)",
+                          background: isActive ? "rgba(255,255,255,0.1)" : "transparent",
+                          textDecoration: "none",
+                          fontSize: "13px",
+                          fontWeight: isActive ? "600" : "400",
+                          transition: "all 0.2s",
+                        };
+
+                        const childContent = (
+                          <>
+                            <span style={{ opacity: isActive ? 1 : 0.7 }}>{child.icon}</span>
+                            <span style={{ flex: 1 }}>{child.label}</span>
+                            {isExternal && <ExternalLink size={12} style={{ opacity: 0.6 }} />}
+                          </>
+                        );
+
+                        if (isExternal) {
+                          return (
+                            <a
+                              key={child.href}
+                              href={child.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={onNavigate}
+                              style={linkStyle}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.color = "white";
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.color = "rgba(255,255,255,0.6)";
+                              }}
+                            >
+                              {childContent}
+                            </a>
+                          );
+                        }
+
                         return (
                           <Link
                             key={child.href}
                             href={child.href}
                             onClick={onNavigate}
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "8px",
-                              padding: "10px 12px",
-                              borderRadius: "8px",
-                              color: isActive ? "white" : "rgba(255,255,255,0.6)",
-                              background: isActive ? "rgba(255,255,255,0.1)" : "transparent",
-                              textDecoration: "none",
-                              fontSize: "13px",
-                              fontWeight: isActive ? "600" : "400",
-                              transition: "all 0.2s",
-                            }}
+                            style={linkStyle}
                             onMouseEnter={(e) => {
                               if (!isActive) e.currentTarget.style.color = "white";
                             }}
@@ -200,8 +234,7 @@ export default function AdminSidebar({ session, onNavigate }: { session: any; on
                               if (!isActive) e.currentTarget.style.color = "rgba(255,255,255,0.6)";
                             }}
                           >
-                            <span style={{ opacity: isActive ? 1 : 0.7 }}>{child.icon}</span>
-                            {child.label}
+                            {childContent}
                           </Link>
                         );
                       })}
