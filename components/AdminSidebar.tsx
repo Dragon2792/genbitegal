@@ -57,7 +57,7 @@ export default function AdminSidebar({ session, onNavigate }: { session: any; on
         { label: "Komisariat", href: "/admin/komisariat", icon: <Building size={16} /> },
         { label: "Data Anggota", href: "/admin/anggota", icon: <GraduationCap size={16} /> },
         { label: "Pengguna (Admin)", href: "/admin/pengguna", icon: <Users size={16} /> },
-        { label: "Absen", href: "https://genbi-absen-ig.vercel.app/admin", icon: <UserCheck size={16} />, external: true },
+        { label: "Presensi", href: "https://genbi-absen-ig.vercel.app/admin", icon: <UserCheck size={16} />, external: true },
       ]
     },
     {
