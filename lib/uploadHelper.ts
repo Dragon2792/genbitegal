@@ -1,65 +1,80 @@
 import fs from "fs";
 import path from "path";
+import crypto from "crypto";
 
-import { v2 as cloudinary } from 'cloudinary';
-
-// Cloudinary v2 SDK secara otomatis akan membaca process.env.CLOUDINARY_URL
-// Jadi kita tidak perlu melakukan cloudinary.config() secara manual asalkan CLOUDINARY_URL ada di .env
-
+/**
+ * Menyimpan file yang di-upload langsung ke storage lokal VPS.
+ * Disimpan di: public/assets/images/ atau public/assets/files/
+ * 
+ * @param file - File object dari client / server action
+ * @param type - "images" | "files"
+ * @returns string nama file unik (misal: "1730101234-a1b2c3d4.jpg")
+ */
 export async function uploadFileLocal(file: File, type: "images" | "files" = "images"): Promise<string | null> {
   try {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Kita menggunakan upload_stream untuk mengirim buffer langsung ke Cloudinary
-    return new Promise((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
-        {
-          folder: `genbi/${type}`,
-          resource_type: "auto", // otomatis mendeteksi image/raw file
-        },
-        (error, result) => {
-          if (error) {
-            console.error("Error upload ke Cloudinary:", error);
-            reject(null);
-          } else if (result) {
-            // Mengembalikan secure_url dari Cloudinary
-            resolve(result.secure_url);
-          } else {
-            reject(null);
-          }
-        }
-      );
-      
-      uploadStream.end(buffer);
-    });
+    // Folder tujuan di dalam folder public VPS
+    const uploadDir = path.join(process.cwd(), "public", "assets", type);
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
+    // Ekstrak ekstensi asli
+    const ext = path.extname(file.name) || (type === "images" ? ".jpg" : "");
+    // Format nama file: timestamp-randomHex.ext (unik & bebas karakter aneh)
+    const randomHex = crypto.randomBytes(4).toString("hex");
+    const uniqueFileName = `${Date.now()}-${randomHex}${ext.toLowerCase()}`;
+    const targetFilePath = path.join(uploadDir, uniqueFileName);
+
+    await fs.promises.writeFile(targetFilePath, buffer);
+
+    // Mengembalikan nama file saja untuk disimpan di database
+    return uniqueFileName;
   } catch (error) {
-    console.error("Gagal memproses file untuk upload Cloudinary:", error);
+    console.error("Gagal menyimpan file ke storage lokal VPS:", error);
     return null;
   }
 }
 
+/**
+ * Menghapus file dari storage lokal VPS.
+ * 
+ * @param fileName - nama file atau path/URL file yang akan dihapus
+ * @param type - "images" | "files"
+ */
 export async function deleteFileLocal(fileName: string, type: "images" | "files" = "images"): Promise<boolean> {
   try {
-    // Di Cloudinary, untuk menghapus kita butuh public_id.
-    // Jika kita menyimpan full URL (https://res.cloudinary.com/...), kita perlu mengekstrak public_id-nya.
-    // Namun untuk sementara, jika public_id rumit, bisa diabaikan atau gunakan fungsi extract.
-    // Asumsi: jika fileName berupa URL Cloudinary, kita ekstrak public_id-nya.
-    
-    if (fileName.includes("cloudinary.com")) {
-      const parts = fileName.split("/");
-      const lastPart = parts[parts.length - 1];
-      const publicIdWithExtension = lastPart;
-      const publicId = publicIdWithExtension.split(".")[0];
-      const fullPublicId = `genbi/${type}/${publicId}`;
-      
-      await cloudinary.uploader.destroy(fullPublicId);
+    if (!fileName) return false;
+
+    // Bersihkan nama file jika berupa URL Cloudinary atau path lengkap
+    const cleanName = path.basename(fileName.split("?")[0]);
+
+    // Lindungi file bawaan sistem / placeholder agar tidak terhapus
+    const protectedFiles = [
+      "placeholder.jpg",
+      "blank.png",
+      "logogenbi.png",
+      "logo_genbi_tegal.png",
+      "user_blank.png",
+      "default.jpg"
+    ];
+    if (protectedFiles.includes(cleanName)) {
+      return false;
+    }
+
+    const filePath = path.join(process.cwd(), "public", "assets", type, cleanName);
+
+    if (fs.existsSync(filePath)) {
+      await fs.promises.unlink(filePath);
       return true;
     }
-    
+
     return false;
   } catch (error) {
-    console.error("Error menghapus file di Cloudinary:", error);
+    console.error("Error menghapus file di storage lokal VPS:", error);
     return false;
   }
 }
+

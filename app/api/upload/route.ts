@@ -30,8 +30,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Gagal menyimpan file" }, { status: 500 });
     }
 
-    // uploadFileLocal sekarang mengembalikan full URL dari Cloudinary
-    const url = fileName.startsWith("http") ? fileName : `/assets/${uploadType}/${fileName}`;
+    // uploadFileLocal mengembalikan nama file lokal unik di server VPS
+    const url = `/assets/${uploadType}/${fileName}`;
     return NextResponse.json({ fileName, url }, { status: 200 });
   } catch (err) {
     console.error("Upload API error:", err);

@@ -14,11 +14,24 @@ export function getStorageUrl(fileName: string | null | undefined, type: 'images
     return type === 'images' ? '/assets/images/placeholder.jpg' : '#';
   }
 
-  // Jika fileName sudah berupa URL lengkap (HTTP/HTTPS dari Cloudinary atau Supabase lama)
+  // Jika fileName masih berupa URL Cloudinary (akun sudah disabled),
+  // otomatis alihkan ke file lokal di VPS: /assets/images/<nama-file>
+  if (fileName.includes('cloudinary.com')) {
+    const cleanName = fileName.split('/').pop()?.split('?')[0];
+    return cleanName ? `/assets/${type}/${cleanName}` : (type === 'images' ? '/assets/images/placeholder.jpg' : '#');
+  }
+
+  // Jika fileName berupa URL eksternal lainnya
   if (fileName.startsWith('http://') || fileName.startsWith('https://')) {
     return fileName;
   }
 
-  // Fallback ke penyimpanan lokal lama jika fotonya masih ada di server lokal
+  // Jika fileName sudah berupa relative path (misal: /assets/images/...)
+  if (fileName.startsWith('/')) {
+    return fileName;
+  }
+
+  // Default: ambil dari folder static lokal VPS (/assets/images/ atau /assets/files/)
   return `/assets/${type}/${fileName}`;
 }
+
