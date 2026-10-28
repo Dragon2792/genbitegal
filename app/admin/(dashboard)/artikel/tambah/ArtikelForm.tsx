@@ -108,7 +108,7 @@ export default function ArtikelForm({
         const json = await res.json();
 
         if (!res.ok || json.error) {
-          alert("Gagal mengupload gambar cover. Silakan coba lagi.");
+          alert("Gagal mengupload gambar cover: " + (json.error || "Silakan coba lagi."));
           setIsUploading(false);
           return;
         }

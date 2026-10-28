@@ -30,11 +30,12 @@ export async function uploadFileLocal(file: File, type: "images" | "files" = "im
 
     await fs.promises.writeFile(targetFilePath, buffer);
 
+    console.log(`[Upload Success] File tersimpan: ${targetFilePath}`);
     // Mengembalikan nama file saja untuk disimpan di database
     return uniqueFileName;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Gagal menyimpan file ke storage lokal VPS:", error);
-    return null;
+    throw new Error(`Gagal menyimpan file: ${error.message || String(error)}`);
   }
 }
 

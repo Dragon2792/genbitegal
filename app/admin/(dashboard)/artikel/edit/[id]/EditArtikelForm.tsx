@@ -125,7 +125,7 @@ export default function EditArtikelForm({
         const json = await res.json();
 
         if (!res.ok || json.error) {
-          alert("Gagal mengupload gambar. Silakan coba lagi.");
+          alert("Gagal mengupload gambar: " + (json.error || "Silakan coba lagi."));
           setIsUploading(false);
           return;
         }

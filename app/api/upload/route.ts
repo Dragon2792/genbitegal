@@ -33,8 +33,8 @@ export async function POST(request: NextRequest) {
     // uploadFileLocal mengembalikan nama file lokal unik di server VPS
     const url = `/assets/${uploadType}/${fileName}`;
     return NextResponse.json({ fileName, url }, { status: 200 });
-  } catch (err) {
+  } catch (err: any) {
     console.error("Upload API error:", err);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    return NextResponse.json({ error: err.message || "Server error saat upload" }, { status: 500 });
   }
 }
