@@ -26,21 +26,63 @@ const divisiIcon = (title: string) => {
 };
 
 // Reusable card component for organizational roles
-const OrgCard = ({ title, name, icon: Icon, image, colorClass = "bg-[#f0f4ff] border-[#dbeafe] text-[#11418b]" }: any) => (
-  <div className={`p-7 rounded-2xl border-2 flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300 card-hover ${colorClass}`}>
-    {image ? (
-      <div className="w-40 h-40 md:w-44 md:h-44 rounded-full border-4 border-white shadow-lg mb-5 overflow-hidden relative">
-        <Image src={image} alt={name} fill style={{ objectFit: "cover" }} />
-      </div>
-    ) : (
-      <div className="w-36 h-36 rounded-2xl bg-white flex items-center justify-center mb-5 shadow-sm">
-        <Icon size={52} className="text-[#11418b]" />
-      </div>
-    )}
-    <h3 className="font-bold text-[15px] md:text-[16px] mb-2 uppercase tracking-widest text-[#041C3F]">{title}</h3>
-    <p className="text-slate-700 font-semibold text-[16px] md:text-[17px] whitespace-pre-line leading-relaxed">{name}</p>
-  </div>
-);
+const OrgCard = ({
+  title,
+  name,
+  icon: Icon,
+  image,
+  isPresiden = false,
+  colorClass = "bg-[#f0f4ff] border-[#dbeafe] text-[#11418b]",
+}: any) => {
+  const photoSize = isPresiden ? 220 : 170;
+
+  return (
+    <div
+      style={{ padding: isPresiden ? "36px 28px" : "28px 24px" }}
+      className={`rounded-3xl border-2 flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300 card-hover ${colorClass}`}
+    >
+      {image ? (
+        <div
+          style={{
+            width: `${photoSize}px`,
+            height: `${photoSize}px`,
+            border: isPresiden ? "5px solid #E8A400" : "4px solid #ffffff",
+            boxShadow: isPresiden
+              ? "0 12px 32px rgba(232,164,0,0.28)"
+              : "0 8px 24px rgba(17,65,139,0.15)",
+            marginBottom: "20px",
+          }}
+          className="rounded-full overflow-hidden relative flex-shrink-0"
+        >
+          <Image src={image} alt={name} fill style={{ objectFit: "cover" }} />
+        </div>
+      ) : (
+        <div
+          style={{
+            width: `${photoSize}px`,
+            height: `${photoSize}px`,
+            marginBottom: "20px",
+          }}
+          className="rounded-full bg-white flex items-center justify-center shadow-sm flex-shrink-0"
+        >
+          <Icon size={isPresiden ? 72 : 52} className="text-[#11418b]" />
+        </div>
+      )}
+      <h3
+        style={{ fontSize: isPresiden ? "17px" : "15px" }}
+        className="font-extrabold mb-2 uppercase tracking-widest text-[#041C3F]"
+      >
+        {title}
+      </h3>
+      <p
+        style={{ fontSize: isPresiden ? "20px" : "16px" }}
+        className="text-slate-800 font-bold whitespace-pre-line leading-relaxed"
+      >
+        {name}
+      </p>
+    </div>
+  );
+};
 
 export default async function StrukturPage() {
   const all = await getAllPengurus();
@@ -124,9 +166,16 @@ export default async function StrukturPage() {
           {/* Top Level: Presiden & Dewan Pengawas */}
           <div className="flex flex-col items-center mb-16 relative">
             {presiden && (
-            <div className="w-full max-w-[340px] mx-auto z-10 relative">
+            <div className="w-full md:max-w-[420px] mx-auto z-10 relative">
               <ScrollReveal direction="up">
-                <OrgCard title={presiden.pengurus_jabatan || "Presiden GenBI Tegal"} name={presiden.pengurus_nama} image={foto(presiden)} icon={User} colorClass="bg-white border-[#E8A400] shadow-[0_8px_30px_rgba(232,164,0,0.15)]" />
+                <OrgCard
+                  isPresiden={true}
+                  title={presiden.pengurus_jabatan || "Presiden GenBI Tegal"}
+                  name={presiden.pengurus_nama}
+                  image={foto(presiden)}
+                  icon={User}
+                  colorClass="bg-white border-[#E8A400] shadow-[0_12px_36px_rgba(232,164,0,0.18)]"
+                />
               </ScrollReveal>
             </div>
             )}
@@ -134,12 +183,18 @@ export default async function StrukturPage() {
             {/* Connecting Line (Desktop only) */}
             <div className="hidden md:block w-0.5 h-12 bg-slate-300 my-0"></div>
 
-            <div className="w-full max-w-[940px] mx-auto px-2 md:px-4 z-10 relative mt-8 md:mt-0">
+            <div className="w-full max-w-[980px] mx-auto z-10 relative mt-8 md:mt-0">
               <ScrollReveal direction="up" delay={0.2}>
                 <div className="flex flex-col md:flex-row justify-center gap-6">
                   {dewan.map((d) => (
-                    <div key={d.pengurus_id} className="w-full md:w-[300px]">
-                      <OrgCard title={d.pengurus_jabatan || "Dewan Pengawas"} name={d.pengurus_nama} image={foto(d)} icon={ShieldCheck} colorClass="bg-white border-slate-300 shadow-md" />
+                    <div key={d.pengurus_id} className="w-full md:w-[310px]">
+                      <OrgCard
+                        title={d.pengurus_jabatan || "Dewan Pengawas"}
+                        name={d.pengurus_nama}
+                        image={foto(d)}
+                        icon={ShieldCheck}
+                        colorClass="bg-white border-slate-300 shadow-md"
+                      />
                     </div>
                   ))}
                 </div>
@@ -160,38 +215,61 @@ export default async function StrukturPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 mb-20 relative pt-4 md:pt-0">
             {kementrianData.map((kementrian, idx) => (
               <ScrollReveal key={kementrian.title} direction="up" delay={idx * 0.2}>
-                <div className="flex flex-col h-full bg-white rounded-3xl p-6 shadow-[0_4px_24px_rgba(0,0,0,0.04)] border border-slate-100">
+                <div style={{ padding: "28px 24px" }} className="flex flex-col h-full bg-white rounded-3xl shadow-[0_4px_24px_rgba(0,0,0,0.04)] border border-slate-100">
                   <div className="flex flex-col items-center text-center mb-6 pb-6 border-b border-slate-100">
                     {kementrian.mentri.image ? (
-                      <div className="w-36 h-36 rounded-full border-4 border-[#f0f4ff] overflow-hidden relative flex-shrink-0 shadow-md mb-4">
+                      <div
+                        style={{
+                          width: "160px",
+                          height: "160px",
+                          border: "4px solid #f0f4ff",
+                          boxShadow: "0 8px 24px rgba(17,65,139,0.15)",
+                          marginBottom: "16px",
+                        }}
+                        className="rounded-full overflow-hidden relative flex-shrink-0"
+                      >
                         <Image src={kementrian.mentri.image} alt={kementrian.mentri.name} fill style={{ objectFit: "cover" }} />
                       </div>
                     ) : (
-                      <div className="w-32 h-32 rounded-2xl bg-[#f0f4ff] flex items-center justify-center flex-shrink-0 mb-4">
-                        <kementrian.icon size={42} className="text-[#11418b]" />
+                      <div
+                        style={{ width: "140px", height: "140px", marginBottom: "16px" }}
+                        className="rounded-2xl bg-[#f0f4ff] flex items-center justify-center flex-shrink-0"
+                      >
+                        <kementrian.icon size={48} className="text-[#11418b]" />
                       </div>
                     )}
                     <div>
                       <h3 className="font-extrabold text-[#041C3F] text-lg uppercase tracking-wide">{kementrian.title}</h3>
-                      <p className="text-slate-500 text-sm mt-1">Mentri: <span className="font-bold text-[#11418b] text-[15px]">{kementrian.mentri.name}</span></p>
+                      <p className="text-slate-500 text-sm mt-1">Mentri: <span className="font-bold text-[#11418b] text-[16px]">{kementrian.mentri.name}</span></p>
                     </div>
                   </div>
 
                   <div className="flex flex-col gap-4 flex-1">
                     {kementrian.staf.map((staf, sIdx) => (
-                      <div key={sIdx} className="bg-slate-50 rounded-2xl p-4 flex items-center gap-4 border border-slate-100 hover:border-[#11418b]/30 transition-colors">
+                      <div key={sIdx} style={{ padding: "16px" }} className="bg-slate-50 rounded-2xl flex items-center gap-4 border border-slate-100 hover:border-[#11418b]/30 transition-colors">
                         {staf.image ? (
-                          <div className="w-24 h-24 rounded-full bg-slate-200 overflow-hidden relative flex-shrink-0 border-2 border-white shadow-md">
+                          <div
+                            style={{
+                              width: "100px",
+                              height: "100px",
+                              border: "3px solid #ffffff",
+                              boxShadow: "0 4px 14px rgba(0,0,0,0.1)",
+                            }}
+                            className="rounded-full bg-slate-200 overflow-hidden relative flex-shrink-0"
+                          >
                             <Image src={staf.image} alt={staf.name} fill style={{ objectFit: "cover" }} />
                           </div>
                         ) : (
-                          <div className="w-24 h-24 rounded-full bg-[#11418b]/10 flex items-center justify-center flex-shrink-0 text-[#11418b]">
-                            <User size={34} />
+                          <div
+                            style={{ width: "100px", height: "100px" }}
+                            className="rounded-full bg-[#11418b]/10 flex items-center justify-center flex-shrink-0 text-[#11418b]"
+                          >
+                            <User size={36} />
                           </div>
                         )}
                         <div className="flex flex-col">
                           <span className="text-[13px] font-bold text-[#11418b] uppercase tracking-wider mb-1">{staf.role}</span>
-                          <span className="text-slate-800 font-semibold text-[15px] whitespace-pre-line leading-relaxed">{staf.name}</span>
+                          <span className="text-slate-800 font-semibold text-[16px] whitespace-pre-line leading-relaxed">{staf.name}</span>
                         </div>
                       </div>
                     ))}
@@ -213,18 +291,30 @@ export default async function StrukturPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {komisariatData.map((komisariat, idx) => (
                 <ScrollReveal key={`${komisariat.role}-${idx}`} direction="up" delay={idx * 0.1}>
-                  <div className="bg-white p-7 rounded-2xl shadow-sm border border-slate-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center flex flex-col items-center">
+                  <div style={{ padding: "28px 24px" }} className="bg-white rounded-2xl shadow-sm border border-slate-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center flex flex-col items-center">
                     {komisariat.image ? (
-                      <div className="w-36 h-36 rounded-full border-4 border-[#f0f4ff] shadow-md mb-4 overflow-hidden relative">
+                      <div
+                        style={{
+                          width: "160px",
+                          height: "160px",
+                          border: "4px solid #f0f4ff",
+                          boxShadow: "0 8px 24px rgba(17,65,139,0.15)",
+                          marginBottom: "16px",
+                        }}
+                        className="rounded-full overflow-hidden relative flex-shrink-0"
+                      >
                         <Image src={komisariat.image} alt={komisariat.name} fill style={{ objectFit: "cover" }} />
                       </div>
                     ) : (
-                      <div className="w-28 h-28 rounded-full bg-slate-100 flex items-center justify-center mb-4">
-                        <Building size={32} className="text-[#64748b]" />
+                      <div
+                        style={{ width: "140px", height: "140px", marginBottom: "16px" }}
+                        className="rounded-full bg-slate-100 flex items-center justify-center flex-shrink-0"
+                      >
+                        <Building size={40} className="text-[#64748b]" />
                       </div>
                     )}
                     <h4 className="text-[15px] font-bold text-[#041C3F] uppercase tracking-wider mb-2">{komisariat.role}</h4>
-                    <p className="text-[#11418b] font-semibold text-[16px]">{komisariat.name}</p>
+                    <p className="text-[#11418b] font-bold text-[17px]">{komisariat.name}</p>
                   </div>
                 </ScrollReveal>
               ))}
