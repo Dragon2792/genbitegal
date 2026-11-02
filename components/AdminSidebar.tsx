@@ -9,7 +9,7 @@ import {
   LayoutDashboard, Newspaper, Calendar, Camera, 
   GraduationCap, Megaphone, Inbox, LogOut, Tags, 
   Users, FileText, MessageSquare, MessageCircle, ChevronDown, ChevronRight, Building,
-  UserCheck, ExternalLink
+  UserCheck, ExternalLink, Network
 } from "lucide-react";
 
 export default function AdminSidebar({ session, onNavigate }: { session: any; onNavigate?: () => void }) {
@@ -55,6 +55,7 @@ export default function AdminSidebar({ session, onNavigate }: { session: any; on
       icon: <Users size={18} />,
       children: [
         { label: "Komisariat", href: "/admin/komisariat", icon: <Building size={16} /> },
+        { label: "Struktur Pengurus", href: "/admin/pengurus", icon: <Network size={16} /> },
         { label: "Data Anggota", href: "/admin/anggota", icon: <GraduationCap size={16} /> },
         { label: "Pengguna (Admin)", href: "/admin/pengguna", icon: <Users size={16} /> },
         { label: "Presensi", href: "https://genbi-absen-ig.vercel.app/admin", icon: <UserCheck size={16} />, external: true },

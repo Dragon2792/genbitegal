@@ -4,10 +4,25 @@ import Link from "next/link";
 import Image from "next/image";
 import ScrollReveal from "@/components/ScrollReveal";
 import { User, ShieldCheck, Megaphone, Wallet, GraduationCap, Building } from "lucide-react";
+import { getAllPengurus, type Pengurus } from "@/lib/pengurus";
 
 export const metadata: Metadata = {
   title: "Struktur Kepengurusan | GenBI Tegal",
   description: "Struktur Kepengurusan Generasi Baru Indonesia Wilayah Tegal.",
+};
+
+// Data diambil dari database; selalu render terbaru setelah admin mengubah
+export const dynamic = "force-dynamic";
+
+const DEFAULT_AVATAR = "/assets/images/dummy-avatar.jpg";
+const foto = (p?: Pengurus | null) => (p?.pengurus_foto ? getStorageUrl(p.pengurus_foto) : DEFAULT_AVATAR);
+
+const divisiIcon = (title: string) => {
+  const t = title.toLowerCase();
+  if (t.includes("komunikasi")) return Megaphone;
+  if (t.includes("keuangan")) return Wallet;
+  if (t.includes("sdm")) return GraduationCap;
+  return Building;
 };
 
 // Reusable card component for organizational roles
@@ -27,47 +42,29 @@ const OrgCard = ({ title, name, icon: Icon, image, colorClass = "bg-[#f0f4ff] bo
   </div>
 );
 
-const kementrianData = [
-  {
-    title: "Mentri Komunikasi",
-    icon: Megaphone,
-    mentri: { name: "Irgi Akhmad Farrery", image: "/assets/images/dummy-avatar.jpg" },
-    staf: [
-      { role: "S.A Website", name: "Nur Muhammad Arya N", image: "/assets/images/dummy-avatar.jpg" },
-      { role: "S.A Media Sosial & Podcast", name: "Wulan Lailatur R.", image: "/assets/images/dummy-avatar.jpg" },
-      { role: "S.A Media Sosial & Podcast", name: "Slamet Arofah", image: "/assets/images/dummy-avatar.jpg" },
-    ]
-  },
-  {
-    title: "Mentri Keuangan",
-    icon: Wallet,
-    mentri: { name: "Riska Putri Yuniar", image: "/assets/images/dummy-avatar.jpg" },
-    staf: [
-      { role: "S.A Kebendaharan", name: "Dewi Nurul Alfianah", image: "/assets/images/dummy-avatar.jpg" },
-      { role: "S.A Kesekretariatan", name: "Amelia Nur Sajidah", image: "/assets/images/dummy-avatar.jpg" },
-      { role: "S.A Kesekretariatan", name: "Ainun Ana Nabilah", image: "/assets/images/dummy-avatar.jpg" },
-    ]
-  },
-  {
-    title: "Mentri SDM",
-    icon: GraduationCap,
-    mentri: { name: "Prahesta Pramudya Jaya Wardhana", image: "/assets/images/dummy-avatar.jpg" },
-    staf: [
-      { role: "S.A Seni dan Olahraga", name: "Riska Dwi Arini", image: "/assets/images/dummy-avatar.jpg" },
-      { role: "S.A Seni dan Olahraga", name: "Bayu Nabilatul A.", image: "/assets/images/dummy-avatar.jpg" },
-      { role: "S.A Kepenulisan", name: "Aulia Binta Emira", image: "/assets/images/dummy-avatar.jpg" },
-    ]
-  }
-];
+export default async function StrukturPage() {
+  const all = await getAllPengurus();
+  const presiden = all.find((p) => p.pengurus_kelompok === "presiden");
+  const dewan = all.filter((p) => p.pengurus_kelompok === "dewan");
+  const komisariatData = all
+    .filter((p) => p.pengurus_kelompok === "komisariat")
+    .map((p) => ({ role: p.pengurus_jabatan || "", name: p.pengurus_nama || "", image: foto(p) }));
 
-const komisariatData = [
-  { role: "Komisariat UPS", name: "Erna Sundari", image: "/assets/images/dummy-avatar.jpg" },
-  { role: "Komisariat UIN GUSDUR", name: "Fadila Arifatu Khasanah", image: "/assets/images/dummy-avatar.jpg" },
-  { role: "Komisariat UNIKAL", name: "Retno Dwitasari", image: "/assets/images/dummy-avatar.jpg" },
-  { role: "Komisariat UIBN", name: "Rizky Dwi Baybakti", image: "/assets/images/dummy-avatar.jpg" },
-];
+  const kementrianMembers = all.filter((p) => p.pengurus_kelompok === "kementrian");
+  const divisiList = Array.from(new Set(kementrianMembers.map((p) => p.pengurus_divisi || "Kementrian")));
+  const kementrianData = divisiList.map((title) => {
+    const members = kementrianMembers.filter((p) => (p.pengurus_divisi || "Kementrian") === title);
+    const mentri = members.find((p) => p.pengurus_is_ketua === 1);
+    return {
+      title,
+      icon: divisiIcon(title),
+      mentri: { name: mentri?.pengurus_nama || "-", image: mentri ? foto(mentri) : DEFAULT_AVATAR },
+      staf: members
+        .filter((p) => p !== mentri)
+        .map((p) => ({ role: p.pengurus_jabatan || "", name: p.pengurus_nama || "", image: foto(p) })),
+    };
+  });
 
-export default function StrukturPage() {
   return (
     <>
       {/* Page Header */}
@@ -126,26 +123,24 @@ export default function StrukturPage() {
           
           {/* Top Level: Presiden & Dewan Pengawas */}
           <div className="flex flex-col items-center mb-16 relative">
+            {presiden && (
             <ScrollReveal direction="up">
               <div className="w-full max-w-[320px] mx-auto z-10 relative">
-                <OrgCard title="Presiden GenBI Tegal" name="Kristono" image="/assets/images/dummy-avatar.jpg" icon={User} colorClass="bg-white border-[#E8A400] shadow-[0_8px_30px_rgba(232,164,0,0.15)]" />
+                <OrgCard title={presiden.pengurus_jabatan || "Presiden GenBI Tegal"} name={presiden.pengurus_nama} image={foto(presiden)} icon={User} colorClass="bg-white border-[#E8A400] shadow-[0_8px_30px_rgba(232,164,0,0.15)]" />
               </div>
             </ScrollReveal>
+            )}
             
             {/* Connecting Line (Desktop only) */}
             <div className="hidden md:block w-0.5 h-12 bg-slate-300 my-0"></div>
 
             <ScrollReveal direction="up" delay={0.2}>
               <div className="flex flex-col md:flex-row justify-center gap-6 z-10 relative mt-8 md:mt-0 w-full max-w-[900px] mx-auto px-4">
-                <div className="w-full md:w-[280px]">
-                  <OrgCard title="Dewan Pengawas" name="Riema Ainun Nissa" image="/assets/images/dummy-avatar.jpg" icon={ShieldCheck} colorClass="bg-white border-slate-300 shadow-md" />
-                </div>
-                <div className="w-full md:w-[280px]">
-                  <OrgCard title="Dewan Pengawas" name="M. Rifqi Al Khadziq" image="/assets/images/dummy-avatar.jpg" icon={ShieldCheck} colorClass="bg-white border-slate-300 shadow-md" />
-                </div>
-                <div className="w-full md:w-[280px]">
-                  <OrgCard title="Dewan Pengawas" name="Navis Mughni V." image="/assets/images/dummy-avatar.jpg" icon={ShieldCheck} colorClass="bg-white border-slate-300 shadow-md" />
-                </div>
+                {dewan.map((d) => (
+                  <div key={d.pengurus_id} className="w-full md:w-[280px]">
+                    <OrgCard title={d.pengurus_jabatan || "Dewan Pengawas"} name={d.pengurus_nama} image={foto(d)} icon={ShieldCheck} colorClass="bg-white border-slate-300 shadow-md" />
+                  </div>
+                ))}
               </div>
             </ScrollReveal>
           </div>
@@ -215,7 +210,7 @@ export default function StrukturPage() {
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {komisariatData.map((komisariat, idx) => (
-                <ScrollReveal key={komisariat.role} direction="up" delay={idx * 0.1}>
+                <ScrollReveal key={`${komisariat.role}-${idx}`} direction="up" delay={idx * 0.1}>
                   <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center flex flex-col items-center">
                     {komisariat.image ? (
                       <div className="w-16 h-16 rounded-full border-4 border-slate-100 shadow-sm mb-4 overflow-hidden relative">

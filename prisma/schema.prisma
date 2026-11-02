@@ -188,6 +188,18 @@ model tbl_komisariat {
   komisariat_urutan  Int?    @default(0)
 }
 
+/// Struktur kepengurusan. kelompok: presiden | dewan | kementrian | komisariat
+model tbl_pengurus {
+  pengurus_id       Int     @id @default(autoincrement())
+  pengurus_nama     String? @db.VarChar(100)
+  pengurus_jabatan  String? @db.VarChar(100)
+  pengurus_kelompok String? @db.VarChar(20)
+  pengurus_divisi   String? @db.VarChar(100)
+  pengurus_is_ketua Int     @default(0)
+  pengurus_foto     String? @db.Text
+  pengurus_urutan   Int     @default(0)
+}
+
 model tbl_tulisan {
   tulisan_id            Int       @id @default(autoincrement())
   tulisan_judul         String?   @db.Text

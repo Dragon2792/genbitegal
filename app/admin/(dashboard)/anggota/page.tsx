@@ -2,10 +2,8 @@ import { getStorageUrl } from "@/lib/storageUrl";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { deleteAnggota } from "./actions";
-import { Edit2, PlusCircle, Search } from "lucide-react";
+import { Edit2, FileSpreadsheet, PlusCircle, Search } from "lucide-react";
 import DeleteButton from "@/components/DeleteButton";
-
-import Image from "next/image";
 
 export default async function AnggotaPage({
   searchParams,
@@ -26,7 +24,7 @@ export default async function AnggotaPage({
       }
     : {};
 
-  const [anggotaList, total] = await Promise.all([
+  const [anggotaList, total, kelasList] = await Promise.all([
     prisma.tbl_siswa.findMany({
       where,
       orderBy: { siswa_nama: "asc" },
@@ -34,7 +32,13 @@ export default async function AnggotaPage({
       take: perPage,
     }),
     prisma.tbl_siswa.count({ where }),
+    prisma.tbl_kelas.findMany(),
   ]);
+
+  const kelasMap = kelasList.reduce((acc, curr) => {
+    acc[curr.kelas_id] = curr.kelas_nama || "-";
+    return acc;
+  }, {} as Record<number, string>);
 
   const totalPages = Math.ceil(total / perPage);
 
@@ -46,13 +50,22 @@ export default async function AnggotaPage({
           <h1 className="text-xl font-bold text-gray-800">Manajemen Anggota</h1>
           <p className="text-sm text-gray-500 mt-0.5">Total: <span className="font-semibold text-blue-600">{total}</span> anggota</p>
         </div>
-        <Link
-          href="/admin/anggota/tambah"
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-semibold"
-        >
-          <PlusCircle size={16} />
-          Tambah Anggota
-        </Link>
+        <div className="flex flex-wrap items-center gap-2.5">
+          <Link
+            href="/admin/anggota/import"
+            className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-semibold"
+          >
+            <FileSpreadsheet size={16} />
+            Import Excel
+          </Link>
+          <Link
+            href="/admin/anggota/tambah"
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-semibold"
+          >
+            <PlusCircle size={16} />
+            Tambah Anggota
+          </Link>
+        </div>
       </div>
 
       {/* Search */}
@@ -97,6 +110,7 @@ export default async function AnggotaPage({
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">NIS</th>
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Nama</th>
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">L/P</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Komisariat</th>
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Aksi</th>
             </tr>
           </thead>
@@ -125,6 +139,9 @@ export default async function AnggotaPage({
                     {anggota.siswa_jenkel === "L" ? "Laki-laki" : "Perempuan"}
                   </span>
                 </td>
+                <td className="px-6 py-4 text-sm text-gray-600">
+                  {anggota.siswa_kelas_id ? kelasMap[anggota.siswa_kelas_id] || "-" : "-"}
+                </td>
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
                     <Link
@@ -144,7 +161,7 @@ export default async function AnggotaPage({
             ))}
             {anggotaList.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-6 py-12 text-center text-gray-400">
+                <td colSpan={7} className="px-6 py-12 text-center text-gray-400">
                   {q ? `Tidak ada anggota dengan kata kunci "${q}"` : "Belum ada data anggota."}
                 </td>
               </tr>
