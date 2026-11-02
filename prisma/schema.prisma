@@ -159,7 +159,7 @@ model tbl_siswa {
   siswa_nama     String? @db.VarChar(70)
   siswa_jenkel   String? @db.VarChar(2)
   siswa_kelas_id Int?
-  siswa_photo    String?   @db.Text
+  siswa_photo    String? @db.Text
 
   @@index([siswa_kelas_id])
 }
@@ -191,7 +191,7 @@ model tbl_komisariat {
 model tbl_tulisan {
   tulisan_id            Int       @id @default(autoincrement())
   tulisan_judul         String?   @db.Text
-  tulisan_isi           String?   @db.Text
+  tulisan_isi           String?   @db.LongText
   tulisan_tanggal       DateTime? @default(now()) @db.Timestamp(0)
   tulisan_kategori_id   Int?
   tulisan_kategori_nama String?   @db.VarChar(30)
