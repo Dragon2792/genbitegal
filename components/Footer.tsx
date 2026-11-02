@@ -124,9 +124,9 @@ export default function Footer() {
                 marginBottom: "20px",
               }}
             >
-              Generasi Baru Indonesia Tegal — komunitas penerima beasiswa Bank
-              Indonesia yang berkomitmen menjadi agen perubahan bagi bangsa dan
-              negara.
+              Generasi Baru Indonesia Tegal — komunitas penerima bantuan program
+              pendidikan kebanksentralan yang berkomitmen menjadi agen perubahan
+              bagi bangsa dan negara.
             </p>
 
             {/* Contact Info */}

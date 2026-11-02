@@ -136,7 +136,7 @@ export default async function HomePage() {
                 letterSpacing: "0.5px",
               }}
             >
-              <Building2 size={16} style={{ marginRight: "4px" }} /> Penerima Beasiswa Program Pendidikan Kebanksentralan
+              <Building2 size={16} style={{ marginRight: "4px" }} /> Penerima Bantuan Program Pendidikan Kebanksentralan
             </span>
 
 
@@ -330,9 +330,9 @@ export default async function HomePage() {
                 }}
               >
                 Generasi Baru Indonesia Tegal adalah komunitas mahasiswa terpilih
-                se-Eks Karesidenan Pekalongan yang menerima beasiswa Bank
-                Indonesia. Kami berasal dari beragam disiplin ilmu dan diyakini
-                akan menjadi energi baru bagi bangsa.
+                se-Eks Karesidenan Pekalongan yang menerima bantuan program
+                pendidikan kebanksentralan. Kami berasal dari beragam disiplin
+                ilmu dan diyakini akan menjadi energi baru bagi bangsa.
               </p>
               <p
                 style={{
@@ -384,10 +384,10 @@ export default async function HomePage() {
                     marginBottom: "24px",
                   }}
                 >
-                  Menjadikan GenBI Tegal sebagai garda terdepan generasi muda
-                  Indonesia yang unggul dalam prestasi, pelopor inovasi dan kuat
-                  dalam kolaborasi untuk berkontribusi nyata membangun peradaban
-                  bangsa.
+                  Mewujudkan GenBI Tegal sebagai Episentrum yang{" "}
+                  <strong>Bertumbuh, Bersinergi,</strong> dan{" "}
+                  <strong>Berdampak</strong> melalui penguatan{" "}
+                  <strong>inklusifitas dan literasi kebanksentralan</strong>.
                 </p>
   
                 <div
@@ -403,7 +403,7 @@ export default async function HomePage() {
                       flexWrap: "wrap",
                     }}
                   >
-                    {["Prestasi", "Inovasi", "Kolaborasi", "Integritas"].map(
+                    {["Bertumbuh", "Bersinergi", "Berdampak"].map(
                       (tag) => (
                         <span
                           key={tag}
