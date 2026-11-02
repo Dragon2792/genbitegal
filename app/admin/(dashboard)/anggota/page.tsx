@@ -119,7 +119,7 @@ export default async function AnggotaPage({
               <tr key={anggota.siswa_id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4 text-sm text-gray-500">{(page - 1) * perPage + idx + 1}</td>
                 <td className="px-6 py-4">
-                  <div className="w-12 h-12 bg-gray-100 rounded-full overflow-hidden border border-gray-200">
+                  <div className="w-14 h-14 bg-gray-100 rounded-full overflow-hidden border border-gray-200">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={getStorageUrl(anggota.siswa_photo || 'blank.png') || ''}

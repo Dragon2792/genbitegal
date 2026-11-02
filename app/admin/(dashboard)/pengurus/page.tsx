@@ -55,7 +55,7 @@ export default async function PengurusAdminPage() {
                 {section.items.map((p: Pengurus) => (
                   <tr key={p.pengurus_id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-3">
-                      <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
+                      <div className="w-14 h-14 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center border border-gray-200">
                         {p.pengurus_foto ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img src={getStorageUrl(p.pengurus_foto)} alt={p.pengurus_nama || ""} className="w-full h-full object-cover" />

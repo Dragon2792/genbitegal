@@ -84,17 +84,17 @@ export default async function AnggotaPage(props: {
       {/* Members Grid */}
       <section style={{ padding: "60px 24px 100px", background: "#f8fafc", minHeight: "50vh" }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "20px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "24px" }}>
             {filtered.map((member, i) => (
               <ScrollReveal key={member.id} direction="up" delay={i * 0.05}>
                 <div
                   className="card-hover"
                   style={{
                     background: "white",
-                    borderRadius: "16px",
-                    padding: "28px 20px",
+                    borderRadius: "20px",
+                    padding: "32px 24px",
                     textAlign: "center",
-                    boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
+                    boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
                     border: "1px solid #e2e8f0",
                     height: "100%",
                   }}
@@ -103,12 +103,13 @@ export default async function AnggotaPage(props: {
                   {member.photo ? (
                     <div
                       style={{
-                        width: "72px",
-                        height: "72px",
+                        width: "140px",
+                        height: "140px",
                         position: "relative",
                         borderRadius: "50%",
-                        margin: "0 auto 16px",
-                        boxShadow: "0 4px 16px rgba(17,65,139,0.25)",
+                        margin: "0 auto 20px",
+                        border: "4px solid #f0f4ff",
+                        boxShadow: "0 8px 24px rgba(17,65,139,0.22)",
                         overflow: "hidden"
                       }}
                     >
@@ -122,11 +123,12 @@ export default async function AnggotaPage(props: {
                   ) : (
                     <div
                       style={{
-                        width: "72px",
-                        height: "72px",
+                        width: "140px",
+                        height: "140px",
                         position: "relative",
                         borderRadius: "50%",
-                        margin: "0 auto 16px",
+                        margin: "0 auto 20px",
+                        border: "4px solid #f0f4ff",
                         background: "linear-gradient(135deg, #f0f4ff, #e8f0fe)",
                         overflow: "hidden"
                       }}
@@ -135,15 +137,15 @@ export default async function AnggotaPage(props: {
                         src={member.jenkel === "Laki-laki" ? "/theme/images/student-1.png" : "/theme/images/student-2.png"}
                         alt={member.name}
                         fill
-                        style={{ objectFit: "cover", padding: "10px" }}
+                        style={{ objectFit: "cover", padding: "16px" }}
                       />
                     </div>
                   )}
   
-                  <h3 style={{ fontSize: "15px", fontWeight: "700", color: "#1e293b", marginBottom: "4px" }}>
+                  <h3 style={{ fontSize: "17px", fontWeight: "700", color: "#1e293b", marginBottom: "6px" }}>
                     {member.name}
                   </h3>
-                  <p style={{ fontSize: "12px", color: "#64748b", marginBottom: "12px" }}>
+                  <p style={{ fontSize: "13px", color: "#64748b", marginBottom: "14px" }}>
                     NIS: {member.nis}
                   </p>
   
@@ -152,9 +154,9 @@ export default async function AnggotaPage(props: {
                       style={{
                         background: "rgba(17,65,139,0.08)",
                         color: "#11418B",
-                        padding: "3px 10px",
+                        padding: "4px 12px",
                         borderRadius: "10px",
-                        fontSize: "11px",
+                        fontSize: "12px",
                         fontWeight: "600",
                       }}
                     >
