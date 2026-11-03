@@ -26,15 +26,16 @@ export interface ImportAnggotaResult {
 }
 
 export async function addAnggota(formData: FormData) {
-  const nis = formData.get("nis") as string;
-  const nama = formData.get("nama") as string;
-  const jenkel = formData.get("jenkel") as string;
-  const kelas_id = parseInt(formData.get("kelas_id") as string) || 0;
-  const photoFile = formData.get("photo") as File;
-  
-  let photo = "default.jpg";
+  const nis = ((formData.get("nis") as string) || "").trim();
+  const nama = ((formData.get("nama") as string) || "").trim();
+  const jenkel = ((formData.get("jenkel") as string) || "").trim();
+  const kelas_id = parseInt((formData.get("kelas_id") as string) || "0", 10) || 0;
+  const uploadedFileName = ((formData.get("siswa_photo") as string) || "").trim();
+  const photoFile = formData.get("photo") as File | null;
 
-  if (photoFile && photoFile.size > 0) {
+  let photo: string | null = uploadedFileName || null;
+
+  if (!photo && photoFile && photoFile.size > 0) {
     const uploaded = await uploadFileLocal(photoFile, "images");
     if (uploaded) photo = uploaded;
   }
@@ -46,58 +47,88 @@ export async function addAnggota(formData: FormData) {
       siswa_jenkel: jenkel,
       siswa_kelas_id: kelas_id,
       siswa_photo: photo,
-    }
+    },
   });
 
   revalidatePath("/admin/anggota");
   revalidatePath("/anggota");
+  revalidatePath("/");
   redirect("/admin/anggota");
 }
 
 export async function editAnggota(id: number, formData: FormData) {
-  const nis = formData.get("nis") as string;
-  const nama = formData.get("nama") as string;
-  const jenkel = formData.get("jenkel") as string;
-  const kelas_id = parseInt(formData.get("kelas_id") as string) || 0;
-  const photoFile = formData.get("photo") as File;
+  const nis = ((formData.get("nis") as string) || "").trim();
+  const nama = ((formData.get("nama") as string) || "").trim();
+  const jenkel = ((formData.get("jenkel") as string) || "").trim();
+  const kelas_id = parseInt((formData.get("kelas_id") as string) || "0", 10) || 0;
+  const hasPhotoField = formData.has("siswa_photo");
+  const uploadedFileName = ((formData.get("siswa_photo") as string) || "").trim();
+  const photoFile = formData.get("photo") as File | null;
 
-  const dataToUpdate: any = {
+  const old = await prisma.tbl_siswa.findUnique({ where: { siswa_id: id } });
+
+  const dataToUpdate: Record<string, unknown> = {
     siswa_nis: nis,
     siswa_nama: nama,
     siswa_jenkel: jenkel,
     siswa_kelas_id: kelas_id,
   };
 
-  if (photoFile && photoFile.size > 0) {
+  if (hasPhotoField) {
+    const newPhoto = uploadedFileName || null;
+    dataToUpdate.siswa_photo = newPhoto;
+    if (
+      old?.siswa_photo &&
+      old.siswa_photo !== newPhoto &&
+      old.siswa_photo !== "default.jpg" &&
+      old.siswa_photo !== "blank.png"
+    ) {
+      await deleteFileLocal(old.siswa_photo, "images");
+    }
+  } else if (photoFile && photoFile.size > 0) {
     const uploaded = await uploadFileLocal(photoFile, "images");
     if (uploaded) {
       dataToUpdate.siswa_photo = uploaded;
+      if (
+        old?.siswa_photo &&
+        old.siswa_photo !== uploaded &&
+        old.siswa_photo !== "default.jpg" &&
+        old.siswa_photo !== "blank.png"
+      ) {
+        await deleteFileLocal(old.siswa_photo, "images");
+      }
     }
   }
 
   await prisma.tbl_siswa.update({
     where: { siswa_id: id },
-    data: dataToUpdate
+    data: dataToUpdate,
   });
 
   revalidatePath("/admin/anggota");
   revalidatePath("/anggota");
+  revalidatePath("/");
   redirect("/admin/anggota");
 }
 
 export async function deleteAnggota(id: number) {
   const anggota = await prisma.tbl_siswa.findUnique({ where: { siswa_id: id } });
-  
-  if (anggota?.siswa_photo && anggota.siswa_photo !== 'default.jpg' && anggota.siswa_photo !== 'blank.png') {
+
+  if (
+    anggota?.siswa_photo &&
+    anggota.siswa_photo !== "default.jpg" &&
+    anggota.siswa_photo !== "blank.png"
+  ) {
     deleteFileLocal(anggota.siswa_photo, "images");
   }
 
   await prisma.tbl_siswa.delete({
     where: { siswa_id: id },
   });
-  
+
   revalidatePath("/admin/anggota");
   revalidatePath("/anggota");
+  revalidatePath("/");
 }
 
 export async function importAnggota(
