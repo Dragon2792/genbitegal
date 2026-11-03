@@ -2,17 +2,33 @@ import { getStorageUrl } from "@/lib/storageUrl";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { deleteAnggota } from "./actions";
-import { Building2, Edit2, FileSpreadsheet, PlusCircle, Search } from "lucide-react";
+import { ArrowUpDown, Building2, Edit2, FileSpreadsheet, PlusCircle, Search } from "lucide-react";
 import DeleteButton from "@/components/DeleteButton";
+
+type SortOption = "terbaru" | "terlama" | "nama_asc" | "nama_desc";
+
+const SORT_OPTIONS: { value: SortOption; label: string }[] = [
+  { value: "terbaru", label: "Terbaru Ditambahkan" },
+  { value: "terlama", label: "Terlama Ditambahkan" },
+  { value: "nama_asc", label: "Nama (A–Z)" },
+  { value: "nama_desc", label: "Nama (Z–A)" },
+];
 
 export default async function AnggotaPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; page?: string; kelas_id?: string }>;
+  searchParams: Promise<{ q?: string; page?: string; kelas_id?: string; sort?: string }>;
 }) {
   const params = await searchParams;
   const q = (params.q || "").trim();
   const kelasIdParam = params.kelas_id ? parseInt(params.kelas_id, 10) || 0 : 0;
+  const sortParam: SortOption =
+    params.sort === "terlama" ||
+    params.sort === "nama_asc" ||
+    params.sort === "nama_desc" ||
+    params.sort === "terbaru"
+      ? params.sort
+      : "terbaru";
   const page = Math.max(1, parseInt(params.page || "1", 10) || 1);
   const perPage = 10;
 
@@ -27,10 +43,19 @@ export default async function AnggotaPage({
     where.siswa_kelas_id = kelasIdParam;
   }
 
+  const orderBy =
+    sortParam === "terbaru"
+      ? { siswa_id: "desc" as const }
+      : sortParam === "terlama"
+      ? { siswa_id: "asc" as const }
+      : sortParam === "nama_desc"
+      ? { siswa_nama: "desc" as const }
+      : { siswa_nama: "asc" as const };
+
   const [anggotaList, total, kelasList, countsByKelas, totalAll] = await Promise.all([
     prisma.tbl_siswa.findMany({
       where,
-      orderBy: { siswa_nama: "asc" },
+      orderBy,
       skip: (page - 1) * perPage,
       take: perPage,
     }),
@@ -61,12 +86,14 @@ export default async function AnggotaPage({
   const buildUrl = (
     targetPage: number,
     targetQ: string = q,
-    targetKelasId: number = kelasIdParam
+    targetKelasId: number = kelasIdParam,
+    targetSort: SortOption = sortParam
   ) => {
     const sp = new URLSearchParams();
     if (targetPage > 1) sp.set("page", String(targetPage));
     if (targetQ) sp.set("q", targetQ);
     if (targetKelasId > 0) sp.set("kelas_id", String(targetKelasId));
+    if (targetSort !== "terbaru") sp.set("sort", targetSort);
     const qs = sp.toString();
     return qs ? `/admin/anggota?${qs}` : "/admin/anggota";
   };
@@ -108,7 +135,7 @@ export default async function AnggotaPage({
         </div>
       </div>
 
-      {/* Filter Komisariat Pills & Search */}
+      {/* Filter Komisariat Pills, Sort Pills & Search */}
       <div className="px-6 py-4 border-b border-gray-100 space-y-4">
         {/* Quick Filter Pills per Komisariat */}
         <div className="flex flex-wrap items-center gap-2">
@@ -116,18 +143,20 @@ export default async function AnggotaPage({
             <Building2 size={14} /> Komisariat:
           </span>
           <Link
-            href={buildUrl(1, q, 0)}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors border ${kelasIdParam === 0
+            href={buildUrl(1, q, 0, sortParam)}
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors border ${
+              kelasIdParam === 0
                 ? "bg-blue-600 text-white border-blue-600 shadow-xs"
                 : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100"
-              }`}
+            }`}
           >
             Semua
             <span
-              className={`px-1.5 py-0.2 rounded-full text-[11px] ${kelasIdParam === 0
+              className={`px-1.5 py-0.2 rounded-full text-[11px] ${
+                kelasIdParam === 0
                   ? "bg-blue-700 text-white"
                   : "bg-gray-200/80 text-gray-600"
-                }`}
+              }`}
             >
               {totalAll}
             </span>
@@ -139,18 +168,20 @@ export default async function AnggotaPage({
             return (
               <Link
                 key={kelas.kelas_id}
-                href={buildUrl(1, q, kelas.kelas_id)}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors border ${isActive
+                href={buildUrl(1, q, kelas.kelas_id, sortParam)}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors border ${
+                  isActive
                     ? "bg-blue-600 text-white border-blue-600 shadow-xs"
                     : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100"
-                  }`}
+                }`}
               >
                 {kelas.kelas_nama}
                 <span
-                  className={`px-1.5 py-0.2 rounded-full text-[11px] ${isActive
+                  className={`px-1.5 py-0.2 rounded-full text-[11px] ${
+                    isActive
                       ? "bg-blue-700 text-white"
                       : "bg-gray-200/80 text-gray-600"
-                    }`}
+                  }`}
                 >
                   {count}
                 </span>
@@ -159,9 +190,32 @@ export default async function AnggotaPage({
           })}
         </div>
 
-        {/* Search & Komisariat Dropdown Form */}
-        <form method="GET" className="flex flex-col sm:flex-row gap-2 max-w-2xl">
-          <div className="relative flex-1">
+        {/* Quick Sort Pills */}
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider mr-1">
+            <ArrowUpDown size={14} /> Urutan:
+          </span>
+          {SORT_OPTIONS.map((opt) => {
+            const isActive = sortParam === opt.value;
+            return (
+              <Link
+                key={opt.value}
+                href={buildUrl(1, q, kelasIdParam, opt.value)}
+                className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold transition-colors border ${
+                  isActive
+                    ? "bg-gray-800 text-white border-gray-800 shadow-xs"
+                    : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100"
+                }`}
+              >
+                {opt.label}
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Search, Komisariat & Sort Form */}
+        <form method="GET" className="flex flex-col sm:flex-row flex-wrap gap-2 max-w-3xl">
+          <div className="relative flex-1 min-w-[220px]">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
             <input
               suppressHydrationWarning
@@ -185,15 +239,27 @@ export default async function AnggotaPage({
               </option>
             ))}
           </select>
+          <select
+            suppressHydrationWarning
+            name="sort"
+            defaultValue={sortParam}
+            className="rounded-lg border border-gray-300 px-3 py-2 text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          >
+            {SORT_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
           <div className="flex gap-2">
             <button
               suppressHydrationWarning
               type="submit"
               className="px-4 py-2 bg-gray-800 text-white rounded-lg text-sm font-semibold hover:bg-gray-700 transition-colors cursor-pointer"
             >
-              Filter
+              Terapkan
             </button>
-            {(q || kelasIdParam > 0) && (
+            {(q || kelasIdParam > 0 || sortParam !== "terbaru") && (
               <Link
                 href="/admin/anggota"
                 className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-200 transition-colors"
@@ -305,10 +371,11 @@ export default async function AnggotaPage({
                 <Link
                   key={p}
                   href={buildUrl(p)}
-                  className={`px-3 py-1.5 rounded-lg border text-sm transition-colors ${p === page
+                  className={`px-3 py-1.5 rounded-lg border text-sm transition-colors ${
+                    p === page
                       ? "bg-blue-600 border-blue-600 text-white font-semibold"
                       : "border-gray-200 text-gray-600 hover:bg-gray-50"
-                    }`}
+                  }`}
                 >
                   {p}
                 </Link>
