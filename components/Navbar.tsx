@@ -30,7 +30,7 @@ const navLinks: NavLinkType[] = [
   },
   { href: "/agenda", label: "Agenda" },
   { href: "/pengumuman", label: "Pengumuman" },
-  { href: "https://genbi-absen-ig.vercel.app/admin", label: "Presensi", external: true },
+  { href: "https://presensi.genbitegal.com", label: "Presensi", external: true },
   { href: "/contact", label: "Contact" },
 ];
 
